@@ -19,14 +19,20 @@ long maxTilt = 900*16;
 long panLocation = 0;
 long tiltLocation = 0;
 
-byte dataArray[4];
+byte dataArray[5];
 byte panSpeed  = 0;
 byte tiltSpeed = 0;
 byte panDir    = 0;
 byte tiltDir   = 0;
+byte calibrate = 0;
 
 int currentPanDir = 0;
 int currentTiltDir = 0;
+
+unsigned long currentMicros = 0;
+unsigned long previousMicros = 0;
+
+int state = 0;
 
 void setup(){
   Serial.begin(9600);
@@ -55,7 +61,7 @@ void loop(){
     else panLocation--;
   }
 
-  if (abs(panLocation/64000)== 1) {
+  if (abs(panLocation/4/64000)== 1) {
     panLocation = 0;
   }
 
@@ -86,13 +92,19 @@ void changeDirection(int dirPin, int dir, int* currentDir) {
 }
 
 void stepMotor(int pin, int delayTime) {
-  digitalWrite(pin, HIGH);
-  delayMicroseconds(delayTime);
-  digitalWrite(pin, LOW);
-  delayMicroseconds(delayTime);
+  currentMicros = micros();
+  if (currentMicros - previousMicros >= delayTime) {
+    previousMicros = currentMicros;
+    if (state == LOW) {
+      state = HIGH;
+    } else {
+      state = LOW;
+      }
+    digitalWrite(pin, state);
+  }
 }
 
-// Data Structure: dataArray[panSpeed, tiltSpeed, panDir, tiltDir] 
+// Data Structure: dataArray[panSpeed, tiltSpeed, panDir, tiltDir, calibrate] 
 void receiveEvent(int howmany){ //howmany = Wire.write()executed by Master
   for(int i=0; i<howmany; i++){
     dataArray[i] = Wire.read();
@@ -102,5 +114,11 @@ void receiveEvent(int howmany){ //howmany = Wire.write()executed by Master
   tiltSpeed = dataArray[2];
   panDir    = dataArray[3];
   tiltDir   = dataArray[4];
-  Serial.println(currentPanDir, DEC);
+  calibrate = dataArray[5];
+
+  if (calibrate == 1) {
+    panLocation = 0;
+    tiltLocation = 0;
+  }
+  Serial.println(panLocation, DEC);
 }
