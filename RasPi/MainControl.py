@@ -13,11 +13,7 @@ from gpiozero import DigitalOutputDevice
 from turret_i2c import i2c_data
 from turret_gamepad import TM_joystick
 
-# Define output pins
-panStep  = DigitalOutputDevice(5) 
-panDir   = DigitalOutputDevice(6)
-tiltStep = DigitalOutputDevice(13)
-tiltDir  = DigitalOutputDevice(19)
+# Define GPIO output pins
 laserGun = DigitalOutputDevice(26)
 
 # Create instance of i2c_data class
