@@ -18,7 +18,7 @@ class TM_joystick(Gamepad.Gamepad):
         }
         self.buttonNames = {
             0:  'TRIGGER',
-            1:  'FIRE',
+            1:  'CENTER',
             2:  'BACK',
             3:  'RIGHT',
             4:  'NONE4',
