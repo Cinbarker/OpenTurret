@@ -51,14 +51,11 @@ def triggerButtonPressed():
     print('Triggered')
 
 def triggerButtonReleased():
-    print('All Good')
+    print('Cooling Down')
 
 def fireButtonPressed():
     global fireOn
-    laserGun.on()
-    time.sleep(0.001)
-    laserGun.off()
-    print("Boom boom boom boom. I want you in my room.")
+    print("BOOM")
 
 def exitButtonPressed():
     global running
@@ -72,7 +69,7 @@ def panAxisMoved(panSpeed):
     print(panSpeed)
 
 def tiltAxisMoved(tiltSpeed):
-    i2cd.set_tiltDir(0 if tiltSpeed > 0 else 1)
+    i2cd.set_tiltDir(0 if tiltSpeed < 0 else 1)
     i2cd.set_tiltSpeed(abs(int(tiltSpeed*255)))
     print(tiltSpeed)
     i2cd.send_data()
