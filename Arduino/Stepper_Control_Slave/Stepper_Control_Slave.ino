@@ -9,37 +9,43 @@
 // LED on pin 13
 const int ledPin = LED_BUILTIN; 
 
+// Initialize variables
 int minDelay = 10;
 int maxDelay = 300;
+
+long minTilt = -900*16;
+long maxTilt = 900*16;
+
 long panLocation = 0;
 long tiltLocation = 0;
- 
+
 byte dataArray[4];
 byte panSpeed  = 0;
 byte tiltSpeed = 0;
 byte panDir    = 0;
 byte tiltDir   = 0;
-int currentDir = 0;
+
+int currentPanDir = 0;
+int currentTiltDir = 0;
 
 void setup(){
+  Serial.begin(9600);
+  
   Wire.begin(address);
   Wire.onReceive(receiveEvent); //you need to declare it in setup() to receive data from Master
+
+  // Set in/out mode of pins
   pinMode(panStepPin, OUTPUT);
   pinMode(panDirPin, OUTPUT);
   pinMode(tiltStepPin, OUTPUT);
   pinMode(tiltDirPin, OUTPUT);
-  Serial.begin(9600);
 }
 
 void loop(){
-  if (panDir == 0 && currentDir == 1) {
-    digitalWrite(panDirPin, LOW);
-    currentDir = 0;
-  } 
-  else if (panDir == 1 && currentDir == 0) {
-    digitalWrite(panDirPin, HIGH);
-    currentDir = 1;
-  }
+
+  ///// Control Pan Mechanism /////
+  
+  changeDirection(panDirPin, panDir, &currentPanDir);
 
   if (panSpeed != 0) {
     int panDelay = map(panSpeed, 0, 255, maxDelay, minDelay);
@@ -48,16 +54,35 @@ void loop(){
     if (panDir == 0) panLocation++;
     else panLocation--;
   }
+
+  if (abs(panLocation/64000)== 1) {
+    panLocation = 0;
+  }
+
+  ///// Control Tilt Mechanism /////
   
-  if (tiltSpeed != 0) {
+  changeDirection(tiltDirPin, tiltDir, &currentTiltDir);
+
+  if ((tiltSpeed != 0) && ((tiltLocation >= minTilt) || (tiltDir == 0)) && ((tiltLocation <= maxTilt) || (tiltDir == 1))) {
     int tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
     stepMotor(tiltStepPin, tiltDelay);
   
    if (tiltDir == 0) tiltLocation++;
    else tiltLocation--;
   }
-//Serial.println(panSpeed, DEC);
+  
 //delay(100);
+}
+
+void changeDirection(int dirPin, int dir, int* currentDir) {
+  if (dir == 0 && *currentDir == 1) {
+    digitalWrite(dirPin, LOW);
+    *currentDir = 0;
+  } 
+  else if (dir == 1 && *currentDir == 0) {
+    digitalWrite(dirPin, HIGH);
+    *currentDir = 1;
+  }
 }
 
 void stepMotor(int pin, int delayTime) {
@@ -77,4 +102,5 @@ void receiveEvent(int howmany){ //howmany = Wire.write()executed by Master
   tiltSpeed = dataArray[2];
   panDir    = dataArray[3];
   tiltDir   = dataArray[4];
+  Serial.println(currentPanDir, DEC);
 }
