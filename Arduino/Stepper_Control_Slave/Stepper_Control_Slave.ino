@@ -49,13 +49,13 @@ void loop(){
     else panLocation--;
   }
   
-//  if (tiltSpeed != 0) {
-//    int tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
-//    stepMotor(tiltStepPin, tiltDelay);
-//  
-//   if (tiltDir == 0) tiltLocation++;
-//   else tiltLocation--;
-//  }
+  if (tiltSpeed != 0) {
+    int tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
+    stepMotor(tiltStepPin, tiltDelay);
+  
+   if (tiltDir == 0) tiltLocation++;
+   else tiltLocation--;
+  }
 //Serial.println(panSpeed, DEC);
 //delay(100);
 }
