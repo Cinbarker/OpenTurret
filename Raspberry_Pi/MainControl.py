@@ -42,20 +42,23 @@ print('Gamepad connected')
 global running
 global centerOn
 global laserPower
+global firing
+global blinking
+firing = False
 laserPower = 0
 running = True
 centerOn = False
 
 # Create some callback functions
 def triggerButtonPressed():
-    laserOutput.on()
-    time.sleep(0.001)
-    laserOutput.off()
-    print('Triggered')
+    global firing
+    firing = True
+    #do_laser()
 
 def triggerButtonReleased():
-    print('Released')
-
+    #do_laser()
+    pass
+    
 def centerButtonPressed():
     i2cd.set_calibrate(1);
     i2cd.send_data()
@@ -85,6 +88,7 @@ def tiltAxisMoved(tiltSpeed):
 def powerAxisMoved(laser):
     global laserPower
     laserPower = ((-laser+1)/8)
+    do_laser()
     print('Laser Power: ' + str(round(laserPower,3)))
     
 
@@ -101,16 +105,27 @@ gamepad.addAxisMovedHandler(joystickPan, panAxisMoved)
 gamepad.addAxisMovedHandler(joystickTilt, tiltAxisMoved)
 gamepad.addAxisMovedHandler(sliderPower, powerAxisMoved)
 
+def do_laser():
+    global firing
+    if firing:
+        laserOutput.on()
+        time.sleep(0.005)
+        laserOutput.off()
+        print('Fired!')
+        firing = False
+    else:
+        laserOutput.on()
+        time.sleep(0.01*laserPower)
+        laserOutput.off()
+
 # Keep running while joystick updates are handled by the callbacks
 try:
     while running and gamepad.isConnected():
         # Show the current pan and tilt
         #print('%+.1f %% panSpeed, %+.1f %% tiltSpeed' % (panSpeed * 100, tiltSpeed * 100))
-        laserOutput.blink(0.01*laserPower,0.01*(1-laserPower))
-        #pass
-
+        do_laser()
         # Sleep for our polling interval
-        time.sleep(pollInterval)
+        time.sleep(0.01*(1-laserPower))
 finally:
     # Ensure the background thread is always terminated when we are done
     gamepad.disconnect()
