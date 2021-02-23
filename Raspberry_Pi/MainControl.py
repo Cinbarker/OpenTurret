@@ -5,9 +5,6 @@
 # Load the gamepad, time, numpy, and gpio libraries
 import Gamepad
 import time
-import numpy
-from time import sleep
-from gpiozero import DigitalOutputDevice
 from gpiozero import PWMOutputDevice
 
 # Import local files
@@ -42,30 +39,26 @@ print('Gamepad connected')
 global running
 global centerOn
 global laserPower
-global firing
-global blinking
-firing = False
 laserPower = 0
 running = True
 centerOn = False
 
 # Create some callback functions
 def triggerButtonPressed():
-    global firing
-    firing = True
-    #do_laser()
+    i2cd.set_laserOn(1)
+    i2cd.send_data()
+    i2cd.set_laserOn(0)
 
 def triggerButtonReleased():
-    #do_laser()
     pass
     
 def centerButtonPressed():
-    i2cd.set_calibrate(1);
+    i2cd.set_calibrate(1)
     i2cd.send_data()
     print("CALIBRATED")
 
 def centerButtonReleased():
-    i2cd.set_calibrate(0);
+    i2cd.set_calibrate(0)
     i2cd.send_data()
 
 def exitButtonPressed():
@@ -87,8 +80,9 @@ def tiltAxisMoved(tiltSpeed):
     
 def powerAxisMoved(laser):
     global laserPower
-    laserPower = ((-laser+1)/8)
-    do_laser()
+    laserPower = int((-laser+1) * 255 / 2)
+    i2cd.set_laserPower(laserPower)
+    i2cd.send_data()
     print('Laser Power: ' + str(round(laserPower,3)))
     
 
@@ -105,27 +99,14 @@ gamepad.addAxisMovedHandler(joystickPan, panAxisMoved)
 gamepad.addAxisMovedHandler(joystickTilt, tiltAxisMoved)
 gamepad.addAxisMovedHandler(sliderPower, powerAxisMoved)
 
-def do_laser():
-    global firing
-    if firing:
-        laserOutput.on()
-        time.sleep(0.005)
-        laserOutput.off()
-        print('Fired!')
-        firing = False
-    else:
-        laserOutput.on()
-        time.sleep(0.01*laserPower)
-        laserOutput.off()
 
 # Keep running while joystick updates are handled by the callbacks
 try:
     while running and gamepad.isConnected():
         # Show the current pan and tilt
         #print('%+.1f %% panSpeed, %+.1f %% tiltSpeed' % (panSpeed * 100, tiltSpeed * 100))
-        do_laser()
         # Sleep for our polling interval
-        time.sleep(0.01*(1-laserPower))
+        time.sleep(pollInterval)
 finally:
     # Ensure the background thread is always terminated when we are done
     gamepad.disconnect()
