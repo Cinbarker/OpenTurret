@@ -12,6 +12,10 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 - [ ]  Add zoom camera assembly
 - [ ]  Do I need to focus the laser?
 
+### Code To-Do:
+- [ ] Add skipped step / stall error feedback
+- [ ] Fix timing delay
+
 ### Specifications:
 
 - Better than 0.1º accuracy in both pan and tilt axis
@@ -42,7 +46,7 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 
 ### Parts
 
-- 2x Nema 17 Stepper Motors 0.9º 4.2 kg/cm
+- 2x NEMA 17 Stepper Motors 0.9º 4.2 kg/cm
 - 2x TMC2209 Stepper Drivers
 - Joystick
 - 1W Peak Laser Diode
