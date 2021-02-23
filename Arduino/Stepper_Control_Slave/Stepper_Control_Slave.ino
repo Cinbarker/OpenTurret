@@ -1,47 +1,42 @@
 #include <Wire.h>
 
-#define address 0x8
+// Define constants
+#define address 0x8 // I2C address of this slave device
 #define panStepPin 4
 #define panDirPin 5
 #define tiltStepPin 6
 #define tiltDirPin 7
- 
-// LED on pin 13
-const int ledPin = LED_BUILTIN; 
 
 // Initialize variables
-int minDelay = 10;
+byte data[5]; 
+byte panSpeed = 0, tiltSpeed = 0, panDir = 0, tiltDir = 0, calibrate = 0;
+
+// Configure stepper motor speed limits (lower minDelay => higher maxSpeed)
+int minDelay = 40;
 int maxDelay = 300;
 
-long minTilt = -900*16;
-long maxTilt = 900*16;
+//
+long minTilt = -1800*16;
+long maxTilt = 2000*16;
 
-long panLocation = 0;
-long tiltLocation = 0;
+long panLocation = 0, tiltLocation = 0;
 
-byte dataArray[5];
-byte panSpeed  = 0;
-byte tiltSpeed = 0;
-byte panDir    = 0;
-byte tiltDir   = 0;
-byte calibrate = 0;
-
-int currentPanDir = 0;
-int currentTiltDir = 0;
+int currentPanDir = 0, currentTiltDir = 0;
 
 unsigned long currentPanMicros = 0;
 unsigned long previousPanMicros = 0;
 unsigned long currentTiltMicros = 0;
 unsigned long previousTiltMicros = 0;
 
-int panState = 0;
-int tiltState = 0;
+int panState = 0, tiltState = 0;
+int panDelay = 0, tiltDelay = 0;
+
 
 void setup(){
   Serial.begin(9600);
   
   Wire.begin(address);
-  Wire.onReceive(receiveEvent); //you need to declare it in setup() to receive data from Master
+  Wire.onReceive(receiveEvent); // Declared in setup() to receive data from Master
 
   // Set in/out mode of pins
   pinMode(panStepPin, OUTPUT);
@@ -57,14 +52,11 @@ void loop(){
   changeDirection(panDirPin, panDir, &currentPanDir);
 
   if (panSpeed != 0) {
-    int panDelay = map(panSpeed, 0, 255, maxDelay, minDelay);
-    stepMotor(panStepPin, panDelay, &currentPanMicros, &previousPanMicros, &panState);
-    
-    if (panDir == 0) panLocation++;
-    else panLocation--;
+    stepMotor(panStepPin, panDelay, &currentPanMicros, &previousPanMicros, &panState, panDir, &panLocation);
   }
 
-  if (abs(panLocation/4/64000)== 1) {
+  // Reset 128000 is one full rotation
+  if (abs(panLocation/128000)== 1) { 
     panLocation = 0;
   }
 
@@ -73,11 +65,8 @@ void loop(){
   changeDirection(tiltDirPin, tiltDir, &currentTiltDir);
 
   if ((tiltSpeed != 0) && ((tiltLocation >= minTilt) || (tiltDir == 0)) && ((tiltLocation <= maxTilt) || (tiltDir == 1))) {
-    int tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
-    stepMotor(tiltStepPin, tiltDelay, &currentTiltMicros, &previousTiltMicros, &tiltState);
-  
-   if (tiltDir == 0) tiltLocation++;
-   else tiltLocation--;
+    
+    stepMotor(tiltStepPin, tiltDelay, &currentTiltMicros, &previousTiltMicros, &tiltState, tiltDir, &tiltLocation);
   }
 }
 
@@ -94,7 +83,7 @@ void changeDirection(int dirPin, int dir, int* currentDir) {
 }
 
 // Function for stepping the motor without incurring delays in the main loop
-void stepMotor(int pin, int delayTime, long* currentMicros, long* previousMicros, int* state) {
+void stepMotor(int pin, int delayTime, long* currentMicros, long* previousMicros, int* state, byte dir, long* location) {
   *currentMicros = micros();
   if (*currentMicros - *previousMicros >= delayTime) {
     *previousMicros = *currentMicros;
@@ -104,6 +93,8 @@ void stepMotor(int pin, int delayTime, long* currentMicros, long* previousMicros
       *state = LOW;
       }
     digitalWrite(pin, *state);
+    if (dir == 0) *location = *location+1;
+    else *location= *location-1;
   }
 }
 
@@ -111,18 +102,20 @@ void stepMotor(int pin, int delayTime, long* currentMicros, long* previousMicros
 // Data Structure: dataArray[panSpeed, tiltSpeed, panDir, tiltDir, calibrate] 
 void receiveEvent(int howmany){ //howmany = Wire.write()executed by Master
   for(int i=0; i<howmany; i++){
-    dataArray[i] = Wire.read();
+    data[i] = Wire.read();
     //Serial.println(dataArray[i], DEC);
   }
-  panSpeed  = dataArray[1];
-  tiltSpeed = dataArray[2];
-  panDir    = dataArray[3];
-  tiltDir   = dataArray[4];
-  calibrate = dataArray[5];
+  panSpeed  = data[1];
+  tiltSpeed = data[2];
+  panDir    = data[3];
+  tiltDir   = data[4];
+  calibrate = data[5];
+  tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
+  panDelay = map(panSpeed, 0, 255, maxDelay, minDelay);
 
   if (calibrate == 1) {
     panLocation = 0;
     tiltLocation = 0;
   }
-  Serial.println(panLocation, DEC);
+  //Serial.println(panSpeed, DEC);
 }
