@@ -19,7 +19,8 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 ### Code To-Do:
 
 - [ ] Add skipped step / stall error feedback
-- [ ] Fix timing delay
+- [ ] Further optimise speed for equal steps
+- [ ] Fix thread error when firing laser
 
 ### Specifications:
 
