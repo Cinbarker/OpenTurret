@@ -20,7 +20,11 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 
 - [ ] Add skipped step / stall error feedback
 - [ ] Further optimise speed for equal steps
-- [ ] Fix thread error when firing laser
+- [ ] Return to home button
+- [ ] D-pad steps
+- [ ] D-pad Speed modes
+- [ ] Send zero signal from pi before exiting code on exit button (reset method) => exithandler atexit
+- [x] Fix thread error when firing laser
 
 ### Specifications:
 
