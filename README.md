@@ -51,7 +51,9 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 
 ### Milestones
 
+- [x]  Implement joystick conrol of two axes and laser
 - [ ]  Successfully move both axes with 0.1º precision
+- [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
 
 ### Parts
@@ -65,3 +67,7 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 - Various 3D Printed Parts
 - Timing Belts
 - Nuts n' Bolts
+
+### Credit
+Thank you to the following resources for making this project possible.
+- Gamepad library by Piborg - https://github.com/piborg/Gamepad
