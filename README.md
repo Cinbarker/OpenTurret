@@ -21,9 +21,11 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 - [ ] Add skipped step / stall error feedback
 - [ ] Further optimise speed for equal steps
 - [ ] Return to home button
+    - [x] I2C Communicatoin
+    - [ ] Arduino code
 - [ ] D-pad steps
 - [ ] D-pad Speed modes
-- [ ] Send zero signal from pi before exiting code on exit button (reset method) => exithandler atexit
+- [x] Send zero signal from pi before exiting code on exit button (reset method) => exithandler atexit
 - [x] Fix thread error when firing laser
 
 ### Specifications:
@@ -51,7 +53,9 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 
 ### Milestones
 
+- [x]  Implement joystick conrol of two axes and laser
 - [ ]  Successfully move both axes with 0.1º precision
+- [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
 
 ### Parts
@@ -65,3 +69,7 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 - Various 3D Printed Parts
 - Timing Belts
 - Nuts n' Bolts
+
+### Credit
+Thank you to the following resources for making this project possible.
+- Gamepad library by Piborg - https://github.com/piborg/Gamepad
