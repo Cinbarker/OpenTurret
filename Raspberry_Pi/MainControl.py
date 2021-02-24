@@ -26,6 +26,7 @@ buttonExit = 'BACK'
 joystickPan = 'JOY-X'
 joystickTilt = 'JOY-Y'
 sliderPower = 'SLIDER'
+buttonRTH = 'RIGHT'
 pollInterval = 0.1
 
 # Wait for a connection
@@ -95,6 +96,12 @@ def powerAxisMoved(laser):
     print('Laser Power: ' + str(round(laserPower, 3)))
 
 
+def rthButtonPressed():
+    i2cd.set_returnToHome(1)
+    i2cd.send_data()
+    i2cd.set_returnToHome(0)
+
+
 # Start the background updating
 gamepad.startBackgroundUpdates()
 
@@ -104,6 +111,7 @@ gamepad.addButtonReleasedHandler(buttonTrigger, triggerButtonReleased)
 gamepad.addButtonPressedHandler(buttonCenter, centerButtonPressed)
 gamepad.addButtonReleasedHandler(buttonCenter, centerButtonReleased)
 gamepad.addButtonPressedHandler(buttonExit, exitButtonPressed)
+gamepad.addButtonPressedHandler(buttonRTH, rthButtonPressed)
 gamepad.addAxisMovedHandler(joystickPan, panAxisMoved)
 gamepad.addAxisMovedHandler(joystickTilt, tiltAxisMoved)
 gamepad.addAxisMovedHandler(sliderPower, powerAxisMoved)
