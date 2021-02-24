@@ -46,3 +46,13 @@ class i2c_data:
 
     def set_laserOn(self, laserOn):
         self.laserOn = laserOn
+
+    def reset(self):
+        self.panSpeed = 0
+        self.tiltSpeed = 0
+        self.panDir = 0
+        self.tiltDir = 0
+        self.calibrate = 0
+        self.laserPower = 0
+        self.laserOn = 0
+
