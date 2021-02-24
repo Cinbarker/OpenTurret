@@ -64,7 +64,6 @@ def centerButtonPressed():
     print("CALIBRATED")
     
 
-
 def exitButtonPressed():
     global running
     print('EXIT')
