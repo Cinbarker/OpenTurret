@@ -56,10 +56,7 @@ def centerButtonPressed():
     i2cd.set_calibrate(1)
     i2cd.send_data()
     print("CALIBRATED")
-
-def centerButtonReleased():
     i2cd.set_calibrate(0)
-    i2cd.send_data()
 
 def exitButtonPressed():
     global running
@@ -93,7 +90,6 @@ gamepad.startBackgroundUpdates()
 gamepad.addButtonPressedHandler(buttonTrigger, triggerButtonPressed)
 gamepad.addButtonReleasedHandler(buttonTrigger, triggerButtonReleased)
 gamepad.addButtonPressedHandler(buttonCenter, centerButtonPressed)
-gamepad.addButtonReleasedHandler(buttonCenter, centerButtonReleased)
 gamepad.addButtonPressedHandler(buttonExit, exitButtonPressed)
 gamepad.addAxisMovedHandler(joystickPan, panAxisMoved)
 gamepad.addAxisMovedHandler(joystickTilt, tiltAxisMoved)
