@@ -58,6 +58,13 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 - [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
 
+### Software Implementation Ideas
+
+- [ ] Fully manual control with joystick
+- [ ] Automatic IR Laser guided aiming
+- [ ] Autonomous targeting and firing by means of image recognition
+- [ ] Autonomous targeting and firing by means of acoustic triangulation
+
 ### Parts
 
 - 2x NEMA17 Stepper Motors 0.9º 4.2 kg/cm
