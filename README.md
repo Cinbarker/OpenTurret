@@ -2,6 +2,8 @@
 
 An open sourced highly accurate pan-tilt system for anything that needs to be panned and tilted!
 
+The hardware is still quite experimental, but I hope to refine it an release instructions soon.
+
 ### To-Do:
 
 - [ ]  Hardware
