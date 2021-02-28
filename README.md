@@ -11,6 +11,7 @@ The hardware is still quite experimental, but I hope to refine it and release in
     - [ ]  Make wiring rotation continuous (implement slipring)
     - [ ]  Add tripod mount
     - [ ]  Fix rigidity of pan axis
+    - [ ]  End-stops for tilt axis
 - [ ]  Document Hardware
 - [ ]  Explore using the Pi Zero or Wireless integrate electronics below tilt axis
 - [x]  Get joystick to control motors
@@ -23,12 +24,13 @@ The hardware is still quite experimental, but I hope to refine it and release in
 - [ ] Add skipped step / stall error feedback
 - [ ] Further optimise speed for equal steps
 - [ ] Return to home button
-    - [x] I2C Communicatoin
+    - [x] I2C Communication
     - [ ] Arduino code
 - [ ] D-pad steps
 - [ ] D-pad Speed modes
 - [x] Send zero signal from pi before exiting code on exit button (reset method) => exithandler atexit
 - [x] Fix thread error when firing laser
+- [ ] Calibration prompt on startup
 
 ### Specifications:
 
@@ -62,10 +64,12 @@ The hardware is still quite experimental, but I hope to refine it and release in
 
 ### Software Implementation Ideas
 
-- [ ] Fully manual control with joystick
+- [x] Fully manual control with joystick
 - [ ] Automatic IR Laser guided aiming
 - [ ] Autonomous targeting and firing by means of image recognition
+- [ ] Track cosmic objects using online positional data
 - [ ] Autonomous targeting and firing by means of acoustic triangulation
+
 
 ### Parts
 
