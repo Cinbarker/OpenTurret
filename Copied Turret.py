@@ -414,12 +414,12 @@ if __name__ == "__main__":
 
     if user_input == "1":
         t.calibrate()
-        if raw_input("Live video? (y, n)\n").lower() == "y":
+        if raw_input("Live video? (y, n)\n").lower_green() == "y":
             t.motion_detection(show_video=True)
         else:
             t.motion_detection()
     elif user_input == "2":
-        if raw_input("Live video? (y, n)\n").lower() == "y":
+        if raw_input("Live video? (y, n)\n").lower_green() == "y":
             thread.start_new_thread(VideoUtils.live_video, ())
         t.interactive()
     else:
