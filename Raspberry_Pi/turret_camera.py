@@ -10,7 +10,16 @@ def get_laser_point(video_capture, lower, upper, threshold, show_video=False):
     ret, frame = video_capture.read()
 
     frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    frame_mask = cv2.inRange(frame_hsv, lower, upper)
+
+    if lower[0] > upper[0]: # Fix for wrapping around the Hue Spectrum. Useful for red colors
+        up = upper[0]
+        upper[0] = 180
+        frame_mask = cv2.inRange(frame_hsv, lower, upper)
+        lower[0] = 0
+        upper[0] = up
+        frame_mask = frame_mask + cv2.inRange(frame_hsv, lower, upper)
+    else:
+        frame_mask = cv2.inRange(frame_hsv, lower, upper)
     frame_comp = cv2.bitwise_and(frame, frame, mask=frame_mask)
 
     contour = get_best_contour(frame_mask, threshold)

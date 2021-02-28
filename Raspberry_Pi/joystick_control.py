@@ -19,14 +19,17 @@ laserOutput = PWMOutputDevice(18, True, 0, 1000, None)
 i2cd = I2cData(0x8)
 
 # Gamepad settings
-gamepadType = TMJoystick
-buttonTrigger = 'TRIGGER'
-buttonCenter = 'CENTER'
-buttonExit = 'BACK'
-joystickPan = 'JOY-X'
-joystickTilt = 'JOY-Y'
+gamepad_type = TMJoystick
+button_trigger = 'TRIGGER'
+button_center = 'CENTER'
+button_exit = 'BACK'
+button_RTH = 'RIGHT'
+joystick_pan = 'JOY-X'
+joystick_tilt = 'JOY-Y'
 slider_power = 'SLIDER'
-buttonRTH = 'RIGHT'
+dpad_x = 'DPAD-X'
+dpad_y = 'DPAD-Y'
+
 pollInterval = 0.1
 
 # Wait for a connection
@@ -34,7 +37,7 @@ if not Gamepad.available():
     print('Please connect your gamepad...')
     while not Gamepad.available():
         time.sleep(1.0)
-gamepad = gamepadType()
+gamepad = gamepad_type()
 print('Gamepad connected')
 
 # Set initial states
@@ -70,6 +73,12 @@ def exit_button_pressed():
     running = False
 
 
+def rth_button_pressed():
+    i2cd.set_return_to_home(1)
+    i2cd.send_data()
+    i2cd.set_return_to_home(0)
+
+
 def pan_axis_moved(pan_speed):
     i2cd.set_pan_dir(0 if pan_speed < 0 else 1)
     i2cd.set_pan_speed(abs(int(pan_speed * 255)))
@@ -92,24 +101,50 @@ def power_axis_moved(laser):
     print('Laser _power: ' + str(round(laser_power, 3)))
 
 
-def rth_button_pressed():
-    i2cd.set_return_to_home(1)
+def dpad_x_axis_moved(direction):
+    if direction == 1:
+        output = 2
+        dir_x = 'RIGHT'
+    elif direction == -1:
+        output = 0
+        dir_x = 'LEFT'
+    else:
+        output = 1
+        dir_x = 'MID'
+    i2cd.set_dpad(output)
     i2cd.send_data()
-    i2cd.set_return_to_home(0)
+    print('dPad-X: ' + dir_x)
+
+
+def dpad_y_axis_moved(direction):
+    if direction == 1:
+        output = 5
+        dir_y = 'DOWN'
+    elif direction == -1:
+        output = 4
+        dir_y = 'UP'
+    else:
+        output = 3
+        dir_y = 'MID'
+    i2cd.set_dpad(output)
+    i2cd.send_data()
+    print('dPad-Y: ' + dir_y)
 
 
 # Start the background updating
 gamepad.startBackgroundUpdates()
 
 # Register the callback functions
-gamepad.addButtonPressedHandler(buttonTrigger, trigger_button_pressed)
-gamepad.addButtonReleasedHandler(buttonTrigger, trigger_button_released)
-gamepad.addButtonPressedHandler(buttonCenter, center_button_pressed)
-gamepad.addButtonPressedHandler(buttonExit, exit_button_pressed)
-gamepad.addButtonPressedHandler(buttonRTH, rth_button_pressed)
-gamepad.addAxisMovedHandler(joystickPan, pan_axis_moved)
-gamepad.addAxisMovedHandler(joystickTilt, tilt_axis_moved)
+gamepad.addButtonPressedHandler(button_trigger, trigger_button_pressed)
+gamepad.addButtonReleasedHandler(button_trigger, trigger_button_released)
+gamepad.addButtonPressedHandler(button_center, center_button_pressed)
+gamepad.addButtonPressedHandler(button_exit, exit_button_pressed)
+gamepad.addButtonPressedHandler(button_RTH, rth_button_pressed)
+gamepad.addAxisMovedHandler(joystick_pan, pan_axis_moved)
+gamepad.addAxisMovedHandler(joystick_tilt, tilt_axis_moved)
 gamepad.addAxisMovedHandler(slider_power, power_axis_moved)
+gamepad.addAxisMovedHandler(dpad_x, dpad_x_axis_moved)
+gamepad.addAxisMovedHandler(dpad_y, dpad_y_axis_moved)
 
 
 def exit_handler():

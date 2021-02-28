@@ -15,6 +15,7 @@ class I2cData:
     laser_on = 0
     return_to_home = 0
     bus = None
+    direction = 0
 
     def __init__(self, address):
         self.address = address
@@ -57,6 +58,9 @@ class I2cData:
 
     def set_return_to_home(self, return_to_home):
         self.return_to_home = return_to_home
+
+    def set_dpad(self, direction):
+        self.direction = direction
 
     def reset(self):
         self.pan_speed = 0

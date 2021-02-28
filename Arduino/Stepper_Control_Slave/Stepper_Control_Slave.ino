@@ -18,7 +18,7 @@
 
 // Initialize variables
 byte data[8];
-byte panSpeed = 0, tiltSpeed = 0, panDir = 0, tiltDir = 0, calibrate = 0, laserPower = 0, laserFire = 0, returnHome = 0;
+byte panSpeed = 0, tiltSpeed = 0, panDir = 0, tiltDir = 0, calibrate = 0, laserPower = 0, laserFire = 0, returnHome = 0, dPad = 0;
 
 // Configure stepper motor speed limits (lower minDelay => higher maxSpeed)
 int minDelay = 40;
@@ -109,7 +109,7 @@ void stepMotor(int pin, int delayTime, long* currentMicros, long* previousMicros
 }
 
 // Function for recieving I2C data
-// Data Structure: dataArray[panSpeed, tiltSpeed, panDir, tiltDir, calibrate, laserPower, laserFire]
+// Data Structure: dataArray[panSpeed, tiltSpeed, panDir, tiltDir, calibrate, laserPower, laserFire, returnHome, dPad]
 void receiveEvent(int howmany) { //howmany = Wire.write() executed by Master
   for (int i = 0; i < howmany; i++) {
     data[i] = Wire.read();
@@ -123,6 +123,8 @@ void receiveEvent(int howmany) { //howmany = Wire.write() executed by Master
   laserPower = data[6];
   laserFire  = data[7];
   returnHome = data[8];
+  dPad       = data[9]; // 0:Xleft, 1:Xmid, 2:Xright, 3:Ylow, 4:Ymid, 5:Yhigh
+
   tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
   panDelay = map(panSpeed, 0, 255, maxDelay, minDelay);
 
@@ -131,7 +133,5 @@ void receiveEvent(int howmany) { //howmany = Wire.write() executed by Master
     tiltLocation = 0;
     calibrate = 0;
   }
-  Serial.print(laserPower, DEC);
-  Serial.print("\t");
-  Serial.println(laserFire, DEC);
+  Serial.print(dPad, DEC);
 }
