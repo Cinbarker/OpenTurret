@@ -28,7 +28,7 @@ The hardware is still quite experimental, but I hope to refine it and release in
     - [ ] Arduino code
 - [ ] D-pad steps
 - [ ] D-pad Speed modes
-- [x] Send zero signal from pi before exiting code on exit button (reset method) => exithandler atexit
+- [x] Send zero signal from Pi before exiting code on exit button (reset method) => exithandler atexit
 - [x] Fix thread error when firing laser
 - [ ] Calibration prompt on startup
 
