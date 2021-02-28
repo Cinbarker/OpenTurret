@@ -2,6 +2,8 @@
 
 An open sourced highly accurate pan-tilt system for anything that needs to be panned and tilted!
 
+The hardware is still quite experimental, but I hope to refine it and release instructions soon.
+
 ### To-Do:
 
 - [ ]  Hardware
@@ -9,6 +11,7 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
     - [ ]  Make wiring rotation continuous (implement slipring)
     - [ ]  Add tripod mount
     - [ ]  Fix rigidity of pan axis
+    - [ ]  End-stops for tilt axis
 - [ ]  Document Hardware
 - [ ]  Explore using the Pi Zero or Wireless integrate electronics below tilt axis
 - [x]  Get joystick to control motors
@@ -21,12 +24,13 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 - [ ] Add skipped step / stall error feedback
 - [ ] Further optimise speed for equal steps
 - [ ] Return to home button
-    - [x] I2C Communicatoin
+    - [x] I2C Communication
     - [ ] Arduino code
 - [ ] D-pad steps
 - [ ] D-pad Speed modes
 - [x] Send zero signal from pi before exiting code on exit button (reset method) => exithandler atexit
 - [x] Fix thread error when firing laser
+- [ ] Calibration prompt on startup
 
 ### Specifications:
 
@@ -53,10 +57,19 @@ An open sourced highly accurate pan-tilt system for anything that needs to be pa
 
 ### Milestones
 
-- [x]  Implement joystick conrol of two axes and laser
+- [x]  Implement joystick control of two axes and laser
 - [ ]  Successfully move both axes with 0.1º precision
 - [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
+
+### Software Implementation Ideas
+
+- [x] Fully manual control with joystick
+- [ ] Automatic IR Laser guided aiming
+- [ ] Autonomous targeting and firing by means of image recognition
+- [ ] Track cosmic objects using online positional data
+- [ ] Autonomous targeting and firing by means of acoustic triangulation
+
 
 ### Parts
 
