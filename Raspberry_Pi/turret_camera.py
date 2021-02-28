@@ -44,16 +44,3 @@ def get_best_contour(imgmask, threshold):
             best_area = area
             best_cnt = cnt
     return best_cnt
-
-
-# Example
-lower = np.array([36, 20, 150])
-upper = np.array([86, 100, 255])
-camera_port = 0
-threshold = 400
-video_capture = cv2.VideoCapture(camera_port)
-while True:
-    get_laser_point(video_capture, lower, upper, threshold, show_video=True)
-
-video_capture.release()
-cv2.destroyAllWindows()

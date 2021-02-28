@@ -4,16 +4,16 @@
 from smbus2 import SMBus
 
 
-class i2c_data:
+class I2cData:
     address = 0
-    panSpeed = 0
-    tiltSpeed = 0
-    panDir = 0
-    tiltDir = 0
+    pan_speed = 0
+    tilt_speed = 0
+    pan_dir = 0
+    tilt_dir = 0
     calibrate = 0
-    laserPower = 0
-    laserOn = 0
-    returnToHome = 0
+    laser_power = 0
+    laser_on = 0
+    return_to_home = 0
     bus = None
 
     def __init__(self, address):
@@ -21,50 +21,49 @@ class i2c_data:
         self.bus = SMBus(1)  # indicates /dev/ic2-1
 
     def send_data(self):
-        data = [self.panSpeed,
-                self.tiltSpeed,
-                self.panDir,
-                self.tiltDir,
+        data = [self.pan_speed,
+                self.tilt_speed,
+                self.pan_dir,
+                self.tilt_dir,
                 self.calibrate,
-                self.laserPower,
-                self.laserOn,
-                self.returnToHome]
+                self.laser_power,
+                self.laser_on,
+                self.return_to_home]
         try:
             self.bus.write_i2c_block_data(self.address, 0x00, data)
         except OSError:
-            print('Codefarted')
+            print('\033[1;31;40m ERROR: I2C BUS NOT OPEN \033[1;37;40m')
 
-    def set_panSpeed(self, panSpeed):
-        self.panSpeed = panSpeed
+    def set_pan_speed(self, pan_speed):
+        self.pan_speed = pan_speed
 
-    def set_tiltSpeed(self, tiltSpeed):
-        self.tiltSpeed = tiltSpeed
+    def set_tilt_speed(self, tilt_speed):
+        self.tilt_speed = tilt_speed
 
-    def set_panDir(self, panDir):
-        self.panDir = panDir
+    def set_pan_dir(self, pan_dir):
+        self.pan_dir = pan_dir
 
-    def set_tiltDir(self, tiltDir):
-        self.tiltDir = tiltDir
+    def set_tilt_dir(self, tilt_dir):
+        self.tilt_dir = tilt_dir
 
     def set_calibrate(self, calibrate):
         self.calibrate = calibrate
 
-    def set_laserPower(self, laserPower):
-        self.laserPower = laserPower
+    def set_laser_power(self, laser_power):
+        self.laser_power = laser_power
 
-    def set_laserOn(self, laserOn):
-        self.laserOn = laserOn
+    def set_laser_on(self, laser_on):
+        self.laser_on = laser_on
 
-    def set_returnToHome(self, returnToHome):
-        self.returnToHome = returnToHome
+    def set_return_to_home(self, return_to_home):
+        self.return_to_home = return_to_home
 
     def reset(self):
-        self.panSpeed = 0
-        self.tiltSpeed = 0
-        self.panDir = 0
-        self.tiltDir = 0
+        self.pan_speed = 0
+        self.tilt_speed = 0
+        self.pan_dir = 0
+        self.tilt_dir = 0
         self.calibrate = 0
-        self.laserPower = 0
-        self.laserOn = 0
-        self.returnToHome = 0
-
+        self.laser_power = 0
+        self.laser_on = 0
+        self.return_to_home = 0

@@ -9,23 +9,23 @@ import atexit
 from gpiozero import PWMOutputDevice
 
 # Import local files
-from turret_i2c import i2c_data
-from turret_gamepad import TM_joystick
+from turret_i2c import I2cData
+from turret_gamepad import TMJoystick
 
 # Define GPIO output pins
 laserOutput = PWMOutputDevice(18, True, 0, 1000, None)
 
 # Create instance of i2c_data class
-i2cd = i2c_data(0x8)
+i2cd = I2cData(0x8)
 
 # Gamepad settings
-gamepadType = TM_joystick
+gamepadType = TMJoystick
 buttonTrigger = 'TRIGGER'
 buttonCenter = 'CENTER'
 buttonExit = 'BACK'
 joystickPan = 'JOY-X'
 joystickTilt = 'JOY-Y'
-sliderPower = 'SLIDER'
+slider_power = 'SLIDER'
 buttonRTH = 'RIGHT'
 pollInterval = 0.1
 
@@ -37,79 +37,79 @@ if not Gamepad.available():
 gamepad = gamepadType()
 print('Gamepad connected')
 
-# Set some initial state
+# Set initial states
 global running
-global centerOn
-global laserPower
-laserPower = 0
+global center_on
+global laser_power
+laser_power = 0
 running = True
-centerOn = False
+center_on = False
 
 
-# Create some callback functions
-def triggerButtonPressed():
-    i2cd.set_laserOn(1)
+# Create callback functions
+def trigger_button_pressed():
+    i2cd.set_laser_on(1)
     i2cd.send_data()
-    i2cd.set_laserOn(0)
+    i2cd.set_laser_on(0)
 
 
-def triggerButtonReleased():
+def trigger_button_released():
     pass
 
 
-def centerButtonPressed():
+def center_button_pressed():
     i2cd.set_calibrate(1)
     i2cd.send_data()
     i2cd.set_calibrate(0)
     print("CALIBRATED")
-    
 
-def exitButtonPressed():
+
+def exit_button_pressed():
     global running
     print('EXIT')
     running = False
 
 
-def panAxisMoved(panSpeed):
-    i2cd.set_panDir(0 if panSpeed < 0 else 1)
-    i2cd.set_panSpeed(abs(int(panSpeed * 255)))
+def pan_axis_moved(pan_speed):
+    i2cd.set_pan_dir(0 if pan_speed < 0 else 1)
+    i2cd.set_pan_speed(abs(int(pan_speed * 255)))
     i2cd.send_data()
-    print('Pan: ' + str(round(panSpeed, 3)))
+    print('Pan: ' + str(round(pan_speed, 3)))
 
 
-def tiltAxisMoved(tiltSpeed):
-    i2cd.set_tiltDir(0 if tiltSpeed < 0 else 1)
-    i2cd.set_tiltSpeed(abs(int(tiltSpeed * 255)))
-    print('Tilt: ' + str(round(tiltSpeed, 3)))
+def tilt_axis_moved(tilt_speed):
+    i2cd.set_tilt_dir(0 if tilt_speed < 0 else 1)
+    i2cd.set_tilt_speed(abs(int(tilt_speed * 255)))
+    print('Tilt: ' + str(round(tilt_speed, 3)))
     i2cd.send_data()
 
 
-def powerAxisMoved(laser):
-    global laserPower
-    laserPower = int((-laser + 1) * 255 / 2)
-    i2cd.set_laserPower(laserPower)
+def power_axis_moved(laser):
+    global laser_power
+    laser_power = int((-laser + 1) * 255 / 2)
+    i2cd.set_laser_power(laser_power)
     i2cd.send_data()
-    print('Laser Power: ' + str(round(laserPower, 3)))
+    print('Laser _power: ' + str(round(laser_power, 3)))
 
 
-def rthButtonPressed():
-    i2cd.set_returnToHome(1)
+def rth_button_pressed():
+    i2cd.set_return_to_home(1)
     i2cd.send_data()
-    i2cd.set_returnToHome(0)
+    i2cd.set_return_to_home(0)
 
 
 # Start the background updating
 gamepad.startBackgroundUpdates()
 
 # Register the callback functions
-gamepad.addButtonPressedHandler(buttonTrigger, triggerButtonPressed)
-gamepad.addButtonReleasedHandler(buttonTrigger, triggerButtonReleased)
-gamepad.addButtonPressedHandler(buttonCenter, centerButtonPressed)
-gamepad.addButtonPressedHandler(buttonExit, exitButtonPressed)
-gamepad.addButtonPressedHandler(buttonRTH, rthButtonPressed)
-gamepad.addAxisMovedHandler(joystickPan, panAxisMoved)
-gamepad.addAxisMovedHandler(joystickTilt, tiltAxisMoved)
-gamepad.addAxisMovedHandler(sliderPower, powerAxisMoved)
+gamepad.addButtonPressedHandler(buttonTrigger, trigger_button_pressed)
+gamepad.addButtonReleasedHandler(buttonTrigger, trigger_button_released)
+gamepad.addButtonPressedHandler(buttonCenter, center_button_pressed)
+gamepad.addButtonPressedHandler(buttonExit, exit_button_pressed)
+gamepad.addButtonPressedHandler(buttonRTH, rth_button_pressed)
+gamepad.addAxisMovedHandler(joystickPan, pan_axis_moved)
+gamepad.addAxisMovedHandler(joystickTilt, tilt_axis_moved)
+gamepad.addAxisMovedHandler(slider_power, power_axis_moved)
 
 
 def exit_handler():
@@ -124,7 +124,7 @@ atexit.register(exit_handler)
 try:
     while running and gamepad.isConnected():
         # Show the current pan and tilt
-        # print('%+.1f %% panSpeed, %+.1f %% tiltSpeed' % (panSpeed * 100, tiltSpeed * 100))
+        # print('%+.1f %% pan_speed, %+.1f %% tilt_speed' % (pan_speed * 100, tilt_speed * 100))
         # Sleep for our polling interval
         time.sleep(pollInterval)
 finally:
