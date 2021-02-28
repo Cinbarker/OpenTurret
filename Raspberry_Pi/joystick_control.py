@@ -2,7 +2,7 @@
 # coding: utf-8
 # This file is the main operating one
 
-# Load the gamepad, time, numpy, and gpio libraries
+# Load  libraries
 import Gamepad
 import time
 import atexit

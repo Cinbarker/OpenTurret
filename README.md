@@ -68,6 +68,7 @@ The hardware is still quite experimental, but I hope to refine it and release in
 - [ ] Automatic IR Laser guided aiming
 - [ ] Autonomous targeting and firing by means of image recognition
 - [ ] Track cosmic objects using online positional data
+- [ ] Laser shape drawing mode
 - [ ] Autonomous targeting and firing by means of acoustic triangulation
 
 

@@ -1,17 +1,24 @@
+/*
+ * This sketch was designed for Arduino Unos to ask as a real time slave of a Raspberry Pi. 
+ * If using another board, the things that must mbe changed are:
+ *    - SDA and SCL pins for I2C bus (this is a hardware change, check Wire library for more info)
+ *    - PORT registers will most likely be different. For more info: https://www.arduino.cc/en/Reference/PortManipulation
+ */
+
+
 #include <Wire.h>
 
 // Define constants
 #define address 0x8 // I2C address of this slave device
 #define panStepPin 4 //B00010000 // Pin D4
-#define panDirPin B00100000 // Pin D5
+#define panDirPin 5 // B00100000 // Pin D5
 #define tiltStepPin 6 //B01000000 // Pin D6
 #define tiltDirPin B10000000 // Pin D7
-#define laserPin 9
-#define laserPort B00000100
+#define laserPin 9 //B00000100 // Pin D9
 
 // Initialize variables
-byte data[5];
-byte panSpeed = 0, tiltSpeed = 0, panDir = 0, tiltDir = 0, calibrate = 0, laserPower = 0, laserFire = 0;
+byte data[8];
+byte panSpeed = 0, tiltSpeed = 0, panDir = 0, tiltDir = 0, calibrate = 0, laserPower = 0, laserFire = 0, returnHome = 0;
 
 // Configure stepper motor speed limits (lower minDelay => higher maxSpeed)
 int minDelay = 40;
@@ -52,10 +59,10 @@ void setup() {
 void loop() {
 
   if (laserFire == 1) {
-    //PORTB = PORTB | laserPort;
+    //PORTB |= laserPort;
     digitalWrite(laserPin, HIGH);
     delay(10);
-    //PORTB = PORTB & !laserPort;
+    //PORTB &= !laserPort;
     digitalWrite(laserPin, LOW);
     laserFire = 0;
   } else {
@@ -65,8 +72,9 @@ void loop() {
   ///// Control Pan Mechanism /////
 
   if (panSpeed != 0) {
-    if (panDir == 1) PORTD = PORTD | panDirPin;
-    else PORTD = PORTD & !panDirPin;
+    //if (panDir == 1) PORTD |= panDirPin;
+    //else PORTD &= !panDirPin;
+    digitalWrite(panDirPin, panDir);
     stepMotor(panStepPin, panDelay, &currentPanMicros, &previousPanMicros, &panState, panDir, &panLocation);
   }
 
@@ -78,8 +86,8 @@ void loop() {
   ///// Control Tilt Mechanism /////
 
   if ((tiltSpeed != 0) && ((tiltLocation >= minTilt) || (tiltDir == 0)) && ((tiltLocation <= maxTilt) || (tiltDir == 1))) {
-    if (tiltDir == 1) PORTD = PORTD | tiltDirPin;
-    else PORTD = PORTD & !tiltDirPin;
+    if (tiltDir == 1) PORTD |= tiltDirPin;
+    else PORTD &= !tiltDirPin;
     stepMotor(tiltStepPin, tiltDelay, &currentTiltMicros, &previousTiltMicros, &tiltState, tiltDir, &tiltLocation);
   }
 }
@@ -101,8 +109,8 @@ void stepMotor(int pin, int delayTime, long* currentMicros, long* previousMicros
 }
 
 // Function for recieving I2C data
-// Data Structure: dataArray[panSpeed, tiltSpeed, panDir, tiltDir, calibrate]
-void receiveEvent(int howmany) { //howmany = Wire.write()executed by Master
+// Data Structure: dataArray[panSpeed, tiltSpeed, panDir, tiltDir, calibrate, laserPower, laserFire]
+void receiveEvent(int howmany) { //howmany = Wire.write() executed by Master
   for (int i = 0; i < howmany; i++) {
     data[i] = Wire.read();
     //Serial.println(dataArray[i], DEC);
@@ -114,12 +122,16 @@ void receiveEvent(int howmany) { //howmany = Wire.write()executed by Master
   calibrate  = data[5];
   laserPower = data[6];
   laserFire  = data[7];
+  returnHome = data[8];
   tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
   panDelay = map(panSpeed, 0, 255, maxDelay, minDelay);
 
   if (calibrate == 1) {
     panLocation = 0;
     tiltLocation = 0;
+    calibrate = 0;
   }
+  Serial.print(laserPower, DEC);
+  Serial.print("\t");
   Serial.println(laserFire, DEC);
 }
