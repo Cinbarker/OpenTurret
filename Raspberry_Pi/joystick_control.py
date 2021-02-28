@@ -101,32 +101,32 @@ def power_axis_moved(laser):
     print('Laser _power: ' + str(round(laser_power, 3)))
 
 
-def dpad_x_axis_moved(direction):
-    if direction == 1:
+def dpad_x_axis_moved(pad_x):
+    if pad_x == 1:
         output = 2
         dir_x = 'RIGHT'
-    elif direction == -1:
+    elif pad_x == -1:
         output = 0
         dir_x = 'LEFT'
     else:
         output = 1
         dir_x = 'MID'
-    i2cd.set_dpad(output)
+    i2cd.set_dpad_x(output)
     i2cd.send_data()
     print('dPad-X: ' + dir_x)
 
 
-def dpad_y_axis_moved(direction):
-    if direction == 1:
-        output = 5
+def dpad_y_axis_moved(pad_y):
+    if pad_y == 1:
+        output = 0
         dir_y = 'DOWN'
-    elif direction == -1:
-        output = 4
+    elif pad_y == -1:
+        output = 2
         dir_y = 'UP'
     else:
-        output = 3
+        output = 1
         dir_y = 'MID'
-    i2cd.set_dpad(output)
+    i2cd.set_dpad_y(output)
     i2cd.send_data()
     print('dPad-Y: ' + dir_y)
 
