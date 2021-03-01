@@ -44,6 +44,12 @@ class I2cData:
     def set_tilt_speed(self, tilt_speed):
         self.tilt_speed = tilt_speed
 
+    def get_pan_speed(self):
+        return self.pan_speed
+
+    def get_tilt_speed(self):
+        return self.tilt_speed
+
     def set_pan_dir(self, pan_dir):
         self.pan_dir = pan_dir
 
