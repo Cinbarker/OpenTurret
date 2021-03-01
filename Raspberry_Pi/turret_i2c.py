@@ -85,3 +85,4 @@ class I2cData:
         self.return_to_home = 0
         self.pad_x = 1
         self.pad_y = 1
+        self.send_data()

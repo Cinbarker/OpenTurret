@@ -51,7 +51,7 @@ def trigger_button_pressed():
     i2cd.set_laser_on(1)
     i2cd.send_data()
     i2cd.set_laser_on(0)
-
+    print('fired')
 
 def trigger_button_released():
     pass
@@ -66,7 +66,8 @@ def center_button_pressed():
 
 def exit_button_pressed():
     global running
-    print('EXIT')
+    i2cd.reset()
+    print('\033[1;31;40m EXIT! \033[1;37;40m')
     running = False
 
 
@@ -146,9 +147,8 @@ gamepad.addAxisMovedHandler(dpad_y, dpad_y_axis_moved)
 
 def exit_handler():
     i2cd.reset()
-    i2cd.send_data()
-    print('EXIT!')
-
+    print('\033[1;31;40m EXIT! \033[1;37;40m')
+    
 # Handle exit protocol
 atexit.register(exit_handler)
 
