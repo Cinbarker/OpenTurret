@@ -31,7 +31,6 @@ dpad_x = 'DPAD-X'
 dpad_y = 'DPAD-Y'
 
 pollInterval = 0.1
-speed_settings = [50, 152, 255]
 
 # Wait for a connection
 if not Gamepad.available():
@@ -42,7 +41,6 @@ gamepad = gamepad_type()
 print('Gamepad connected')
 
 # Set initial states
-speed_mode = 0
 laser_power = 0
 running = True
 center_on = False
@@ -80,14 +78,14 @@ def rth_button_pressed():
 
 def pan_axis_moved(pan_speed):
     i2cd.set_pan_dir(0 if pan_speed < 0 else 1)
-    i2cd.set_pan_speed(abs(int(pan_speed * speed_settings[speed_mode])))
+    i2cd.set_pan_speed(abs(int(pan_speed * 255)))
     i2cd.send_data()
     print('Pan: ' + str(round(pan_speed, 3)))
 
 
 def tilt_axis_moved(tilt_speed):
     i2cd.set_tilt_dir(0 if tilt_speed < 0 else 1)
-    i2cd.set_tilt_speed(abs(int(tilt_speed * speed_settings[speed_mode])))
+    i2cd.set_tilt_speed(abs(int(tilt_speed * 255)))
     print('Tilt: ' + str(round(tilt_speed, 3)))
     i2cd.send_data()
 
@@ -116,21 +114,18 @@ def dpad_x_axis_moved(pad_x):
 
 
 def dpad_y_axis_moved(pad_y):
-    global speed_mode
-    old_speed_mode = speed_mode
-    speed_mode = pad_y
-
-    old_speed = speed_settings[old_speed_mode]
-    new_speed = speed_settings[speed_mode]
-
-    new_pan_speed = new_speed * i2cd.get_pan_speed() / old_speed
-    new_tilt_speed = new_speed * i2cd.get_tilt_speed() / old_speed
-
-    i2cd.set_pan_speed(int(new_pan_speed))
-    i2cd.set_tilt_speed(int(new_tilt_speed))
-
+    if pad_y == 1:
+        output = 0
+        dir_y = 'DOWN'
+    elif pad_y == -1:
+        output = 2
+        dir_y = 'UP'
+    else:
+        output = 1
+        dir_y = 'MID'
+    i2cd.set_dpad_y(output)
     i2cd.send_data()
-    print('dPad-Y:', speed_mode)
+    print('dPad-Y: ' + dir_y)
 
 
 # Start the background updating
@@ -153,7 +148,6 @@ def exit_handler():
     i2cd.reset()
     i2cd.send_data()
     print('EXIT!')
-
 
 # Handle exit protocol
 atexit.register(exit_handler)
