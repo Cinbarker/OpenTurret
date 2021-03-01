@@ -152,7 +152,7 @@ def exit_handler():
     i2cd.send_data()
     print('EXIT!')
 
-
+# Handle exit protocol
 atexit.register(exit_handler)
 
 # Keep running while joystick updates are handled by the callbacks

@@ -30,7 +30,9 @@ class I2cData:
                 self.calibrate,
                 self.laser_power,
                 self.laser_on,
-                self.return_to_home]
+                self.return_to_home,
+                self.pad_x,
+                self.pad_y]
         try:
             self.bus.write_i2c_block_data(self.address, 0x00, data)
         except OSError:

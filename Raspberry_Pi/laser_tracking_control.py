@@ -3,12 +3,12 @@ import time
 import numpy as np
 import cv2
 import atexit
-#from gpiozero import PWMOutputDevice
+from gpiozero import PWMOutputDevice
 
 # Import local files
 import turret_camera
-#from turret_i2c import I2cData
-#from turret_gamepad import TMJoystick
+from turret_i2c import I2cData
+from turret_gamepad import TMJoystick
 
 lower_green = np.array([36, 100, 0])
 upper_green = np.array([86, 200, 255])
