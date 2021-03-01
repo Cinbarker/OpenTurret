@@ -17,22 +17,24 @@ class I2cData:
     bus = None
     pad_x = 1
     pad_y = 1
+    calibrated = False
 
     def __init__(self, address):
         self.address = address
         self.bus = SMBus(1)  # indicates /dev/ic2-1
 
     def send_data(self):
-        data = [self.pan_speed,
-                self.tilt_speed,
-                self.pan_dir,
-                self.tilt_dir,
-                self.calibrate,
-                self.laser_power,
-                self.laser_on,
-                self.return_to_home,
-                self.pad_x,
-                self.pad_y]
+        if self.calibrated:
+            data = [self.pan_speed,
+                    self.tilt_speed,
+                    self.pan_dir,
+                    self.tilt_dir,
+                    self.calibrate,
+                    self.laser_power,
+                    self.laser_on,
+                    self.return_to_home,
+                    self.pad_x,
+                    self.pad_y]
         try:
             self.bus.write_i2c_block_data(self.address, 0x00, data)
         except OSError:
@@ -57,6 +59,7 @@ class I2cData:
         self.tilt_dir = tilt_dir
 
     def set_calibrate(self, calibrate):
+        self.calibrated = True
         self.calibrate = calibrate
 
     def set_laser_power(self, laser_power):
