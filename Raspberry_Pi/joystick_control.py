@@ -42,7 +42,7 @@ gamepad = gamepad_type()
 print('Gamepad connected')
 
 # Set initial states
-speed_mode = 1
+speed_mode = 0
 laser_power = 0
 running = True
 center_on = False
