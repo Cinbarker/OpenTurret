@@ -111,6 +111,7 @@ def dpad_x_axis_moved(pad_x):
         dir_x = 'MID'
     i2cd.set_dpad_x(output)
     i2cd.send_data()
+    i2cd.set_dpad_x(1)
     print('dPad-X: ' + dir_x)
 
 

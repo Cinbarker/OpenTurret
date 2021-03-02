@@ -35,10 +35,10 @@ class I2cData:
                     self.return_to_home,
                     self.pad_x,
                     self.pad_y]
-        try:
-            self.bus.write_i2c_block_data(self.address, 0x00, data)
-        except OSError:
-            print('\033[1;31;40m ERROR: I2C BUS NOT OPEN \033[1;37;40m')
+            try:
+                self.bus.write_i2c_block_data(self.address, 0x00, data)
+            except OSError:
+                print('\033[1;31;40m ERROR: I2C BUS NOT OPEN \033[1;37;40m')
 
     def set_pan_speed(self, pan_speed):
         self.pan_speed = pan_speed
