@@ -11,7 +11,7 @@
 // Define constants
 #define address 0x8 // I2C address of this slave device
 #define panStepPin 4 //B00010000 // Pin D4
-#define panDirPin 5 // B00100000 // Pin D5
+#define panDirPin B00100000 // Pin D5
 #define tiltStepPin 6 //B01000000 // Pin D6
 #define tiltDirPin B10000000 // Pin D7
 #define laserPin 9 //B00000100 // Pin D9
@@ -23,6 +23,7 @@ byte panSpeed = 0, tiltSpeed = 0, panDir = 0, tiltDir = 0, calibrate = 0, laserP
 // Configure stepper motor speed limits (lower minDelay => higher maxSpeed)
 int minDelay = 40;
 int maxDelay = 300;
+int scale = 3;
 
 //
 long minTilt = -1800 * 16;
@@ -66,15 +67,14 @@ void loop() {
     digitalWrite(laserPin, LOW);
     laserFire = 0;
   } else {
-    analogWrite(laserPin, laserPower/8);
+    analogWrite(laserPin, laserPower/4);
   }
 
   ///// Control Pan Mechanism /////
 
   if (panSpeed != 0) {
-    //if (panDir == 1) PORTD |= panDirPin;
-    //else PORTD &= !panDirPin;
-    digitalWrite(panDirPin, panDir);
+    if (panDir == 1) PORTD |= panDirPin;
+    else PORTD &= !panDirPin;
     stepMotor(panStepPin, panDelay, &currentPanMicros, &previousPanMicros, &panState, panDir, &panLocation);
   }
 
@@ -126,13 +126,80 @@ void receiveEvent(int howmany) { //howmany = Wire.write() executed by Master
   dPadX      = data[9];  // 0:Left 1:Mid  2:Right
   dPadY      = data[10]; // 0:Low  1:Mid  2:High
 
-  tiltDelay = map(tiltSpeed, 0, 255, maxDelay, minDelay);
-  panDelay = map(panSpeed, 0, 255, maxDelay, minDelay);
-
+  if (dPadY == 0) { scale = 15; }
+  else if (dPadY == 1) { scale = 3; }
+  else if (dPadY == 2) { scale = 1; }
+  
+  panDelay = map(panSpeed, 0, 255, scale*maxDelay, scale*minDelay);
+  tiltDelay = map(tiltSpeed, 0, 255, scale*maxDelay, scale*minDelay);
+  // Calibrate loactions
   if (calibrate == 1) {
     panLocation = 0;
     tiltLocation = 0;
     calibrate = 0;
   }
-  Serial.print(dPad, DEC);
+  // Indvidual stepping of pan axis
+  if (dPadX == 0) {
+    PORTD &= !panDirPin;
+    panDelay = 80;
+    for (int i = 0; i<20-scale; i++){
+      digitalWrite(panStepPin, !panState);
+      panLocation++;
+      delayMicroseconds(panDelay);
+      digitalWrite(panStepPin, panState);
+      panLocation++;
+      delayMicroseconds(panDelay);
+    }
+    Serial.println(dPadX, DEC);
+    dPadX = 1;
+  } else if (dPadX == 2){
+    PORTD |= panDirPin;
+    panDelay = 80;
+    for (int i = 0; i<20-scale; i++){
+      digitalWrite(panStepPin, !panState);
+      panLocation--;
+      delayMicroseconds(panDelay);
+      digitalWrite(panStepPin, panState);
+      panLocation--;
+      delayMicroseconds(panDelay);
+    }
+    Serial.println(dPadX, DEC);
+    dPadX = 1;
+  }
+
+  // Return to home
+  if (returnHome==1){
+    panDelay = 80;
+    if (panLocation < 0) {
+      PORTD &= !panDirPin;
+      panLocation *= -1;
+    } else {
+      PORTD |= panDirPin;
+    }
+    while (panLocation > 0) {
+      digitalWrite(panStepPin, !panState);
+      panLocation--;
+      delayMicroseconds(panDelay);
+      digitalWrite(panStepPin, panState);
+      panLocation--;
+      delayMicroseconds(panDelay);
+    }
+    returnHome = 0;
+  }
+  
+//   PORTD &= !panDirPin;
+//   panDelay = minDelay;
+//   
+//    for (int i = 0; i<20-scale; i++){
+//      digitalWrite(panStepPin, !panState);
+//      delayMicroseconds(minDelay);
+//      panLocation++;
+//      digitalWrite(panStepPin, panState);
+//      delayMicroseconds(minDelay);
+//      panLocation++;
+//    }
+  Serial.print(panLocation, DEC);
+  Serial.print("\t");
+  Serial.println(dPadY, DEC);
+  
 }
