@@ -20,6 +20,7 @@ def get_laser_point(video_capture, lower, upper, threshold, show_video=False):
         frame_mask = frame_mask + cv2.inRange(frame_hsv, lower, upper)
     else:
         frame_mask = cv2.inRange(frame_hsv, lower, upper)
+        
     frame_comp = cv2.bitwise_and(frame, frame, mask=frame_mask)
 
     contour = get_best_contour(frame_mask, threshold)
