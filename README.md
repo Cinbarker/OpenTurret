@@ -2,35 +2,29 @@
 
 An open sourced highly accurate pan-tilt system for anything that needs to be panned and tilted!
 
-The hardware is still quite experimental, but I hope to refine it and release instructions soon.
+The hardware is still quite experimental, but I hope to refine it and release build instructions soon.
 
 ### To-Do:
 
 - [ ]  Hardware
     - [ ]  Add holes for pushing out bearings
-    - [ ]  Make wiring rotation continuous (implement slipring)
-    - [ ]  Add tripod mount
-    - [ ]  Fix rigidity of pan axis
+    - [x]  Make wiring rotation continuous (implement slipring)
+    - [x]  Add tripod mount
+    - [x]  Fix rigidity of pan axis
     - [ ]  End-stops for tilt axis
+    - [ ]  Continuous tilt
 - [ ]  Document Hardware
 - [ ]  Explore using the Pi Zero or Wireless integrate electronics below tilt axis
 - [x]  Get joystick to control motors
 - [ ]  Make easy stepper coding interface
 - [ ]  Add zoom camera assembly
-- [ ]  Test whether I need to focus the laser
+- [ ]  Test whether the laser needs to be focussed 
 
 ### Code To-Do:
 
 - [ ] Add skipped step / stall error feedback
 - [ ] Further optimise speed for equal steps
-- [ ] Return to home button
-    - [x] I2C Communication
-    - [ ] Arduino code
-- [ ] D-pad steps
-- [ ] D-pad Speed modes
-- [x] Send zero signal from Pi before exiting code on exit button (reset method) => exithandler atexit
-- [x] Fix thread error when firing laser
-- [ ] Calibration prompt on startup
+- [ ] Add tilt axis to all implementations
 
 ### Specifications:
 
@@ -58,7 +52,7 @@ The hardware is still quite experimental, but I hope to refine it and release in
 ### Milestones
 
 - [x]  Implement joystick control of two axes and laser
-- [ ]  Successfully move both axes with 0.1º precision
+- [ ]  Successfully move both axes with >=0.1º precision
 - [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
 
