@@ -8,14 +8,14 @@ The hardware is still quite experimental, but I hope to refine it and release bu
 ### To-Do
 
 - [ ] Hardware
-  - [ ] Add holes for pushing out bearings
-  - [x] Make wiring rotation continuous (implement slipring)
-  - [x] Add tripod mount
-  - [x] Fix rigidity of pan axis
-  - [ ] End-stops for tilt axis
-  - [ ] Continuous tilt
-  - [ ] Rotary encoder for positional feedback
-  - [ ] Compass and accelerometer for positional feedback and calibration
+    - [ ] Add holes for pushing out bearings
+    - [x] Make wiring rotation continuous (implement slipring)
+    - [x] Add tripod mount
+    - [x] Fix rigidity of pan axis
+    - [ ] End-stops for tilt axis
+    - [ ] Continuous tilt
+    - [ ] Rotary encoder for positional feedback
+    - [ ] Compass and accelerometer for positional feedback and calibration
 - [ ] Document Hardware
 - [ ] Explore using the Pi Zero or Wireless integrate electronics below tilt axis
 - [x] Get joystick to control motors
@@ -63,12 +63,15 @@ The hardware is still quite experimental, but I hope to refine it and release bu
 - [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
 
+### Software Modes
+
+- Full Manual: Control the turret and laser with a joystick
+- Laser Guided: Autonomous Laser guided aiming of turret
+- Sky Tracking: Use online data to track stars, planets, satellites, and air traffic. (For telescopes **NOT** lasers)
+
 ### Software Implementation Ideas
 
-- [x] Fully manual control with joystick
-- [ ] Automatic IR Laser guided aiming
 - [ ] Autonomous targeting and firing by means of image recognition
-- [ ] Track cosmic objects using online positional data
 - [ ] Laser shape drawing mode
 - [ ] Autonomous targeting and firing by means of acoustic triangulation
 
