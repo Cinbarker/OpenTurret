@@ -19,14 +19,14 @@ with load.open(hipparcos.URL) as f:  # Load stars from the Hipparcos Catalog
 print('Loaded {} stars'.format(len(df)))
 
 
-def get_planet_altaz(planet, location, time):   # Get altaz of planets, the moon, and sun
+def get_planet_altaz(planet, location, time):  # Get altaz of planets, the moon, and sun
     difference = planets[planet + ' barycenter'] - (planets['earth'] + location)
     topocentric = difference.at(time)
     alt, az, distance = topocentric.altaz()
     return alt.degrees, az.degrees, distance.au
 
 
-def get_satellite_altaz(satellite, location, time): # Get altaz of active satellites
+def get_satellite_altaz(satellite, location, time):  # Get altaz of active satellites
     by_name = {sat.name: sat for sat in satellites}
     satellite = by_name[satellite]
     difference = satellite - location
@@ -93,7 +93,6 @@ def get_airtraffic_callsigns(lat_min, lon_min, lat_max, lon_max):  # Retrieve av
     vehicles_df = vehicles_df[vehicles_df.ne('No Data').all(1)]
 
     callsigns = vehicles_df['callsign'].values.tolist()
-
     callsigns = sorted([entry.strip() for entry in callsigns])
 
     return callsigns
