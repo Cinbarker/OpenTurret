@@ -31,7 +31,6 @@ The hardware is still quite experimental, but I hope to refine it and release bu
 - [ ] Refractor I2C event methods
 - [ ] Shutdown & Startup motion method
 - [ ] Add config file
-- [ ]
 
 ### Required Specifications
 
