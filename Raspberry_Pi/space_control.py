@@ -1,17 +1,24 @@
 # Must install pandas: pip3 install pandas
 import Space_Tracking.turret_space as space
 from skyfield.api import load, wgs84
+from Space_Tracking.turret_space import AirTraffic
 
-delft = wgs84.latlon(+51.99737, +4.35430, +60)  # Create earth position
+currentLocation = wgs84.latlon(+51.99737, +4.35430, +60)  # Coordinates of turret earth position
+
+lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Define air traffic scanning region
 
 ts = load.timescale()
 t = ts.now()  # Get current time
 
-print('Planet:', space.get_planet_altaz('mars', delft, t))
-print('Satellite:', space.get_satellite_altaz('ISS (ZARYA)', delft, t))
-print('Star:', space.get_star_altaz(11767, delft, t))
+at = AirTraffic(lat_min, lon_min, lat_max, lon_max)
 
-print('Air Traffic:', space.get_airtraffic_callsigns(51, 2, 54, 8))
+print('Planet:', space.get_planet_altaz('mars', currentLocation, t))
+print('Satellite:', space.get_satellite_altaz('STARLINK-1099', currentLocation, t))
+print('Star:', space.get_star_altaz(11767, currentLocation, t))
+
+at.update_airtraffic()
+print('Air Traffic:', at.get_airtraffic_callsigns(currentLocation, t))
 print('Enter callsign:')
 callsign = input()
-print('Vehicle:', space.get_airtraffic_altaz(callsign, delft, t))
+print('Vehicle:', at.get_airvehicle_altaz(callsign, currentLocation, t))
+

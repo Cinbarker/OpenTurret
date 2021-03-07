@@ -43,56 +43,55 @@ def get_star_altaz(star, location, time):
     return alt.degrees, az.degrees, distance.au
 
 
-def get_airtraffic_altaz(callsign, location, time):  # Get altaz of a given flight
-    _, lat, long, alt, _ = get_airvehicle_info(51, 2, 54, 8, callsign)
-    vehicle = wgs84.latlon(lat, long, alt)
-    difference = vehicle - location
-    topocentric = difference.at(time)
-    alt, az, distance = topocentric.altaz()
-    return alt.degrees, az.degrees, distance.km
+class AirTraffic:
+    lat_min = 0
+    lon_min = 0
+    lat_max = 0
+    lon_max = 0
+    global vehicles_df
 
+    def __init__(self, lat_min, lon_min, lat_max, lon_max):
+        self.lat_min = lat_min
+        self.lon_min = lon_min
+        self.lat_max = lat_max
+        self.lon_max = lon_max
 
-def get_airvehicle_info(lat_min, lon_min, lat_max, lon_max, callsign):  # Get info of a specific vehicle
-    # REST API QUERY ANONYMOUSLY
-    url_data = 'https://opensky-network.org/api/states/all?' + 'lamin=' + str(lat_min) + '&lomin=' + str(
-        lon_min) + '&lamax=' + str(lat_max) + '&lomax=' + str(lon_max)
-    response = requests.get(url_data).json()
+    def update_airtraffic(self):
+        # REST API QUERY ANONYMOUSLY
+        url_data = 'https://opensky-network.org/api/states/all?' + 'lamin=' + str(self.lat_min) + '&lomin=' + str(
+            self.lon_min) + '&lamax=' + str(self.lat_max) + '&lomax=' + str(self.lon_max)
+        response = requests.get(url_data).json()
 
-    # LOAD TO PANDAS DATAFRAME
-    col_name = ['icao24', 'callsign', 'origin_country', 'time_position', 'last_contact', 'long', 'lat', 'baro_altitude',
-                'on_ground', 'velocity', 'true_track', 'vertical_rate', 'sensors', 'geo_altitude', 'squawk', 'spi',
-                'position_source']
-    flight_df = pd.DataFrame(response['states'], columns=col_name)
-    flight_df = flight_df.fillna('No Data')  # replace NAN with No Data
-    flight_df.head()
+        # LOAD TO PANDAS DATAFRAME
+        col_name = ['icao24', 'callsign', 'origin_country', 'time_position', 'last_contact', 'long', 'lat',
+                    'baro_altitude',
+                    'on_ground', 'velocity', 'true_track', 'vertical_rate', 'sensors', 'geo_altitude', 'squawk', 'spi',
+                    'position_source']
+        flight_df = pd.DataFrame(response['states'], columns=col_name)
+        flight_df = flight_df.fillna('No Data')  # replace NAN with No Data
+        flight_df.head()
 
-    vehicles_df = flight_df[['callsign', 'lat', 'long', 'baro_altitude', 'velocity']]
-    vehicles_df = vehicles_df[vehicles_df.ne('No Data').all(1)]
+        vehicles_df = flight_df[['callsign', 'lat', 'long', 'baro_altitude', 'velocity']]
+        self.vehicles_df = vehicles_df[vehicles_df.ne('No Data').all(1)]
 
-    mask = vehicles_df['callsign'].str.contains(callsign)
-    vehicle = vehicles_df[mask]
+    def get_airvehicle_info(self, callsign):
+        mask = self.vehicles_df['callsign'].str.contains(callsign)
+        vehicle = self.vehicles_df[mask]
+        return tuple(vehicle.values.tolist()[0])
 
-    return tuple(vehicle.values.tolist()[0])
+    def get_airvehicle_altaz(self, callsign, location, time):
+        _, lat, long, alt, _ = self.get_airvehicle_info(callsign)
+        vehicle = wgs84.latlon(lat, long, alt)
+        difference = vehicle - location
+        topocentric = difference.at(time)
+        alt, az, distance = topocentric.altaz()
+        return alt.degrees, az.degrees, distance.km
 
+    def get_airtraffic_callsigns(self, location, time):
+        def get_distance(callsign):
+            _, _, distance = self.get_airvehicle_altaz(callsign, location, time)
+            return distance
 
-def get_airtraffic_callsigns(lat_min, lon_min, lat_max, lon_max):  # Retrieve available flight callsigns
-    # REST API QUERY ANONYMOUSLY
-    url_data = 'https://opensky-network.org/api/states/all?' + 'lamin=' + str(lat_min) + '&lomin=' + str(
-        lon_min) + '&lamax=' + str(lat_max) + '&lomax=' + str(lon_max)
-    response = requests.get(url_data).json()
-
-    # LOAD TO PANDAS DATAFRAME
-    col_name = ['icao24', 'callsign', 'origin_country', 'time_position', 'last_contact', 'long', 'lat', 'baro_altitude',
-                'on_ground', 'velocity', 'true_track', 'vertical_rate', 'sensors', 'geo_altitude', 'squawk', 'spi',
-                'position_source']
-    flight_df = pd.DataFrame(response['states'], columns=col_name)
-    flight_df = flight_df.fillna('No Data')  # replace NAN with No Data
-    flight_df.head()
-
-    vehicles_df = flight_df[['callsign', 'lat', 'long', 'baro_altitude', 'velocity']]
-    vehicles_df = vehicles_df[vehicles_df.ne('No Data').all(1)]
-
-    callsigns = vehicles_df['callsign'].values.tolist()
-    callsigns = sorted([entry.strip() for entry in callsigns])
-
-    return callsigns
+        callsigns = self.vehicles_df['callsign'].values.tolist()
+        callsigns = sorted([entry.strip() for entry in callsigns], key=get_distance)
+        return callsigns
