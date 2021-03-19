@@ -8,15 +8,17 @@ The hardware is still quite experimental, but I hope to refine it and release bu
 ### To-Do
 
 - [ ] Hardware
-    - [ ] Add holes for pushing out bearings
-    - [x] Make wiring rotation continuous (implement slipring)
-    - [x] Add tripod mount
-    - [x] Fix rigidity of pan axis
-    - [ ] End-stops for tilt axis
-    - [ ] Continuous tilt
-    - [ ] Rotary encoder for positional feedback
-    - [ ] Compass and accelerometer for positional feedback and calibration
+  - [ ] Add holes for pushing out bearings
+  - [x] Make wiring rotation continuous (implement slipring)
+  - [x] Add tripod mount
+  - [x] Fix rigidity of pan axis
+  - [ ] End-stops for tilt axis
+  - [ ] Continuous tilt
+  - [ ] Rotary encoder for positional feedback
+  - [ ] Compass and accelerometer for positional feedback and calibration
 - [ ] Document Hardware
+- [ ] Test load capacity and stability
+  - [ ] Design large-scale version
 - [ ] Explore using the Pi Zero or Wireless integrate electronics below tilt axis
 - [x] Get joystick to control motors
 - [ ] Make easy stepper coding interface
