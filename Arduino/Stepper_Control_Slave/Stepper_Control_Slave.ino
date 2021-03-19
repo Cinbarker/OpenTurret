@@ -86,8 +86,8 @@ void loop() {
   ///// Control Tilt Mechanism /////
 
   if ((tiltSpeed != 0) && ((tiltLocation >= minTilt) || (tiltDir == 0)) && ((tiltLocation <= maxTilt) || (tiltDir == 1))) {
-    if (tiltDir == 1) PORTD |= tiltDirPin;
-    else PORTD &= !tiltDirPin;
+    if (tiltDir == 1) PORTD &= !tiltDirPin;
+    else PORTD |= tiltDirPin;
     stepMotor(tiltStepPin, tiltDelay, &currentTiltMicros, &previousTiltMicros, &tiltState, tiltDir, &tiltLocation);
   }
 }
