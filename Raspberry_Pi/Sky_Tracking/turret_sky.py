@@ -3,8 +3,10 @@ from skyfield.data import hipparcos
 from skyfield.iokit import Loader
 import requests
 import pandas as pd
+import numpy as np
+import wmm2020
 
-load = Loader('Space_Tracking')  # Redefine loader to support other directories (skyfield loader removes this function)
+load = Loader('Sky_Tracking')  # Redefine loader to support other directories (skyfield loader removes this function)
 
 planets = load('de440s.bsp')  # Load planets from spice kernel de440s.bsp
 print('Loaded 8.5 planets, the sun, and moon')
@@ -43,6 +45,16 @@ def get_star_altaz(star, location, time):
     return alt.degrees, az.degrees, distance.au
 
 
+def get_mag_data(location, time):
+    year, _, _, _, _, _ = time._utc_tuple(0)
+    np.meshgrid()
+    mag = wmm2020.wmm(location.latitude.degrees, location.longitude.degrees, location.elevation.km, year)
+    decl = float(mag.data_vars.get('decl'))
+    incl = float(mag.data_vars.get('incl'))
+    total = float(mag.data_vars.get('total'))
+    return decl, incl, total
+
+
 class AirTraffic:
     lat_min = 0
     lon_min = 0
@@ -75,12 +87,20 @@ class AirTraffic:
         self.vehicles_df = vehicles_df[vehicles_df.ne('No Data').all(1)]
 
     def get_airvehicle_info(self, callsign):
-        mask = self.vehicles_df['callsign'].str.contains(callsign)
+        try:
+            mask = self.vehicles_df['callsign'].str.contains(callsign)
+        except IndexError:
+            print('Invalid Callsign')
+            return None
         vehicle = self.vehicles_df[mask]
         return tuple(vehicle.values.tolist()[0])
 
     def get_airvehicle_altaz(self, callsign, location, time):
-        _, lat, long, alt, _ = self.get_airvehicle_info(callsign)
+        try:
+            _, lat, long, alt, _ = self.get_airvehicle_info(callsign)
+        except IndexError:
+            print('Invalid Callsign')
+            return None
         vehicle = wgs84.latlon(lat, long, alt)
         difference = vehicle - location
         topocentric = difference.at(time)

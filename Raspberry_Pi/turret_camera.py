@@ -1,9 +1,13 @@
 import cv2
+from numba import jit
 import numpy as np
 import imutils
 
 
 # import RPi.GPIO as GPIO
+
+#def img_process():
+
 
 def get_laser_point(video_capture, lower, upper, threshold, show_video=False):
     # Capture a frame from camera
@@ -20,7 +24,7 @@ def get_laser_point(video_capture, lower, upper, threshold, show_video=False):
         frame_mask = frame_mask + cv2.inRange(frame_hsv, lower, upper)
     else:
         frame_mask = cv2.inRange(frame_hsv, lower, upper)
-        
+
     frame_comp = cv2.bitwise_and(frame, frame, mask=frame_mask)
 
     contour = get_best_contour(frame_mask, threshold)
@@ -54,3 +58,20 @@ def get_best_contour(imgmask, threshold):
             best_area = area
             best_cnt = cnt
     return best_cnt
+
+
+if __name__ == '__main__':
+    while True:
+        lower_green = np.array([36, 00, 20])
+        upper_green = np.array([86, 250, 255])
+        lower_red = np.array([175, 0, 100])
+        upper_red = np.array([179, 255, 200])
+        camera_port = 0
+        thresh_red = 5
+        thresh_green = 200
+
+        video_capture = cv2.VideoCapture(camera_port)
+        get_laser_point(video_capture, lower_red, upper_red, thresh_red, show_video=True)
+
+    video_capture.release()
+    cv2.destroyAllWindows()
