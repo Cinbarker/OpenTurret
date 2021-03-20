@@ -1,6 +1,6 @@
 import PyUi
 from PyQt5 import QtWidgets
-from Raspberry_Pi.OpenTurret_UI import MyWindow
+from OpenTurret_UI import MyWindow
 
 if __name__ == "__main__":
     import sys

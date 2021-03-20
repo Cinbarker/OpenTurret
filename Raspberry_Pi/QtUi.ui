@@ -907,16 +907,6 @@
                        <property name="statusTip">
                         <string>List of Available Air Traffic</string>
                        </property>
-                       <item>
-                        <property name="text">
-                         <string>KLMthing</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>UPSplaneboi</string>
-                        </property>
-                       </item>
                       </widget>
                      </item>
                      <item>

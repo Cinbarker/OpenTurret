@@ -61,7 +61,7 @@ class AirTraffic:
     lon_min = 0
     lat_max = 0
     lon_max = 0
-    global vehicles_df
+    vehicles_df = pd.DataFrame({'A' : []})
 
     def __init__(self, lat_min, lon_min, lat_max, lon_max):
         self.lat_min = lat_min
@@ -115,4 +115,5 @@ class AirTraffic:
 
         callsigns = self.vehicles_df['callsign'].values.tolist()
         callsigns = sorted([entry.strip() for entry in callsigns], key=get_distance)
+        callsigns = list(filter(None, callsigns))
         return callsigns

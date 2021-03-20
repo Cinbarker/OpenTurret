@@ -4,20 +4,19 @@ import Sky_Tracking.turret_sky as sky
 from skyfield.api import load, wgs84
 from Sky_Tracking.turret_sky import AirTraffic
 
-currentLocation = wgs84.latlon(+51.99737, +4.35430, +60)  # Coordinates of turret earth position
-
-lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Define air traffic scanning region
-
-ts = load.timescale()
-time = ts.now()  # Get current time
-
-at = AirTraffic(lat_min, lon_min, lat_max, lon_max)
-
 
 class MyWindow(QtWidgets.QMainWindow):
+    currentLat, currentLon, currentAlt = +51.99737, +4.35430, +60
+    currentLocation = wgs84.latlon(currentLat, currentLon, currentAlt)  # Coordinates of turret earth position
+
+    lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8   # Default is the Netherlands
+    at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanning region
+
     def __init__(self, ui):
         super().__init__()
         self.ui = ui
+
+    # Abstract Methods from parent
 
     def stopButtonClicked(self):
         print('EMERGENCY STOP')
@@ -38,9 +37,8 @@ class MyWindow(QtWidgets.QMainWindow):
         print('Update Settings')
 
     def refreshButtonClicked(self):
-        callsigns = at.get_airtraffic_callsigns(currentLocation, time)
-        self.updateAirTraffic(callsigns)
         print('Refresh')
+        self.updateAirTraffic()
 
     def calibrateButtonClicked(self):
         print('Calibrate')
@@ -81,11 +79,16 @@ class MyWindow(QtWidgets.QMainWindow):
     def airTraffic(self, callsign):
         print("Callsign:", callsign)
 
-    # Methods
+    # New Methods for actions
 
-    def updateAirTraffic(self, callsigns):
+    def updateAirTraffic(self):
+        ts = load.timescale()
+        time = ts.now()  # Get current time
+        self.at.update_airtraffic()  # Update Air Traffic information
+        callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, time)
+        self.ui.airTrafficList.clear()  # Clear previous callsigns
         self.ui.airTrafficList.addItems(callsigns)
-        print("Added Items:", callsigns)
+        print("Refreshed Air Traffic List")
 
 
 if __name__ == "__main__":
