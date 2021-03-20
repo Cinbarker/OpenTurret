@@ -5,8 +5,9 @@ import requests
 import pandas as pd
 import numpy as np
 import wmm2020
+import os
 
-load = Loader('Sky_Tracking')  # Redefine loader to support other directories (skyfield loader removes this function)
+load = Loader(os.path.dirname(os.path.realpath(__file__)))  # Redefine loader to support other directories (skyfield loader removes this function)
 
 planets = load('de440s.bsp')  # Load planets from spice kernel de440s.bsp
 print('Loaded 8.5 planets, the sun, and moon')
