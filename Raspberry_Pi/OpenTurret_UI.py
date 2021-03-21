@@ -1,3 +1,4 @@
+from PyQt5.QtCore import QSortFilterProxyModel, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import *
 
@@ -6,6 +7,7 @@ from PyQt5 import QtWidgets, QtCore
 import Sky_Tracking.turret_sky as sky
 from skyfield.api import load, wgs84
 from Sky_Tracking.turret_sky import *
+
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -42,7 +44,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def updateSettingsButtonClicked(self):
         print('Update Settings')
 
-    def refreshButtonClicked(self):
+    def refreshButtonClicked(self): # TODO Refresh aircraft can crash
         print('Refresh')
         self.updateAirTraffic()
 
@@ -164,12 +166,27 @@ class MyWindow(QtWidgets.QMainWindow):
         print("maxLon:", maxLon)
 
     def starInput(self, starInput):
+        self.proxyModelStar = QSortFilterProxyModel()
+        self.proxyModelStar.setSourceModel(self.ui.modelStar)
+        self.proxyModelStar.setFilterFixedString(starInput)
+        self.ui.starList.setModel(self.proxyModelStar)
+        self.ui.starList.show()
         print("starInput:", starInput)
 
     def objectInput(self, objectInput):
+        self.proxyModelObj = QSortFilterProxyModel()
+        self.proxyModelObj.setSourceModel(self.ui.modelObj)
+        self.proxyModelObj.setFilterFixedString(objectInput)
+        self.ui.objectList.setModel(self.proxyModelObj)
+        self.ui.objectList.show()
         print("objectInput:", objectInput)
 
     def satelliteInput(self, satelliteInput):
+        self.proxyModelSat = QSortFilterProxyModel()
+        self.proxyModelSat.setSourceModel(self.ui.modelSat)
+        self.proxyModelSat.setFilterFixedString(satelliteInput)
+        self.ui.satelliteList.setModel(self.proxyModelSat)
+        self.ui.satelliteList.show()
         print("satelliteInput:", satelliteInput)
 
     def currentAlt(self, alt):
@@ -177,16 +194,32 @@ class MyWindow(QtWidgets.QMainWindow):
         print("Current Alt:", alt)
 
     def satelliteList(self, satellite):
-        self.ui.satelliteInput.setText(satellite.text())
-        print("Satellite:", satellite)
+        data = satellite.data()
+        self.ui.satelliteInput.setText(data)
+        print("Satellite:", data)
 
     def objectList(self, object):
-        self.ui.objectInput.setText(object.text())
-        print("Object:", object)
+        data = object.data()
+        self.ui.objectInput.setText(data)
+        print("Object:", data)
 
     def starList(self, star):
-        self.ui.starInput.setText(star.text())
-        print("Star:", star)
+        data = star.data()
+        self.ui.starInput.setText(data)
+        print("Star:", data)
+
+    def closeWindow(self):
+        print('Closing')
+        self.close()
+
+    def saveDefaults(self):
+        print('Saving Defaults')
+
+    def altOut(self, altOut):
+        print(altOut)
+
+    def azOut(self, azOut):
+        print(azOut)
 
     # New Methods for actions
 
@@ -205,34 +238,43 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.timeEdit.setTime(time)
         self.ui.timeEdit_1.setTime(time)
         self.ui.timeEdit_2.setTime(time)
+
         # Air Traffic Default
         self.ui.airTrafficList.clear()  # Clear previous callsigns
-        self.ui.airTrafficList.addItem("Click Refresh Traffic")
+        self.ui.airTrafficList.addItem('Click "Refresh Traffic"')
+
         # Satellite Default
-        self.ui.satelliteList.clear()  # Clear previous satellites
-        self.ui.satelliteList.addItems(get_satellites())
-        self.ui.modelSat = QStandardItemModel()
+        self.ui.modelSat = QStandardItemModel(self.ui.satelliteList)
         self.ui.modelSat.appendColumn([QStandardItem(text) for text in get_satellites()])
-        completerSat = QCompleter(self.ui.modelSat, self)
-        self.ui.satelliteInput.setCompleter(completerSat)
-        # Planet Default
-        self.ui.objectList.clear()  # Clear previous satellites
-        self.ui.objectList.addItems(get_objects())
-        self.ui.modelObj = QStandardItemModel()
+        self.ui.satelliteList.setModel(self.ui.modelSat)
+        self.ui.satelliteList.show()
+
+        # Solar Objects Default
+        self.ui.modelObj = QStandardItemModel(self.ui.objectList)
         self.ui.modelObj.appendColumn([QStandardItem(text) for text in get_objects()])
-        completerObj = QCompleter(self.ui.modelObj, self)
-        self.ui.objectInput.setCompleter(completerObj)
+        self.ui.objectList.setModel(self.ui.modelObj)
+        self.ui.objectList.show()
+
         # Star Default
         names, hips = get_stars()
-        self.ui.starList.clear()  # Clear previous satellites
-        self.ui.starList.addItems(names)
-        self.ui.modelStar = QStandardItemModel()
+        self.ui.modelStar = QStandardItemModel(self.ui.starList)
         self.ui.modelStar.appendColumn([QStandardItem(text) for text in names])
-        completerStar = QCompleter(self.ui.modelStar, self)
-        self.ui.starInput.setCompleter(completerStar)
+        self.ui.starList.setModel(self.ui.modelStar)
+        self.ui.starList.show()
 
+        # SPI Default
+        commands = ['GoTo()', 'SetDir()']
+        self.ui.spiCommand.clear()  # Clear previous satellites
+        self.ui.modelSPI = QStandardItemModel()
+        self.ui.modelSPI.appendColumn([QStandardItem(text) for text in commands])
+        completerSPI = QCompleter(self.ui.modelSPI, self)
+        self.ui.spiCommand.setCompleter(completerSPI)
+
+        # GUI Default
         self.ui.skyMode.setCurrentIndex(0)
         self.ui.turretMode.setCurrentIndex(0)
+
+        self.ui.refreshProgress.setValue(90) # TODO Make working progress bar to indicate refresh processing
 
 
 if __name__ == "__main__":
@@ -243,5 +285,4 @@ if __name__ == "__main__":
     MainWindow = MyWindow(ui)
     ui.setupUi(MainWindow)
     MainWindow.show()
-
     sys.exit(app.exec_())
