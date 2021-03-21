@@ -87,13 +87,13 @@ def get_star_altaz(star, location, time):
 #     total = float(mag.data_vars.get('total'))
 #     return decl, incl, total
 
-
 class AirTraffic:
     lat_min = 0
     lon_min = 0
     lat_max = 0
     lon_max = 0
     vehicles_df = pd.DataFrame({'A': []})
+    timeout = False
 
     def __init__(self, lat_min, lon_min, lat_max, lon_max):
         self.lat_min = lat_min
@@ -105,8 +105,13 @@ class AirTraffic:
         # REST API QUERY ANONYMOUSLY
         url_data = 'https://opensky-network.org/api/states/all?' + 'lamin=' + str(self.lat_min) + '&lomin=' + str(
             self.lon_min) + '&lamax=' + str(self.lat_max) + '&lomax=' + str(self.lon_max)
-        response = requests.get(url_data).json()
-
+        try:
+            response = requests.get(url_data, timeout=5).json()
+        except requests.exceptions.Timeout:
+            print('ERROR: Request Timed Out')
+            self.timeout = True
+            return -1
+        self.timeout = False
         # LOAD TO PANDAS DATAFRAME
         col_name = ['icao24', 'callsign', 'origin_country', 'time_position', 'last_contact', 'long', 'lat',
                     'baro_altitude',
@@ -122,18 +127,22 @@ class AirTraffic:
     def get_airvehicle_info(self, callsign):
         try:
             mask = self.vehicles_df['callsign'].str.contains(callsign)
-        except IndexError:
+            if True not in mask.values:
+                raise IndexError
+        except IndexError and KeyError:
             print('Invalid Callsign')
-            return None
+            return -1
+        self.timeout = False
         vehicle = self.vehicles_df[mask]
         return tuple(vehicle.values.tolist()[0])
 
     def get_airvehicle_altaz(self, callsign, location, time):
         try:
             _, lat, long, alt, _ = self.get_airvehicle_info(callsign)
-        except IndexError:
+        except IndexError and KeyError:
             print('Invalid Callsign')
-            return None
+            return -1
+        self.timeout = False
         vehicle = wgs84.latlon(lat, long, alt)
         difference = vehicle - location
         topocentric = difference.at(time)
@@ -144,8 +153,10 @@ class AirTraffic:
         def get_distance(callsign):
             _, _, distance = self.get_airvehicle_altaz(callsign, location, time)
             return distance
-
-        callsigns = self.vehicles_df['callsign'].values.tolist()
-        callsigns = sorted([entry.strip() for entry in callsigns], key=get_distance)
-        callsigns = list(filter(None, callsigns))
-        return callsigns
+        if self.timeout==False:
+            callsigns = self.vehicles_df['callsign'].values.tolist()
+            callsigns = sorted([entry.strip() for entry in callsigns], key=get_distance)
+            callsigns = list(filter(None, callsigns))
+            return callsigns
+        else:
+            return -1

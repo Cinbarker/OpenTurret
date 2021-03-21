@@ -99,7 +99,7 @@ class MyWindow(QtWidgets.QMainWindow):
         print("SPI Command:", command)
 
     def airTraffic(self, callsign):
-        print("Callsign:", callsign)
+        print("Callsign:", callsign.text())
 
     def maxSpeed(self, maxSpeed):
         print("Max Speed:", maxSpeed)
@@ -226,8 +226,14 @@ class MyWindow(QtWidgets.QMainWindow):
     def updateAirTraffic(self):
         ts = load.timescale()
         time = ts.now()  # Get current time
-        self.at.update_airtraffic()  # Update Air Traffic information
-        callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, time)
+        try:
+            self.at.update_airtraffic()  # Update Air Traffic information
+            callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, time)
+            if callsigns == -1:
+                raise IndexError
+        except IndexError:
+            print('Timeout Error')
+            return -1
         self.ui.airTrafficList.clear()  # Clear previous callsigns
         self.ui.airTrafficList.addItems(callsigns)
         print("Refreshed Air Traffic List")
