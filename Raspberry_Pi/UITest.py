@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
     ui = PyUi.Ui_MainWindow()
-    app.setStyleSheet(qdarkstyle.load_stylesheet())  # Set Dark Theme
+    #app.setStyleSheet(qdarkstyle.load_stylesheet())  # Set Dark Theme
     gui = MyWindow(ui)
     ui.setupUi(gui)
     gui.setDefaults()  # Set my default values
