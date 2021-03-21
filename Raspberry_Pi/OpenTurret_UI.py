@@ -1,8 +1,10 @@
+from PyQt5.QtWidgets import *
+
 import PyUi
 from PyQt5 import QtWidgets, QtCore
 import Sky_Tracking.turret_sky as sky
 from skyfield.api import load, wgs84
-from Sky_Tracking.turret_sky import AirTraffic
+from Sky_Tracking.turret_sky import *
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -166,7 +168,11 @@ class MyWindow(QtWidgets.QMainWindow):
     def objectInput(self, objectInput):
         print("objectInput:", objectInput)
 
+    sats = get_satellites()
+
     def satelliteInput(self, satelliteInput):
+        completer = QCompleter(self.sats)
+        self.ui.satelliteInput.setCompleter(completer)
         print("satelliteInput:", satelliteInput)
 
     def currentAlt(self, alt):
@@ -185,10 +191,18 @@ class MyWindow(QtWidgets.QMainWindow):
         print("Refreshed Air Traffic List")
 
     def setDefaults(self):
+        # Time Default
         time = QtCore.QTime(QtCore.QTime.currentTime())
         self.ui.timeEdit.setTime(time)
         self.ui.timeEdit_1.setTime(time)
         self.ui.timeEdit_2.setTime(time)
+        # Air Traffic Default
+        self.ui.airTrafficList.clear()  # Clear previous callsigns
+        self.ui.airTrafficList.addItem("Click Refresh Traffic")
+        # Satellite Default
+        self.ui.satelliteList.clear()  # Clear previous satellites
+        self.ui.satelliteList.addItems(get_satellites())
+
 
 if __name__ == "__main__":
     import sys

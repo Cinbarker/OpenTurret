@@ -4,10 +4,11 @@ from skyfield.iokit import Loader
 import requests
 import pandas as pd
 import numpy as np
-#import wmm2020
+# import wmm2020
 import os
 
-load = Loader(os.path.dirname(os.path.realpath(__file__)))  # Redefine loader to support other directories (skyfield loader removes this function)
+load = Loader(os.path.dirname(
+    os.path.realpath(__file__)))  # Redefine loader to support other directories (skyfield loader removes this function)
 
 planets = load('de440s.bsp')  # Load planets from spice kernel de440s.bsp
 print('Loaded 8.5 planets, the sun, and moon')
@@ -27,6 +28,10 @@ def get_planet_altaz(planet, location, time):  # Get altaz of planets, the moon,
     topocentric = difference.at(time)
     alt, az, distance = topocentric.altaz()
     return alt.degrees, az.degrees, distance.au
+
+
+def get_satellites():
+    return list({sat.name: sat for sat in satellites})
 
 
 def get_satellite_altaz(satellite, location, time):  # Get altaz of active satellites
@@ -61,7 +66,7 @@ class AirTraffic:
     lon_min = 0
     lat_max = 0
     lon_max = 0
-    vehicles_df = pd.DataFrame({'A' : []})
+    vehicles_df = pd.DataFrame({'A': []})
 
     def __init__(self, lat_min, lon_min, lat_max, lon_max):
         self.lat_min = lat_min
