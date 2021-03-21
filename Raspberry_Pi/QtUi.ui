@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1076</width>
-    <height>619</height>
+    <width>911</width>
+    <height>589</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -395,8 +395,8 @@
                 <widget class="QWidget" name="scrollAreaWidgetContents_2">
                  <property name="geometry">
                   <rect>
-                   <x>0</x>
-                   <y>-136</y>
+                   <x>-24</x>
+                   <y>-81</y>
                    <width>326</width>
                    <height>493</height>
                   </rect>
@@ -485,7 +485,7 @@
                   <item>
                    <widget class="QTabWidget" name="skyMode">
                     <property name="currentIndex">
-                     <number>2</number>
+                     <number>0</number>
                     </property>
                     <widget class="QWidget" name="tab_4">
                      <attribute name="title">
@@ -740,61 +740,6 @@
                         <property name="statusTip">
                          <string>List of Solar System Entities</string>
                         </property>
-                        <item>
-                         <property name="text">
-                          <string>Mercury</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Venus</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Earth</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Mars</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Jupiter</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Saturn</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Uranus</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Neptune</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Pluto</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Sun</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Moon</string>
-                         </property>
-                        </item>
                        </widget>
                       </item>
                      </layout>
@@ -867,6 +812,9 @@
                          <widget class="QLineEdit" name="satelliteInput">
                           <property name="statusTip">
                            <string>Enter Sattelite Name to Track</string>
+                          </property>
+                          <property name="text">
+                           <string/>
                           </property>
                           <property name="placeholderText">
                            <string>satellite name</string>
@@ -2110,7 +2058,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1076</width>
+     <width>911</width>
      <height>24</height>
     </rect>
    </property>
@@ -2282,7 +2230,7 @@
    <slot>extClk()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>890</x>
+     <x>780</x>
      <y>521</y>
     </hint>
     <hint type="destinationlabel">
@@ -2298,7 +2246,7 @@
    <slot>stepMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>905</x>
+     <x>757</x>
      <y>422</y>
     </hint>
     <hint type="destinationlabel">
@@ -2314,7 +2262,7 @@
    <slot>minSpeed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>890</x>
+     <x>780</x>
      <y>221</y>
     </hint>
     <hint type="destinationlabel">
@@ -2330,8 +2278,8 @@
    <slot>maxLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>274</x>
-     <y>346</y>
+     <x>247</x>
+     <y>564</y>
     </hint>
     <hint type="destinationlabel">
      <x>493</x>
@@ -2346,8 +2294,8 @@
    <slot>currentAlt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>307</x>
-     <y>15</y>
+     <x>280</x>
+     <y>233</y>
     </hint>
     <hint type="destinationlabel">
      <x>465</x>
@@ -2362,7 +2310,7 @@
    <slot>fPwmDec()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>925</x>
+     <x>777</x>
      <y>667</y>
     </hint>
     <hint type="destinationlabel">
@@ -2378,8 +2326,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>227</x>
-     <y>105</y>
+     <x>235</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
      <x>411</x>
@@ -2394,8 +2342,8 @@
    <slot>starInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>287</x>
-     <y>141</y>
+     <x>295</x>
+     <y>372</y>
     </hint>
     <hint type="destinationlabel">
      <x>481</x>
@@ -2410,8 +2358,8 @@
    <slot>updateButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
-     <y>475</y>
+     <x>286</x>
+     <y>495</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -2426,8 +2374,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>224</x>
-     <y>106</y>
+     <x>232</x>
+     <y>337</y>
     </hint>
     <hint type="destinationlabel">
      <x>413</x>
@@ -2442,7 +2390,7 @@
    <slot>fsSpeed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>878</x>
+     <x>768</x>
      <y>321</y>
     </hint>
     <hint type="destinationlabel">
@@ -2458,7 +2406,7 @@
    <slot>stallTh()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>889</x>
+     <x>779</x>
      <y>389</y>
     </hint>
     <hint type="destinationlabel">
@@ -2475,7 +2423,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>465</x>
-     <y>513</y>
+     <y>533</y>
     </hint>
     <hint type="destinationlabel">
      <x>482</x>
@@ -2490,8 +2438,8 @@
    <slot>objectInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>277</x>
-     <y>136</y>
+     <x>285</x>
+     <y>367</y>
     </hint>
     <hint type="destinationlabel">
      <x>447</x>
@@ -2506,7 +2454,7 @@
    <slot>stopButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>639</x>
+     <x>512</x>
      <y>321</y>
     </hint>
     <hint type="destinationlabel">
@@ -2522,8 +2470,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>230</x>
-     <y>104</y>
+     <x>238</x>
+     <y>335</y>
     </hint>
     <hint type="destinationlabel">
      <x>414</x>
@@ -2538,8 +2486,8 @@
    <slot>maxLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>231</x>
-     <y>312</y>
+     <x>239</x>
+     <y>543</y>
     </hint>
     <hint type="destinationlabel">
      <x>469</x>
@@ -2554,8 +2502,8 @@
    <slot>sendButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>971</x>
-     <y>514</y>
+     <x>852</x>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
      <x>903</x>
@@ -2570,8 +2518,8 @@
    <slot>restoreDefaultsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>945</x>
-     <y>462</y>
+     <x>832</x>
+     <y>482</y>
     </hint>
     <hint type="destinationlabel">
      <x>898</x>
@@ -2586,8 +2534,8 @@
    <slot>copyDriversButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>774</x>
-     <y>457</y>
+     <x>664</x>
+     <y>477</y>
     </hint>
     <hint type="destinationlabel">
      <x>731</x>
@@ -2602,8 +2550,8 @@
    <slot>updateSettingsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>926</x>
-     <y>418</y>
+     <x>816</x>
+     <y>438</y>
     </hint>
     <hint type="destinationlabel">
      <x>904</x>
@@ -2618,7 +2566,7 @@
    <slot>ocSd()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>896</x>
+     <x>748</x>
      <y>609</y>
     </hint>
     <hint type="destinationlabel">
@@ -2634,8 +2582,8 @@
    <slot>refreshButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>223</y>
+     <x>284</x>
+     <y>454</y>
     </hint>
     <hint type="destinationlabel">
      <x>444</x>
@@ -2666,7 +2614,7 @@
    <slot>calibrateButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>536</x>
+     <x>409</x>
      <y>165</y>
     </hint>
     <hint type="destinationlabel">
@@ -2730,8 +2678,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>295</x>
-     <y>90</y>
+     <x>268</x>
+     <y>308</y>
     </hint>
     <hint type="destinationlabel">
      <x>420</x>
@@ -2746,8 +2694,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>295</x>
-     <y>90</y>
+     <x>268</x>
+     <y>308</y>
     </hint>
     <hint type="destinationlabel">
      <x>427</x>
@@ -2762,8 +2710,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>247</x>
-     <y>73</y>
+     <x>255</x>
+     <y>304</y>
     </hint>
     <hint type="destinationlabel">
      <x>412</x>
@@ -2778,8 +2726,8 @@
    <slot>manualOverride()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>200</x>
-     <y>-78</y>
+     <x>173</x>
+     <y>140</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -2810,7 +2758,7 @@
    <slot>manualOverride()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>225</x>
+     <x>166</x>
      <y>200</y>
     </hint>
     <hint type="destinationlabel">
@@ -2826,7 +2774,7 @@
    <slot>turretMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>367</x>
+     <x>322</x>
      <y>170</y>
     </hint>
     <hint type="destinationlabel">
@@ -2842,7 +2790,7 @@
    <slot>ocdTh()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>900</x>
+     <x>752</x>
      <y>351</y>
     </hint>
     <hint type="destinationlabel">
@@ -2858,7 +2806,7 @@
    <slot>fPwmInt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>914</x>
+     <x>766</x>
      <y>699</y>
     </hint>
     <hint type="destinationlabel">
@@ -2874,8 +2822,8 @@
    <slot>satelliteInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>299</x>
-     <y>140</y>
+     <x>272</x>
+     <y>358</y>
     </hint>
     <hint type="destinationlabel">
      <x>465</x>
@@ -2890,7 +2838,7 @@
    <slot>powSr()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>923</x>
+     <x>775</x>
      <y>638</y>
     </hint>
     <hint type="destinationlabel">
@@ -2906,7 +2854,7 @@
    <slot>swMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>881</x>
+     <x>771</x>
      <y>552</y>
     </hint>
     <hint type="destinationlabel">
@@ -2922,8 +2870,8 @@
    <slot>minLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>253</y>
+     <x>221</x>
+     <y>471</y>
     </hint>
     <hint type="destinationlabel">
      <x>417</x>
@@ -2938,8 +2886,8 @@
    <slot>minLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>279</y>
+     <x>289</x>
+     <y>510</y>
     </hint>
     <hint type="destinationlabel">
      <x>439</x>
@@ -2954,7 +2902,7 @@
    <slot>acc()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>903</x>
+     <x>755</x>
      <y>252</y>
     </hint>
     <hint type="destinationlabel">
@@ -2970,7 +2918,7 @@
    <slot>dec()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>912</x>
+     <x>764</x>
      <y>288</y>
     </hint>
     <hint type="destinationlabel">
@@ -2986,8 +2934,8 @@
    <slot>currentLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>288</x>
-     <y>-60</y>
+     <x>296</x>
+     <y>171</y>
     </hint>
     <hint type="destinationlabel">
      <x>419</x>
@@ -3002,7 +2950,7 @@
    <slot>maxSpeed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>925</x>
+     <x>777</x>
      <y>188</y>
     </hint>
     <hint type="destinationlabel">
@@ -3018,7 +2966,7 @@
    <slot>enVscomp()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>878</x>
+     <x>768</x>
      <y>577</y>
     </hint>
     <hint type="destinationlabel">
@@ -3034,8 +2982,8 @@
    <slot>currentLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>298</x>
-     <y>-20</y>
+     <x>271</x>
+     <y>198</y>
     </hint>
     <hint type="destinationlabel">
      <x>407</x>
@@ -3050,7 +2998,7 @@
    <slot>oscSel()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>924</x>
+     <x>776</x>
      <y>490</y>
     </hint>
     <hint type="destinationlabel">
@@ -3066,12 +3014,60 @@
    <slot>airTraffic()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>287</x>
-     <y>190</y>
+     <x>260</x>
+     <y>316</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
      <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>satelliteList</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>satelliteList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>320</x>
+     <y>422</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>539</x>
+     <y>455</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>objectList</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>objectList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>399</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>381</x>
+     <y>468</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>starList</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>starList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>222</x>
+     <y>396</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>390</x>
+     <y>435</y>
     </hint>
    </hints>
   </connection>
@@ -3123,5 +3119,8 @@
   <slot>satelliteInput()</slot>
   <slot>currentAlt()</slot>
   <slot>currentTime()</slot>
+  <slot>satelliteList()</slot>
+  <slot>objectList()</slot>
+  <slot>starList()</slot>
  </slots>
 </ui>

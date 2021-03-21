@@ -10,8 +10,13 @@ import os
 load = Loader(os.path.dirname(
     os.path.realpath(__file__)))  # Redefine loader to support other directories (skyfield loader removes this function)
 
+starsFile = os.path.dirname(os.path.realpath(__file__))
+starsFile += '/Common_Stars.txt'
+
 planets = load('de440s.bsp')  # Load planets from spice kernel de440s.bsp
 print('Loaded 8.5 planets, the sun, and moon')
+objects = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Sun',
+           'Moon']
 
 stations_url = 'http://celestrak.com/NORAD/elements/active.txt'  # Load active satellites from NORAD
 satellites = load.tle_file(stations_url)
@@ -21,6 +26,10 @@ with load.open(hipparcos.URL) as f:  # Load stars from the Hipparcos Catalog
     df = hipparcos.load_dataframe(f)
     df = df[df['ra_degrees'].notnull()]  # Delete stars with NaN positions
 print('Loaded {} stars'.format(len(df)))
+
+
+def get_objects():
+    return objects
 
 
 def get_planet_altaz(planet, location, time):  # Get altaz of planets, the moon, and sun
@@ -41,6 +50,24 @@ def get_satellite_altaz(satellite, location, time):  # Get altaz of active satel
     topocentric = difference.at(time)
     alt, az, distance = topocentric.altaz()
     return alt.degrees, az.degrees, distance.km
+
+
+def get_stars():
+    names, hips = [], []
+    with open(starsFile, 'r') as file:
+        file.seek(0, 2)
+        eof = file.tell()
+        file.seek(0, 0)
+        file.readline()
+        nextLine = True
+        while nextLine:
+            name, hip = file.readline().split('\t')
+            names.append(name)
+            hips.append(hip)
+            if file.tell() == eof:
+                nextLine = False
+    file.close()
+    return names, hips
 
 
 def get_star_altaz(star, location, time):

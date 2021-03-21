@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import *
 
 import PyUi
@@ -168,16 +169,24 @@ class MyWindow(QtWidgets.QMainWindow):
     def objectInput(self, objectInput):
         print("objectInput:", objectInput)
 
-    sats = get_satellites()
-
     def satelliteInput(self, satelliteInput):
-        completer = QCompleter(self.sats)
-        self.ui.satelliteInput.setCompleter(completer)
         print("satelliteInput:", satelliteInput)
 
     def currentAlt(self, alt):
         self.currentAlt = alt
         print("Current Alt:", alt)
+
+    def satelliteList(self, satellite):
+        self.ui.satelliteInput.setText(satellite.text())
+        print("Satellite:", satellite)
+
+    def objectList(self, object):
+        self.ui.objectInput.setText(object.text())
+        print("Object:", object)
+
+    def starList(self, star):
+        self.ui.starInput.setText(star.text())
+        print("Star:", star)
 
     # New Methods for actions
 
@@ -202,6 +211,28 @@ class MyWindow(QtWidgets.QMainWindow):
         # Satellite Default
         self.ui.satelliteList.clear()  # Clear previous satellites
         self.ui.satelliteList.addItems(get_satellites())
+        self.ui.modelSat = QStandardItemModel()
+        self.ui.modelSat.appendColumn([QStandardItem(text) for text in get_satellites()])
+        completerSat = QCompleter(self.ui.modelSat, self)
+        self.ui.satelliteInput.setCompleter(completerSat)
+        # Planet Default
+        self.ui.objectList.clear()  # Clear previous satellites
+        self.ui.objectList.addItems(get_objects())
+        self.ui.modelObj = QStandardItemModel()
+        self.ui.modelObj.appendColumn([QStandardItem(text) for text in get_objects()])
+        completerObj = QCompleter(self.ui.modelObj, self)
+        self.ui.objectInput.setCompleter(completerObj)
+        # Star Default
+        names, hips = get_stars()
+        self.ui.starList.clear()  # Clear previous satellites
+        self.ui.starList.addItems(names)
+        self.ui.modelStar = QStandardItemModel()
+        self.ui.modelStar.appendColumn([QStandardItem(text) for text in names])
+        completerStar = QCompleter(self.ui.modelStar, self)
+        self.ui.starInput.setCompleter(completerStar)
+
+        self.ui.skyMode.setCurrentIndex(0)
+        self.ui.turretMode.setCurrentIndex(0)
 
 
 if __name__ == "__main__":
