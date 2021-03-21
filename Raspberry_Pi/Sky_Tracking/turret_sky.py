@@ -4,7 +4,7 @@ from skyfield.iokit import Loader
 import requests
 import pandas as pd
 import numpy as np
-import wmm2020
+#import wmm2020
 import os
 
 load = Loader(os.path.dirname(os.path.realpath(__file__)))  # Redefine loader to support other directories (skyfield loader removes this function)
@@ -46,14 +46,14 @@ def get_star_altaz(star, location, time):
     return alt.degrees, az.degrees, distance.au
 
 
-def get_mag_data(location, time):
-    year, _, _, _, _, _ = time._utc_tuple(0)
-    np.meshgrid()
-    mag = wmm2020.wmm(location.latitude.degrees, location.longitude.degrees, location.elevation.km, year)
-    decl = float(mag.data_vars.get('decl'))
-    incl = float(mag.data_vars.get('incl'))
-    total = float(mag.data_vars.get('total'))
-    return decl, incl, total
+# def get_mag_data(location, time):
+#     year, _, _, _, _, _ = time._utc_tuple(0)
+#     np.meshgrid()
+#     mag = wmm2020.wmm(location.latitude.degrees, location.longitude.degrees, location.elevation.km, year)
+#     decl = float(mag.data_vars.get('decl'))
+#     incl = float(mag.data_vars.get('incl'))
+#     total = float(mag.data_vars.get('total'))
+#     return decl, incl, total
 
 
 class AirTraffic:

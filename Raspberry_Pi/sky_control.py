@@ -13,7 +13,7 @@ time = ts.now()  # Get current time
 at = AirTraffic(lat_min, lon_min, lat_max, lon_max)
 
 if __name__ == '__main__':
-    print('Mag Data:', sky.get_mag_data(currentLocation, time))
+    # print('Mag Data:', sky.get_mag_data(currentLocation, time))
     print('Planet:', sky.get_planet_altaz('mars', currentLocation, time))
     print('Satellite:', sky.get_satellite_altaz('STARLINK-1099', currentLocation, time))
     print('Star:', sky.get_star_altaz(11767, currentLocation, time))
