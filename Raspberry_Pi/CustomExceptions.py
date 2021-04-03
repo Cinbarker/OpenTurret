@@ -1,0 +1,2 @@
+class InvalidCallsignError(Exception):
+    pass
