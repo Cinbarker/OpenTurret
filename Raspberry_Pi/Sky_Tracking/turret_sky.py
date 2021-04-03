@@ -1,6 +1,7 @@
 from skyfield.api import Star, wgs84
 from skyfield.data import hipparcos
 from skyfield.iokit import Loader
+from Raspberry_Pi.CustomExceptions import *
 import requests
 import pandas as pd
 import numpy as np
@@ -105,13 +106,8 @@ class AirTraffic:
         # REST API QUERY ANONYMOUSLY
         url_data = 'https://opensky-network.org/api/states/all?' + 'lamin=' + str(self.lat_min) + '&lomin=' + str(
             self.lon_min) + '&lamax=' + str(self.lat_max) + '&lomax=' + str(self.lon_max)
-        try:
-            response = requests.get(url_data, timeout=5).json()
-        except requests.exceptions.Timeout:
-            print('ERROR: Request Timed Out')
-            self.timeout = True
-            return -1
-        self.timeout = False
+        response = requests.get(url_data, timeout=5).json()
+
         # LOAD TO PANDAS DATAFRAME
         col_name = ['icao24', 'callsign', 'origin_country', 'time_position', 'last_contact', 'long', 'lat',
                     'baro_altitude',
@@ -125,23 +121,14 @@ class AirTraffic:
         self.vehicles_df = vehicles_df[vehicles_df.ne('No Data').all(1)]
 
     def get_airvehicle_info(self, callsign):
-        try:
-            mask = self.vehicles_df['callsign'].str.contains(callsign)
-            if True not in mask.values:
-                raise IndexError
-        except IndexError and KeyError:
-            print('Invalid Callsign')
-            return -1
-        self.timeout = False
+        mask = self.vehicles_df['callsign'].str.contains(callsign)
+        if True not in mask.values:
+            raise InvalidCallsignError('Invalid Callsign')
         vehicle = self.vehicles_df[mask]
         return tuple(vehicle.values.tolist()[0])
 
     def get_airvehicle_altaz(self, callsign, location, time):
-        try:
-            _, lat, long, alt, _ = self.get_airvehicle_info(callsign)
-        except IndexError and KeyError:
-            print('Invalid Callsign')
-            return -1
+        _, lat, long, alt, _ = self.get_airvehicle_info(callsign)
         self.timeout = False
         vehicle = wgs84.latlon(lat, long, alt)
         difference = vehicle - location
@@ -153,10 +140,8 @@ class AirTraffic:
         def get_distance(callsign):
             _, _, distance = self.get_airvehicle_altaz(callsign, location, time)
             return distance
-        if self.timeout==False:
-            callsigns = self.vehicles_df['callsign'].values.tolist()
-            callsigns = sorted([entry.strip() for entry in callsigns], key=get_distance)
-            callsigns = list(filter(None, callsigns))
-            return callsigns
-        else:
-            return -1
+
+        callsigns = self.vehicles_df['callsign'].values.tolist()
+        callsigns = sorted([entry.strip() for entry in callsigns], key=get_distance)
+        callsigns = list(filter(None, callsigns))
+        return callsigns

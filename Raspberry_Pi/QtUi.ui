@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1012</width>
+    <width>996</width>
     <height>619</height>
    </rect>
   </property>
@@ -108,7 +108,7 @@
              </sizepolicy>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="manual">
              <attribute name="title">
@@ -395,9 +395,9 @@
                 <widget class="QWidget" name="scrollAreaWidgetContents_2">
                  <property name="geometry">
                   <rect>
-                   <x>-1</x>
-                   <y>-151</y>
-                   <width>326</width>
+                   <x>0</x>
+                   <y>0</y>
+                   <width>340</width>
                    <height>519</height>
                   </rect>
                  </property>
@@ -1120,6 +1120,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="label_59">
+            <property name="text">
+             <string>Target</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QFormLayout" name="formLayout_3">
             <item row="0" column="0">
              <widget class="QLabel" name="label_58">
@@ -1136,10 +1146,44 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="altOut"/>
+             <widget class="QLineEdit" name="altTarget"/>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="azOut"/>
+             <widget class="QLineEdit" name="azTarget"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_63">
+            <property name="text">
+             <string>Actual</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QFormLayout" name="formLayout_9">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_61">
+              <property name="text">
+               <string>Altitude:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_62">
+              <property name="text">
+               <string>Azimuth:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="altActual"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="azActual"/>
             </item>
            </layout>
           </item>
@@ -1236,7 +1280,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>283</width>
+               <width>298</width>
                <height>560</height>
               </rect>
              </property>
@@ -1946,7 +1990,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1012</width>
+     <width>996</width>
      <height>24</height>
     </rect>
    </property>
@@ -2142,8 +2186,8 @@
    <slot>stepMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>905</x>
-     <y>422</y>
+     <x>901</x>
+     <y>435</y>
     </hint>
     <hint type="destinationlabel">
      <x>896</x>
@@ -2174,8 +2218,8 @@
    <slot>maxLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>510</y>
+     <x>325</x>
+     <y>675</y>
     </hint>
     <hint type="destinationlabel">
      <x>493</x>
@@ -2190,8 +2234,8 @@
    <slot>currentAlt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>261</x>
-     <y>153</y>
+     <x>335</x>
+     <y>311</y>
     </hint>
     <hint type="destinationlabel">
      <x>465</x>
@@ -2206,8 +2250,8 @@
    <slot>fPwmDec()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>917</x>
-     <y>667</y>
+     <x>904</x>
+     <y>681</y>
     </hint>
     <hint type="destinationlabel">
      <x>906</x>
@@ -2222,8 +2266,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>223</x>
-     <y>256</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>411</x>
@@ -2238,8 +2282,8 @@
    <slot>starInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>292</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>481</x>
@@ -2254,8 +2298,8 @@
    <slot>updateButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>275</x>
-     <y>495</y>
+     <x>299</x>
+     <y>525</y>
     </hint>
     <hint type="destinationlabel">
      <x>312</x>
@@ -2270,8 +2314,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>220</x>
-     <y>257</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>413</x>
@@ -2302,8 +2346,8 @@
    <slot>stallTh()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>927</x>
-     <y>389</y>
+     <x>912</x>
+     <y>401</y>
     </hint>
     <hint type="destinationlabel">
      <x>903</x>
@@ -2318,8 +2362,8 @@
    <slot>spiCommand()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>465</x>
-     <y>563</y>
+     <x>576</x>
+     <y>576</y>
     </hint>
     <hint type="destinationlabel">
      <x>482</x>
@@ -2334,8 +2378,8 @@
    <slot>objectInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>273</x>
-     <y>287</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>447</x>
@@ -2366,8 +2410,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>219</x>
-     <y>255</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>414</x>
@@ -2382,8 +2426,8 @@
    <slot>maxLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>227</x>
-     <y>489</y>
+     <x>325</x>
+     <y>644</y>
     </hint>
     <hint type="destinationlabel">
      <x>469</x>
@@ -2398,8 +2442,8 @@
    <slot>sendButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>953</x>
-     <y>564</y>
+     <x>982</x>
+     <y>583</y>
     </hint>
     <hint type="destinationlabel">
      <x>903</x>
@@ -2414,8 +2458,8 @@
    <slot>restoreDefaultsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>930</x>
-     <y>512</y>
+     <x>965</x>
+     <y>524</y>
     </hint>
     <hint type="destinationlabel">
      <x>898</x>
@@ -2430,8 +2474,8 @@
    <slot>copyDriversButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>759</x>
-     <y>507</y>
+     <x>814</x>
+     <y>524</y>
     </hint>
     <hint type="destinationlabel">
      <x>731</x>
@@ -2446,8 +2490,8 @@
    <slot>updateSettingsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>911</x>
-     <y>468</y>
+     <x>971</x>
+     <y>486</y>
     </hint>
     <hint type="destinationlabel">
      <x>904</x>
@@ -2462,8 +2506,8 @@
    <slot>ocSd()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>896</x>
-     <y>609</y>
+     <x>887</x>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
      <x>904</x>
@@ -2478,8 +2522,8 @@
    <slot>refreshButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>283</x>
-     <y>351</y>
+     <x>320</x>
+     <y>528</y>
     </hint>
     <hint type="destinationlabel">
      <x>444</x>
@@ -2574,8 +2618,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>249</x>
-     <y>228</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>420</x>
@@ -2590,8 +2634,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>256</x>
-     <y>228</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>427</x>
@@ -2606,8 +2650,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>243</x>
-     <y>224</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>412</x>
@@ -2622,8 +2666,8 @@
    <slot>manualOverride()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>154</x>
-     <y>60</y>
+     <x>211</x>
+     <y>222</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -2686,8 +2730,8 @@
    <slot>ocdTh()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>908</x>
-     <y>351</y>
+     <x>896</x>
+     <y>367</y>
     </hint>
     <hint type="destinationlabel">
      <x>896</x>
@@ -2702,8 +2746,8 @@
    <slot>fPwmInt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>914</x>
-     <y>699</y>
+     <x>904</x>
+     <y>711</y>
     </hint>
     <hint type="destinationlabel">
      <x>893</x>
@@ -2718,8 +2762,8 @@
    <slot>satelliteInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>260</x>
-     <y>278</y>
+     <x>180</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>465</x>
@@ -2734,8 +2778,8 @@
    <slot>powSr()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>915</x>
-     <y>638</y>
+     <x>903</x>
+     <y>651</y>
     </hint>
     <hint type="destinationlabel">
      <x>892</x>
@@ -2766,8 +2810,8 @@
    <slot>minLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>209</x>
-     <y>417</y>
+     <x>325</x>
+     <y>582</y>
     </hint>
     <hint type="destinationlabel">
      <x>417</x>
@@ -2782,8 +2826,8 @@
    <slot>minLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>277</x>
-     <y>456</y>
+     <x>325</x>
+     <y>613</y>
     </hint>
     <hint type="destinationlabel">
      <x>439</x>
@@ -2830,8 +2874,8 @@
    <slot>currentLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>277</x>
-     <y>91</y>
+     <x>335</x>
+     <y>249</y>
     </hint>
     <hint type="destinationlabel">
      <x>419</x>
@@ -2846,8 +2890,8 @@
    <slot>maxSpeed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>925</x>
-     <y>188</y>
+     <x>916</x>
+     <y>197</y>
     </hint>
     <hint type="destinationlabel">
      <x>899</x>
@@ -2878,8 +2922,8 @@
    <slot>currentLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>252</x>
-     <y>118</y>
+     <x>335</x>
+     <y>280</y>
     </hint>
     <hint type="destinationlabel">
      <x>407</x>
@@ -2894,8 +2938,8 @@
    <slot>oscSel()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>916</x>
-     <y>490</y>
+     <x>904</x>
+     <y>501</y>
     </hint>
     <hint type="destinationlabel">
      <x>899</x>
@@ -2910,8 +2954,8 @@
    <slot>airTraffic()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>236</y>
+     <x>285</x>
+     <y>476</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -2926,8 +2970,8 @@
    <slot>sendButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>652</x>
-     <y>574</y>
+     <x>763</x>
+     <y>576</y>
     </hint>
     <hint type="destinationlabel">
      <x>677</x>
@@ -3048,14 +3092,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>altOut</sender>
+   <sender>altTarget</sender>
    <signal>textEdited(QString)</signal>
    <receiver>MainWindow</receiver>
    <slot>altOut()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>607</x>
-     <y>360</y>
+     <y>394</y>
     </hint>
     <hint type="destinationlabel">
      <x>641</x>
@@ -3064,14 +3108,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>azOut</sender>
+   <sender>azTarget</sender>
    <signal>textEdited(QString)</signal>
    <receiver>MainWindow</receiver>
    <slot>azOut()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>599</x>
-     <y>389</y>
+     <x>607</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
      <x>639</x>
@@ -3086,8 +3130,8 @@
    <slot>satelliteList()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>303</x>
-     <y>327</y>
+     <x>140</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel">
      <x>424</x>
@@ -3102,8 +3146,8 @@
    <slot>objectList()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>166</x>
-     <y>458</y>
+     <x>140</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
@@ -3118,12 +3162,28 @@
    <slot>starList()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>166</x>
-     <y>458</y>
+     <x>140</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
      <y>294</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mosquitoSize</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>mosquitoSize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>287</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>411</x>
+     <y>244</y>
     </hint>
    </hints>
   </connection>
@@ -3183,5 +3243,6 @@
   <slot>saveDefaults()</slot>
   <slot>altOut()</slot>
   <slot>azOut()</slot>
+  <slot>mosquitoSize()</slot>
  </slots>
 </ui>

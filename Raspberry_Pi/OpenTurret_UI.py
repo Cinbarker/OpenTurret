@@ -169,6 +169,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.proxyModelStar = QSortFilterProxyModel()
         self.proxyModelStar.setSourceModel(self.ui.modelStar)
         self.proxyModelStar.setFilterFixedString(starInput)
+        self.proxyModelStar.setFilterCaseSensitivity(0)
         self.ui.starList.setModel(self.proxyModelStar)
         self.ui.starList.show()
         print("starInput:", starInput)
@@ -177,6 +178,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.proxyModelObj = QSortFilterProxyModel()
         self.proxyModelObj.setSourceModel(self.ui.modelObj)
         self.proxyModelObj.setFilterFixedString(objectInput)
+        self.proxyModelObj.setFilterCaseSensitivity(0)
         self.ui.objectList.setModel(self.proxyModelObj)
         self.ui.objectList.show()
         print("objectInput:", objectInput)
@@ -185,6 +187,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.proxyModelSat = QSortFilterProxyModel()
         self.proxyModelSat.setSourceModel(self.ui.modelSat)
         self.proxyModelSat.setFilterFixedString(satelliteInput)
+        self.proxyModelSat.setFilterCaseSensitivity(0)
         self.ui.satelliteList.setModel(self.proxyModelSat)
         self.ui.satelliteList.show()
         print("satelliteInput:", satelliteInput)
@@ -229,11 +232,16 @@ class MyWindow(QtWidgets.QMainWindow):
         try:
             self.at.update_airtraffic()  # Update Air Traffic information
             callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, time)
-            if callsigns == -1:
-                raise IndexError
-        except IndexError:
+        except requests.exceptions.ReadTimeout:
+            self.ui.airTrafficList.clear()  # Clear previous callsigns
+            self.ui.airTrafficList.addItem('TIMEOOUT! Click "Refresh Traffic"')
             print('Timeout Error')
-            return -1
+            return
+        except requests.exceptions.ConnectionError and requests.exceptions.ConnectTimeout:
+            self.ui.airTrafficList.clear()  # Clear previous callsigns
+            self.ui.airTrafficList.addItem('Connection Error: Check Internet Con.')
+            print('Connection Error')
+            return
         self.ui.airTrafficList.clear()  # Clear previous callsigns
         self.ui.airTrafficList.addItems(callsigns)
         print("Refreshed Air Traffic List")
