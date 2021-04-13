@@ -1,38 +1,40 @@
 # Open Turret
 
 An open sourced highly accurate pan-tilt system for anything that needs to be panned and tilted!\
-My goal for this project is to make a pan tilt mechanism as precise yet low-cost as possible.
-
-The hardware is still quite experimental, but I hope to refine it and release build instructions soon.
+My goal for this project is to make a precise pan tilt mechanism that is accessible for everyone.
+The hardware is still quite experimental, but I hope to refine it and release build instructions soon. Feel free to
+contact me if you are interested in contributing, I will happily provide further build details.
 
 ### To-Do
 
 - [ ] Hardware
-  - [ ] Add holes for pushing out bearings
+  - [ ] Add holes for removing bearings from parts
   - [x] Make wiring rotation continuous (implement slipring)
   - [x] Add tripod mount
   - [x] Fix rigidity of pan axis
-  - [ ] End-stops for tilt axis
-  - [ ] Continuous tilt
-  - [ ] Rotary encoder for positional feedback
+  - [ ] End-stops for tilt axis calibration
+  - [ ] Pan Calibration Method
+  - [ ] Rotary encoder on steppers for more positional feedback
   - [ ] Compass and accelerometer for positional feedback and calibration
 - [ ] Document Hardware
 - [ ] Test load capacity and stability
   - [ ] Design large-scale version
+  - [ ] Design slower much more precise version
 - [ ] Explore using the Pi Zero or Wireless integrate electronics below tilt axis
 - [x] Get joystick to control motors
-- [ ] Make easy stepper coding interface
+- [ ] Make easy stepper coding GUI
 - [ ] Add zoom camera assembly
 - [ ] Test whether the laser needs to be focussed to burn
 
 ### Code To-Do
 
 - [ ] Add skipped step / stall error feedback
-- [ ] Further optimise speed for equal steps
 - [ ] Add tilt axis to all implementations
-- [ ] Refractor I2C event methods
+- [ ] Refactor I2C event methods
 - [ ] Shutdown & Startup motion method
 - [ ] Add config file
+  - [ ] Save settings changed in GUI to remember configs
+  - [ ] Restore defaults option
 
 ### Required Specifications
 
@@ -64,13 +66,13 @@ The hardware is still quite experimental, but I hope to refine it and release bu
 - [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
 
-### Software Modes
+### Working Software Modes
 
 - Full Manual: Control the turret and laser with a joystick
 - Laser Guided: Autonomous Laser guided aiming of turret
 - Sky Tracking: Use online data to track stars, planets, satellites, and air traffic. (For telescopes **NOT** lasers)
 
-### Software Implementation Ideas
+### Software Modes Ideas
 
 - [ ] Autonomous targeting and firing by means of image recognition
 - [ ] Laser shape drawing mode
