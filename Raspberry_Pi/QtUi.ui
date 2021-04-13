@@ -803,6 +803,9 @@
                         <property name="statusTip">
                          <string>List of Available Air Traffic</string>
                         </property>
+                        <property name="editTriggers">
+                         <set>QAbstractItemView::NoEditTriggers</set>
+                        </property>
                        </widget>
                       </item>
                       <item>

@@ -352,6 +352,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_13.addLayout(self.horizontalLayout_4)
         self.airTrafficList = QtWidgets.QListView(self.tab_7)
         self.airTrafficList.setMinimumSize(QtCore.QSize(0, 100))
+        self.airTrafficList.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.airTrafficList.setObjectName("airTrafficList")
         self.verticalLayout_13.addWidget(self.airTrafficList)
         self.refreshButton = QtWidgets.QPushButton(self.tab_7)

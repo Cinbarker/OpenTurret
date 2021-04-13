@@ -104,12 +104,15 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def airTraffic(self, callsign):
         data = callsign.data()
-        self.ui.callsignInput.setText(data)
-        self.time = self.ts.now()  # Get and set current time
-        self.altOut, self.azOut, self.distOut = self.at.get_airvehicle_altaz(data, self.currentLocation,
-                                                                             self.time)
-        self.ui.altTarget.setText(str(round(self.altOut, 4)))
-        self.ui.azTarget.setText(str(round(self.azOut, 4)))
+        if data == 'Click "Refresh Traffic"' or data == 'TIMEOOUT! Click "Refresh Traffic"' or data == 'Connection Error: Check Internet Con.':
+            pass
+        else:
+            self.ui.callsignInput.setText(data)
+            self.time = self.ts.now()  # Get and set current time
+            self.altOut, self.azOut, self.distOut = self.at.get_airvehicle_altaz(data, self.currentLocation,
+                                                                                 self.time)
+            self.ui.altTarget.setText(str(round(self.altOut, 4)))
+            self.ui.azTarget.setText(str(round(self.azOut, 4)))
         print("Callsign:", data)
 
     def maxSpeed(self, maxSpeed):
@@ -256,18 +259,25 @@ class MyWindow(QtWidgets.QMainWindow):
         try:
             self.at.update_airtraffic()  # Update Air Traffic information
             callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, self.time)
-        except requests.exceptions.ReadTimeout:
+        except requests.exceptions.ConnectionError or requests.exceptions.ConnectTimeout:
             self.ui.modelAir.clear()  # Clear previous callsigns
-            self.ui.modelAir.appendColumn('TIMEOOUT! Click "Refresh Traffic"')
+            errorMessage = QStandardItem('Connection Error: Check Internet Con.')
+            errorMessage.setEnabled(0)
+            errorMessage.setSelectable(0)
+            self.ui.modelAir.setItem(0, 0, errorMessage)
             self.ui.airTrafficList.show()
-
-            print('Timeout Error')
-            return
-        except requests.exceptions.ConnectionError and requests.exceptions.ConnectTimeout:
-            self.ui.airTrafficList.clear()  # Clear previous callsigns
-            self.ui.airTrafficList.addItem('Connection Error: Check Internet Con.')
             print('Connection Error')
             return
+        except requests.exceptions.ReadTimeout:
+            self.ui.modelAir.clear()  # Clear previous callsigns
+            errorMessage = QStandardItem('TIMEOOUT! Click "Refresh Traffic"')
+            errorMessage.setEnabled(0)
+            errorMessage.setSelectable(0)
+            self.ui.modelAir.setItem(0, 0, errorMessage)
+            self.ui.airTrafficList.show()
+            print('Timeout Error')
+            return
+
         self.ui.modelAir.clear()
         self.ui.modelAir.appendColumn([QStandardItem(text) for text in callsigns])
         self.ui.airTrafficList.setModel(self.ui.modelAir)
@@ -283,12 +293,12 @@ class MyWindow(QtWidgets.QMainWindow):
 
         # Air Traffic Default
         self.ui.modelAir = QStandardItemModel(self.ui.airTrafficList)
-        self.ui.modelAir.appendColumn([QStandardItem(text) for text in ('Click "Refresh Traffic"', 0)])
+        refreshMessage = QStandardItem('Click "Refresh Traffic"')
+        refreshMessage.setEnabled(0)
+        refreshMessage.setSelectable(0)
+        self.ui.modelAir.setItem(0, 0, refreshMessage)
         self.ui.airTrafficList.setModel(self.ui.modelAir)
         self.ui.airTrafficList.show()
-
-        #self.ui.airTrafficList.clear()  # Clear previous callsigns
-        #self.ui.airTrafficList.addItem('Click "Refresh Traffic"')
 
         # Satellite Default
         self.ui.modelSat = QStandardItemModel(self.ui.satelliteList)
