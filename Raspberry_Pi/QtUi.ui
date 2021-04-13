@@ -108,7 +108,7 @@
              </sizepolicy>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="manual">
              <attribute name="title">
@@ -396,9 +396,9 @@
                  <property name="geometry">
                   <rect>
                    <x>0</x>
-                   <y>0</y>
-                   <width>340</width>
-                   <height>519</height>
+                   <y>-97</y>
+                   <width>325</width>
+                   <height>502</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -640,9 +640,6 @@
                           <property name="text">
                            <string>Object:</string>
                           </property>
-                          <property name="buddy">
-                           <cstring>objectInput</cstring>
-                          </property>
                          </widget>
                         </item>
                         <item row="2" column="1">
@@ -769,23 +766,34 @@
                      </attribute>
                      <layout class="QVBoxLayout" name="verticalLayout_13">
                       <item>
-                       <widget class="QLabel" name="label">
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>Select Air Traffic:</string>
-                        </property>
-                        <property name="buddy">
-                         <cstring>airTrafficList</cstring>
-                        </property>
-                       </widget>
+                       <layout class="QHBoxLayout" name="horizontalLayout_4">
+                        <item>
+                         <widget class="QLabel" name="label">
+                          <property name="maximumSize">
+                           <size>
+                            <width>16777215</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                          <property name="text">
+                           <string>Select Air Traffic:</string>
+                          </property>
+                          <property name="buddy">
+                           <cstring>callsignInput</cstring>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="callsignInput">
+                          <property name="placeholderText">
+                           <string>callsign</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
                       </item>
                       <item>
-                       <widget class="QListWidget" name="airTrafficList">
+                       <widget class="QListView" name="airTrafficList">
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
@@ -804,13 +812,6 @@
                         </property>
                         <property name="text">
                          <string>Refresh Traffic</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QProgressBar" name="refreshProgress">
-                        <property name="value">
-                         <number>24</number>
                         </property>
                        </widget>
                       </item>
@@ -1122,7 +1123,7 @@
           <item>
            <widget class="QLabel" name="label_59">
             <property name="text">
-             <string>Target</string>
+             <string>Target Position</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1136,12 +1137,18 @@
               <property name="text">
                <string>Altitude:</string>
               </property>
+              <property name="buddy">
+               <cstring>altTarget</cstring>
+              </property>
              </widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_60">
               <property name="text">
                <string>Azimuth:</string>
+              </property>
+              <property name="buddy">
+               <cstring>azTarget</cstring>
               </property>
              </widget>
             </item>
@@ -1156,7 +1163,7 @@
           <item>
            <widget class="QLabel" name="label_63">
             <property name="text">
-             <string>Actual</string>
+             <string>Actual Position</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1170,6 +1177,9 @@
               <property name="text">
                <string>Altitude:</string>
               </property>
+              <property name="buddy">
+               <cstring>altActual</cstring>
+              </property>
              </widget>
             </item>
             <item row="1" column="0">
@@ -1177,13 +1187,24 @@
               <property name="text">
                <string>Azimuth:</string>
               </property>
+              <property name="buddy">
+               <cstring>azActual</cstring>
+              </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="altActual"/>
+             <widget class="QLineEdit" name="altActual">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="azActual"/>
+             <widget class="QLineEdit" name="azActual">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -1280,7 +1301,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>298</width>
+               <width>283</width>
                <height>560</height>
               </rect>
              </property>
@@ -2219,7 +2240,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>325</x>
-     <y>675</y>
+     <y>561</y>
     </hint>
     <hint type="destinationlabel">
      <x>493</x>
@@ -2235,7 +2256,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>335</x>
-     <y>311</y>
+     <y>214</y>
     </hint>
     <hint type="destinationlabel">
      <x>465</x>
@@ -2266,8 +2287,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>255</x>
+     <y>318</y>
     </hint>
     <hint type="destinationlabel">
      <x>411</x>
@@ -2282,8 +2303,8 @@
    <slot>starInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>139</x>
+     <y>274</y>
     </hint>
     <hint type="destinationlabel">
      <x>481</x>
@@ -2314,8 +2335,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>139</x>
+     <y>268</y>
     </hint>
     <hint type="destinationlabel">
      <x>413</x>
@@ -2378,8 +2399,8 @@
    <slot>objectInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>139</x>
+     <y>274</y>
     </hint>
     <hint type="destinationlabel">
      <x>447</x>
@@ -2410,8 +2431,8 @@
    <slot>time()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>139</x>
+     <y>268</y>
     </hint>
     <hint type="destinationlabel">
      <x>414</x>
@@ -2427,7 +2448,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>325</x>
-     <y>644</y>
+     <y>530</y>
     </hint>
     <hint type="destinationlabel">
      <x>469</x>
@@ -2523,7 +2544,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>320</x>
-     <y>528</y>
+     <y>431</y>
     </hint>
     <hint type="destinationlabel">
      <x>444</x>
@@ -2618,8 +2639,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>142</x>
+     <y>261</y>
     </hint>
     <hint type="destinationlabel">
      <x>420</x>
@@ -2634,8 +2655,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>142</x>
+     <y>261</y>
     </hint>
     <hint type="destinationlabel">
      <x>427</x>
@@ -2650,8 +2671,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>285</x>
+     <y>288</y>
     </hint>
     <hint type="destinationlabel">
      <x>412</x>
@@ -2667,7 +2688,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>211</x>
-     <y>222</y>
+     <y>125</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -2762,8 +2783,8 @@
    <slot>satelliteInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>390</y>
+     <x>312</x>
+     <y>349</y>
     </hint>
     <hint type="destinationlabel">
      <x>465</x>
@@ -2811,7 +2832,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>325</x>
-     <y>582</y>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
      <x>417</x>
@@ -2827,7 +2848,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>325</x>
-     <y>613</y>
+     <y>499</y>
     </hint>
     <hint type="destinationlabel">
      <x>439</x>
@@ -2875,7 +2896,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>335</x>
-     <y>249</y>
+     <y>152</y>
     </hint>
     <hint type="destinationlabel">
      <x>419</x>
@@ -2923,7 +2944,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>335</x>
-     <y>280</y>
+     <y>183</y>
     </hint>
     <hint type="destinationlabel">
      <x>407</x>
@@ -2944,22 +2965,6 @@
     <hint type="destinationlabel">
      <x>899</x>
      <y>202</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>airTrafficList</sender>
-   <signal>itemClicked(QListWidgetItem*)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>airTraffic()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>285</x>
-     <y>476</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>418</x>
-     <y>349</y>
     </hint>
    </hints>
   </connection>
@@ -3130,8 +3135,8 @@
    <slot>satelliteList()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>366</y>
+     <x>176</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
      <x>424</x>
@@ -3147,7 +3152,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>140</x>
-     <y>366</y>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
@@ -3163,7 +3168,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>140</x>
-     <y>366</y>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
@@ -3184,6 +3189,38 @@
     <hint type="destinationlabel">
      <x>411</x>
      <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>callsignInput</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>callsignInput()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>457</x>
+     <y>445</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>airTrafficList</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>airTraffic()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>265</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>419</x>
+     <y>317</y>
     </hint>
    </hints>
   </connection>
@@ -3244,5 +3281,6 @@
   <slot>altOut()</slot>
   <slot>azOut()</slot>
   <slot>mosquitoSize()</slot>
+  <slot>callsignInput()</slot>
  </slots>
 </ui>

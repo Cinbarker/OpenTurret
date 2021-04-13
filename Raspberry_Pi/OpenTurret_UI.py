@@ -9,14 +9,18 @@ from skyfield.api import load, wgs84
 from Sky_Tracking.turret_sky import *
 
 
-
 class MyWindow(QtWidgets.QMainWindow):
     currentLat, currentLon, currentAlt = +51.99737, +4.35430, +60
     currentLocation = wgs84.latlon(currentLat, currentLon, currentAlt)  # Coordinates of turret earth position
 
-    lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is the Netherlands
+    ts = load.timescale()
+    time = ts.now()  # Get current time
+
+    lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is a box around the Netherlands
     at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanning region
     spiCom = ''
+
+    altOut, azOut, distOut = 0, 0, 0  # Define variables for target location
 
     def __init__(self, ui):
         super().__init__()
@@ -44,7 +48,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def updateSettingsButtonClicked(self):
         print('Update Settings')
 
-    def refreshButtonClicked(self): # TODO Refresh aircraft can crash
+    def refreshButtonClicked(self):  # TODO Refresh aircraft can crash
         print('Refresh')
         self.updateAirTraffic()
 
@@ -99,7 +103,14 @@ class MyWindow(QtWidgets.QMainWindow):
         print("SPI Command:", command)
 
     def airTraffic(self, callsign):
-        print("Callsign:", callsign.text())
+        data = callsign.data()
+        self.ui.callsignInput.setText(data)
+        self.time = self.ts.now()  # Get and set current time
+        self.altOut, self.azOut, self.distOut = self.at.get_airvehicle_altaz(data, self.currentLocation,
+                                                                             self.time)
+        self.ui.altTarget.setText(str(round(self.altOut, 4)))
+        self.ui.azTarget.setText(str(round(self.azOut, 4)))
+        print("Callsign:", data)
 
     def maxSpeed(self, maxSpeed):
         print("Max Speed:", maxSpeed)
@@ -192,6 +203,15 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.satelliteList.show()
         print("satelliteInput:", satelliteInput)
 
+    def callsignInput(self, callsignInput):
+        self.proxyModelAir = QSortFilterProxyModel()
+        self.proxyModelAir.setSourceModel(self.ui.modelAir)
+        self.proxyModelAir.setFilterFixedString(callsignInput)
+        self.proxyModelAir.setFilterCaseSensitivity(0)
+        self.ui.airTrafficList.setModel(self.proxyModelAir)
+        self.ui.airTrafficList.show()
+        print("callsignInput:", callsignInput)
+
     def currentAlt(self, alt):
         self.currentAlt = alt
         print("Current Alt:", alt)
@@ -219,22 +239,28 @@ class MyWindow(QtWidgets.QMainWindow):
         print('Saving Defaults')
 
     def altOut(self, altOut):
+        self.altOut = altOut
         print(altOut)
 
     def azOut(self, azOut):
+        self.azOut = azOut
         print(azOut)
+
+    def mosquitoSize(self, mosquitoSize):
+        print(mosquitoSize)
 
     # New Methods for actions
 
     def updateAirTraffic(self):
-        ts = load.timescale()
-        time = ts.now()  # Get current time
+        self.time = self.ts.now()  # Get current time
         try:
             self.at.update_airtraffic()  # Update Air Traffic information
-            callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, time)
+            callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, self.time)
         except requests.exceptions.ReadTimeout:
-            self.ui.airTrafficList.clear()  # Clear previous callsigns
-            self.ui.airTrafficList.addItem('TIMEOOUT! Click "Refresh Traffic"')
+            self.ui.modelAir.clear()  # Clear previous callsigns
+            self.ui.modelAir.appendColumn('TIMEOOUT! Click "Refresh Traffic"')
+            self.ui.airTrafficList.show()
+
             print('Timeout Error')
             return
         except requests.exceptions.ConnectionError and requests.exceptions.ConnectTimeout:
@@ -242,8 +268,10 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.airTrafficList.addItem('Connection Error: Check Internet Con.')
             print('Connection Error')
             return
-        self.ui.airTrafficList.clear()  # Clear previous callsigns
-        self.ui.airTrafficList.addItems(callsigns)
+        self.ui.modelAir.clear()
+        self.ui.modelAir.appendColumn([QStandardItem(text) for text in callsigns])
+        self.ui.airTrafficList.setModel(self.ui.modelAir)
+        self.ui.airTrafficList.show()
         print("Refreshed Air Traffic List")
 
     def setDefaults(self):
@@ -254,8 +282,13 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.timeEdit_2.setTime(time)
 
         # Air Traffic Default
-        self.ui.airTrafficList.clear()  # Clear previous callsigns
-        self.ui.airTrafficList.addItem('Click "Refresh Traffic"')
+        self.ui.modelAir = QStandardItemModel(self.ui.airTrafficList)
+        self.ui.modelAir.appendColumn([QStandardItem(text) for text in ('Click "Refresh Traffic"', 0)])
+        self.ui.airTrafficList.setModel(self.ui.modelAir)
+        self.ui.airTrafficList.show()
+
+        #self.ui.airTrafficList.clear()  # Clear previous callsigns
+        #self.ui.airTrafficList.addItem('Click "Refresh Traffic"')
 
         # Satellite Default
         self.ui.modelSat = QStandardItemModel(self.ui.satelliteList)
@@ -287,8 +320,6 @@ class MyWindow(QtWidgets.QMainWindow):
         # GUI Default
         self.ui.skyMode.setCurrentIndex(0)
         self.ui.turretMode.setCurrentIndex(0)
-
-        self.ui.refreshProgress.setValue(90) # TODO Make working progress bar to indicate refresh processing
 
 
 if __name__ == "__main__":
