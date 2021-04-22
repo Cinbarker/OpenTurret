@@ -15,7 +15,14 @@ contact me if you are interested in contributing, I will happily provide further
   - [ ] End-stops for tilt axis calibration
   - [ ] Pan Calibration Method
   - [ ] Rotary encoder on steppers for more positional feedback
-  - [ ] Compass and accelerometer for positional feedback and calibration
+  - [ ] Compass and accelerometer for positional feedback and calibration\
+    PCB:
+  - [ ] Replace Q1 with two transistors - more accessible; less footprint specific
+  - [ ] Just one oscillator for motor drivers
+  - [ ] Correctly ground oscillator
+  - [ ] SPI signal quality?
+  - [ ] Buck converter noise filtering
+  - [ ] Input power noise filtering (FB)
 - [ ] Document Hardware
 - [ ] Test load capacity and stability
   - [ ] Design large-scale version

@@ -2,6 +2,7 @@
 import Sky_Tracking.turret_sky as sky
 from skyfield.api import load, wgs84
 from Sky_Tracking.turret_sky import AirTraffic
+from time import sleep
 
 currentLocation = wgs84.latlon(+51.99737, +4.35430, +60)  # Coordinates of turret earth position
 
@@ -21,4 +22,6 @@ if __name__ == '__main__':
     at.update_airtraffic()
     print('Air Traffic:', at.get_airtraffic_callsigns(currentLocation, time))
     callsign = input('Enter callsign: ')
-    print('Vehicle:', at.get_airvehicle_altaz(callsign, currentLocation, time))
+    print('Vehicle:', at.get_airtraffic_altaz(callsign, currentLocation, time))
+    while True:
+        print(at.fast_callsign_altaz(callsign, currentLocation, time))

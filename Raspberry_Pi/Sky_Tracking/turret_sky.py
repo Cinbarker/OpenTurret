@@ -5,7 +5,6 @@ from Raspberry_Pi.CustomExceptions import *
 import requests
 import pandas as pd
 import numpy as np
-# import wmm2020
 import os
 
 load = Loader(os.path.dirname(
@@ -30,10 +29,24 @@ print('Loaded {} stars'.format(len(df)))
 
 
 def get_objects():
+    """
+    Get a list of solar system objects.
+    """
     return objects
 
 
-def get_planet_altaz(planet, location, time):  # Get altaz of planets, the moon, and sun
+def get_planet_altaz(planet, location, time):
+    """
+    Get altaz of planets, the moon, and sun.
+
+    :param planet: name of object of interest
+    :type planet: str
+    :param location: reference point location
+    :type location: skyfield.toposlib.GeographicPosition
+    :param time: time for which the altaz should be calculated
+    :type time: skyfield.timelib.Timescale
+    :return: tuple(alt, az, distance) in degrees, degrees, au
+    """
     difference = planets[planet + ' barycenter'] - (planets['earth'] + location)
     topocentric = difference.at(time)
     alt, az, distance = topocentric.altaz()
@@ -41,10 +54,24 @@ def get_planet_altaz(planet, location, time):  # Get altaz of planets, the moon,
 
 
 def get_satellites():
+    """
+    Get a list of active satellites.
+    """
     return list({sat.name: sat for sat in satellites})
 
 
-def get_satellite_altaz(satellite, location, time):  # Get altaz of active satellites
+def get_satellite_altaz(satellite, location, time):
+    """
+    Get altaz of active satellites.
+
+    :param satellite: name of satellite of interest
+    :type satellite: str
+    :param location: reference point location
+    :type location: skyfield.toposlib.GeographicPosition
+    :param time: time for which the altaz should be calculated
+    :type time: skyfield.timelib.Timescale
+    :return: tuple(alt, az, distance) in degrees, degrees, km
+    """
     by_name = {sat.name: sat for sat in satellites}
     satellite = by_name[satellite]
     difference = satellite - location
@@ -54,6 +81,9 @@ def get_satellite_altaz(satellite, location, time):  # Get altaz of active satel
 
 
 def get_stars():
+    """
+    Get a list of a few common stars.
+    """
     names, hips = [], []
     with open(starsFile, 'r') as file:
         file.seek(0, 2)
@@ -72,6 +102,17 @@ def get_stars():
 
 
 def get_star_altaz(star, location, time):
+    """
+    Get altaz of stars in the hipparcos catalog.
+
+    :param star: name of star of interest
+    :type star: str
+    :param location: reference point location
+    :type location: skyfield.toposlib.GeographicPosition
+    :param time: time for which the altaz should be calculated
+    :type time: skyfield.timelib.Timescale
+    :return: tuple(alt, az, distance) in degrees, degrees, au
+    """
     star = Star.from_dataframe(df.loc[star])  # Star name must be input as HIP identifier
     delft = planets['earth'] + location
     astrometric = delft.at(time).observe(star).apparent()
@@ -79,22 +120,13 @@ def get_star_altaz(star, location, time):
     return alt.degrees, az.degrees, distance.au
 
 
-# def get_mag_data(location, time):
-#     year, _, _, _, _, _ = time._utc_tuple(0)
-#     np.meshgrid()
-#     mag = wmm2020.wmm(location.latitude.degrees, location.longitude.degrees, location.elevation.km, year)
-#     decl = float(mag.data_vars.get('decl'))
-#     incl = float(mag.data_vars.get('incl'))
-#     total = float(mag.data_vars.get('total'))
-#     return decl, incl, total
-
 class AirTraffic:
+    """ Air Traffic data from the Opensky Network: https://opensky-network.org """
     lat_min = 0
     lon_min = 0
     lat_max = 0
     lon_max = 0
     vehicles_df = pd.DataFrame({'A': []})
-    timeout = False
 
     def __init__(self, lat_min, lon_min, lat_max, lon_max):
         self.lat_min = lat_min
@@ -103,33 +135,53 @@ class AirTraffic:
         self.lon_max = lon_max
 
     def update_airtraffic(self):
-        # REST API QUERY ANONYMOUSLY
+        """ Update airtraffic data. """
+        # REQUEST API QUERY ANONYMOUSLY
         url_data = 'https://opensky-network.org/api/states/all?' + 'lamin=' + str(self.lat_min) + '&lomin=' + str(
             self.lon_min) + '&lamax=' + str(self.lat_max) + '&lomax=' + str(self.lon_max)
         response = requests.get(url_data, timeout=5).json()
 
         # LOAD TO PANDAS DATAFRAME
         col_name = ['icao24', 'callsign', 'origin_country', 'time_position', 'last_contact', 'long', 'lat',
-                    'baro_altitude',
-                    'on_ground', 'velocity', 'true_track', 'vertical_rate', 'sensors', 'geo_altitude', 'squawk', 'spi',
-                    'position_source']
+                    'baro_altitude', 'on_ground', 'velocity', 'true_track', 'vertical_rate', 'sensors', 'geo_altitude',
+                    'squawk', 'spi', 'position_source']
         flight_df = pd.DataFrame(response['states'], columns=col_name)
         flight_df = flight_df.fillna('No Data')  # replace NAN with No Data
         flight_df.head()
 
-        vehicles_df = flight_df[['callsign', 'lat', 'long', 'baro_altitude', 'velocity']]
+        vehicles_df = flight_df[['icao24', 'callsign', 'lat', 'long', 'baro_altitude', 'velocity']]
         self.vehicles_df = vehicles_df[vehicles_df.ne('No Data').all(1)]
 
-    def get_airvehicle_info(self, callsign):
+    def get_airtraffic_info(self, callsign):
+        """
+        Retrieve information about airtraffic
+
+        Note: Does not update airtraffic data.
+            Use update_airtraffic() to do so.
+
+        :param callsign: name of callsign of interest
+        :type callsign: str
+        :return: tuple(icao, callsign, lat, long, alt, velocity)
+        """
         mask = self.vehicles_df['callsign'].str.contains(callsign)
         if True not in mask.values:
             raise InvalidCallsignError('Invalid Callsign')
         vehicle = self.vehicles_df[mask]
         return tuple(vehicle.values.tolist()[0])
 
-    def get_airvehicle_altaz(self, callsign, location, time):
-        _, lat, long, alt, _ = self.get_airvehicle_info(callsign)
-        self.timeout = False
+    def get_airtraffic_altaz(self, callsign, location, time):
+        """
+        Get altaz of Air Traffic.
+
+        :param callsign: name of callsign of interest
+        :type callsign: str
+        :param location: reference point location
+        :type location: skyfield.toposlib.GeographicPosition
+        :param time: time for which the altaz should be calculated
+        :type time: skyfield.timelib.Timescale
+        :return: tuple(alt, az, distance) in degrees, degrees, km
+        """
+        _, _, lat, long, alt, _ = self.get_airtraffic_info(callsign)
         vehicle = wgs84.latlon(lat, long, alt)
         difference = vehicle - location
         topocentric = difference.at(time)
@@ -137,11 +189,58 @@ class AirTraffic:
         return alt.degrees, az.degrees, distance.km
 
     def get_airtraffic_callsigns(self, location, time):
+        """
+        Get air traffic callsigns sorted by distance from close to far.
+
+        :param location: reference point location
+        :type location: skyfield.toposlib.GeographicPosition
+        :param time: time for which the altaz should be calculated
+        :type time: skyfield.timelib.Timescale
+        :return: list of callsigns sorted by distance
+        """
         def get_distance(callsign):
-            _, _, distance = self.get_airvehicle_altaz(callsign, location, time)
+            """ Get distance of each callsign """
+            _, _, distance = self.get_airtraffic_altaz(callsign, location, time)
             return distance
 
         callsigns = self.vehicles_df['callsign'].values.tolist()
         callsigns = sorted([entry.strip() for entry in callsigns], key=get_distance)
         callsigns = list(filter(None, callsigns))
         return callsigns
+
+    def fast_callsign_altaz(self, callsign, location, time):
+        """
+        Get altaz of just one aircraft.
+        This method is much faster than get_airtraffic_callsigns() as it only updates the value of the aircraft of interest.
+
+        :param callsign: name of callsign of interest
+        :type callsign: str
+        :param location: reference point location
+        :type location: skyfield.toposlib.GeographicPosition
+        :param time: time for which the altaz should be calculated
+        :type time: skyfield.timelib.Timescale
+        :return: tuple(alt, az, distance) in degrees, degrees, km
+        """
+
+        # Get altaz for just one aircraft
+        # Get icao24 from callsign
+        mask = self.vehicles_df['callsign'].str.contains(callsign)
+        if True not in mask.values:
+            raise InvalidCallsignError('Invalid Callsign')
+        vehicle = self.vehicles_df[mask]
+        icao24 = vehicle.values[0][0]
+
+        url_data = 'https://opensky-network.org/api/states/all?' + '&icao24=' + str(icao24)
+        try:
+            response = requests.get(url_data, timeout=5).json()
+            lat, long, alt = response['states'][0][6], response['states'][0][5], response['states'][0][7]
+            self.vehicles_df.loc[[vehicle.index.values[0]], ('lat', 'long', 'baro_altitude')] = (lat, long, alt)
+        except requests.exceptions.ReadTimeout:
+            _, _, lat, long, alt, _ = self.get_airtraffic_info(
+                callsign)  # Fall back on previous data if server is unavailable
+
+        vehicle = wgs84.latlon(lat, long, alt)
+        difference = vehicle - location
+        topocentric = difference.at(time)
+        alt, az, distance = topocentric.altaz()
+        return alt.degrees, az.degrees, distance.km

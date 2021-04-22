@@ -1,12 +1,49 @@
-from PyQt5.QtCore import QSortFilterProxyModel, QModelIndex
+import json
+
+from PyQt5.QtCore import QSortFilterProxyModel, QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import *
 
 import PyUi
 from PyQt5 import QtWidgets, QtCore
-import Sky_Tracking.turret_sky as sky
-from skyfield.api import load, wgs84
 from Sky_Tracking.turret_sky import *
+
+callsigns = None
+lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is a box around the Netherlands
+at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanning region
+
+
+# Create a worker thread class for updating air traffic
+class AirTrafficWorker(QObject):
+    finished = pyqtSignal()
+    currentLocation = None
+
+    def __init__(self, currentLocation, time):
+        self.currentLocation = currentLocation
+        self.time = time
+        super().__init__()
+
+    def run(self):
+        """Long-running task."""
+        global callsigns, at
+
+        try:
+            at.update_airtraffic()  # Update Air Traffic information
+            callsigns = at.get_airtraffic_callsigns(self.currentLocation, self.time)
+        except requests.exceptions.ConnectionError or requests.exceptions.ConnectTimeout:
+            print('Connection Error')
+            self.finished.emit()
+            return
+        except requests.exceptions.ReadTimeout:
+            print('Timeout Error')
+            self.finished.emit()
+            return
+        except json.decoder.JSONDecodeError:
+            print('JSONDecodeError')
+            self.finished.emit()
+            return
+        self.finished.emit()
+        print("Successfully fetched callsigns")
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -16,8 +53,6 @@ class MyWindow(QtWidgets.QMainWindow):
     ts = load.timescale()
     time = ts.now()  # Get current time
 
-    lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is a box around the Netherlands
-    at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanning region
     spiCom = ''
 
     altOut, azOut, distOut = 0, 0, 0  # Define variables for target location
@@ -50,7 +85,8 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def refreshButtonClicked(self):  # TODO Refresh aircraft can crash
         print('Refresh')
-        self.updateAirTraffic()
+        self.ui.modelAir.clear()
+        self.callsigns = self.update_air_traffic()
 
     def calibrateButtonClicked(self):
         print('Calibrate')
@@ -73,12 +109,12 @@ class MyWindow(QtWidgets.QMainWindow):
             self.ui.timeEdit_1.setEnabled(True)
             self.ui.timeEdit_2.setEnabled(True)
         else:
-            time = QtCore.QTime(QtCore.QTime.currentTime())
-            self.ui.timeEdit.setTime(time)
+            self.time = QtCore.QTime(QtCore.QTime.currentTime())
+            self.ui.timeEdit.setTime(self.time)
             self.ui.timeEdit.setEnabled(False)
-            self.ui.timeEdit_1.setTime(time)
+            self.ui.timeEdit_1.setTime(self.time)
             self.ui.timeEdit_1.setEnabled(False)
-            self.ui.timeEdit_2.setTime(time)
+            self.ui.timeEdit_2.setTime(self.time)
             self.ui.timeEdit_2.setEnabled(False)
         print("Time Mode:", mode)
 
@@ -103,17 +139,19 @@ class MyWindow(QtWidgets.QMainWindow):
         print("SPI Command:", command)
 
     def airTraffic(self, callsign):
-        data = callsign.data()
-        if data == 'Click "Refresh Traffic"' or data == 'TIMEOOUT! Click "Refresh Traffic"' or data == 'Connection Error: Check Internet Con.':
+        global at
+        selectedCallsign = callsign.data()
+        if selectedCallsign == 'Click "Refresh Traffic"' or selectedCallsign == 'ERROR: Please try again':
             pass
         else:
-            self.ui.callsignInput.setText(data)
             self.time = self.ts.now()  # Get and set current time
-            self.altOut, self.azOut, self.distOut = self.at.get_airvehicle_altaz(data, self.currentLocation,
-                                                                                 self.time)
+            self.altOut, self.azOut, self.distOut = at.get_airtraffic_altaz(selectedCallsign, self.currentLocation,
+                                                                            self.time)
+            # TODO Add background method that updates target position regularly
             self.ui.altTarget.setText(str(round(self.altOut, 4)))
             self.ui.azTarget.setText(str(round(self.azOut, 4)))
-        print("Callsign:", data)
+            self.ui.distanceTarget.setText(str(round(self.distOut, 4)))
+        print("Callsign:", selectedCallsign)
 
     def maxSpeed(self, maxSpeed):
         print("Max Speed:", maxSpeed)
@@ -220,19 +258,16 @@ class MyWindow(QtWidgets.QMainWindow):
         print("Current Alt:", alt)
 
     def satelliteList(self, satellite):
-        data = satellite.data()
-        self.ui.satelliteInput.setText(data)
-        print("Satellite:", data)
+        self.selectedSatellite = satellite.data()
+        print("Satellite:", self.selectedSatellite)
 
     def objectList(self, object):
-        data = object.data()
-        self.ui.objectInput.setText(data)
-        print("Object:", data)
+        self.selectedObject = object.data()
+        print("Object:", self.selectedObject)
 
     def starList(self, star):
-        data = star.data()
-        self.ui.starInput.setText(data)
-        print("Star:", data)
+        self.selectedStarName = star.data()
+        print("Star:", self.selectedStarName)
 
     def closeWindow(self):
         print('Closing')
@@ -240,6 +275,9 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def saveDefaults(self):
         print('Saving Defaults')
+
+    def resetDefaults(self):
+        print('Resetting Defaults')
 
     def altOut(self, altOut):
         self.altOut = altOut
@@ -252,44 +290,55 @@ class MyWindow(QtWidgets.QMainWindow):
     def mosquitoSize(self, mosquitoSize):
         print(mosquitoSize)
 
+    def speedMode(self, speedMode):
+        print("speedMode:", speedMode)
+
     # New Methods for actions
 
-    def updateAirTraffic(self):
-        self.time = self.ts.now()  # Get current time
-        try:
-            self.at.update_airtraffic()  # Update Air Traffic information
-            callsigns = self.at.get_airtraffic_callsigns(self.currentLocation, self.time)
-        except requests.exceptions.ConnectionError or requests.exceptions.ConnectTimeout:
-            self.ui.modelAir.clear()  # Clear previous callsigns
-            errorMessage = QStandardItem('Connection Error: Check Internet Con.')
+    def update_callsign_list(self):
+        """ Update displayed list of callsigns with current callsign list """
+        global callsigns
+        if callsigns != None:
+            self.ui.modelAir.appendColumn([QStandardItem(text) for text in callsigns])
+            self.ui.airTrafficList.setModel(self.ui.modelAir)
+            self.ui.airTrafficList.show()
+            print("Refreshed Air Traffic List")
+        else:
+            errorMessage = QStandardItem('ERROR: Please try again')
             errorMessage.setEnabled(0)
             errorMessage.setSelectable(0)
             self.ui.modelAir.setItem(0, 0, errorMessage)
             self.ui.airTrafficList.show()
-            print('Connection Error')
-            return
-        except requests.exceptions.ReadTimeout:
-            self.ui.modelAir.clear()  # Clear previous callsigns
-            errorMessage = QStandardItem('TIMEOOUT! Click "Refresh Traffic"')
-            errorMessage.setEnabled(0)
-            errorMessage.setSelectable(0)
-            self.ui.modelAir.setItem(0, 0, errorMessage)
-            self.ui.airTrafficList.show()
-            print('Timeout Error')
-            return
+        self.ui.refreshButton.setEnabled(True)
 
-        self.ui.modelAir.clear()
-        self.ui.modelAir.appendColumn([QStandardItem(text) for text in callsigns])
-        self.ui.airTrafficList.setModel(self.ui.modelAir)
-        self.ui.airTrafficList.show()
-        print("Refreshed Air Traffic List")
+    def update_air_traffic(self):
+        """ Update Air Traffic information in a new thread. Uses worker class AirTrafficWorker """
+        self.time = self.ts.now()  # Get and set current time
+        # Create a QThread object
+        self.thread = QThread()
+        # Create a worker object
+        self.worker = AirTrafficWorker(self.currentLocation, self.time)
+        # Move worker to the thread
+        self.worker.moveToThread(self.thread)
+        # Connect signals and slots
+        self.thread.started.connect(self.worker.run)
+        self.worker.finished.connect(self.thread.quit)
+        self.worker.finished.connect(self.worker.deleteLater)
+        self.thread.finished.connect(self.thread.deleteLater)
+        # Start the thread
+        self.thread.start()
 
-    def setDefaults(self):
+        # Final resets
+        self.ui.refreshButton.setEnabled(False)
+        self.thread.finished.connect(self.update_callsign_list)
+
+    def startup_procedure(self):
+        """ Method to run application setup """
         # Time Default
-        time = QtCore.QTime(QtCore.QTime.currentTime())
-        self.ui.timeEdit.setTime(time)
-        self.ui.timeEdit_1.setTime(time)
-        self.ui.timeEdit_2.setTime(time)
+        self.time = QtCore.QTime(QtCore.QTime.currentTime())
+        self.ui.timeEdit.setTime(self.time)
+        self.ui.timeEdit_1.setTime(self.time)
+        self.ui.timeEdit_2.setTime(self.time)
 
         # Air Traffic Default
         self.ui.modelAir = QStandardItemModel(self.ui.airTrafficList)
