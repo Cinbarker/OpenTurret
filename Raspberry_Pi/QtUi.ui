@@ -46,7 +46,7 @@
              </sizepolicy>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="manual">
              <attribute name="title">
@@ -69,6 +69,9 @@
                   </item>
                   <item row="0" column="1">
                    <widget class="QComboBox" name="speedMode">
+                    <property name="statusTip">
+                     <string>Set Speed Mode of Turret</string>
+                    </property>
                     <item>
                      <property name="text">
                       <string>Slow</string>
@@ -101,6 +104,9 @@
                <layout class="QVBoxLayout" name="verticalLayout_15">
                 <item>
                  <widget class="QCheckBox" name="manualOverride">
+                  <property name="statusTip">
+                   <string>Enable Manual Joystick Override</string>
+                  </property>
                   <property name="text">
                    <string>Manual Override</string>
                   </property>
@@ -365,7 +371,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>340</width>
+                   <width>325</width>
                    <height>502</height>
                   </rect>
                  </property>
@@ -374,6 +380,9 @@
                    <layout class="QFormLayout" name="formLayout_5">
                     <item row="0" column="0">
                      <widget class="QCheckBox" name="manualOverride_1">
+                      <property name="statusTip">
+                       <string>Enable Manual Joystick Override</string>
+                      </property>
                       <property name="text">
                        <string>Manual Override</string>
                       </property>
@@ -438,7 +447,7 @@
                     <item row="3" column="1">
                      <widget class="QLineEdit" name="altinput">
                       <property name="statusTip">
-                       <string>Set Current GPS Longitude in Decimal</string>
+                       <string>Set Current GPS Altitude in Meters</string>
                       </property>
                       <property name="text">
                        <string/>
@@ -453,7 +462,7 @@
                   <item>
                    <widget class="QTabWidget" name="skyMode">
                     <property name="currentIndex">
-                     <number>0</number>
+                     <number>3</number>
                     </property>
                     <widget class="QWidget" name="tab_4">
                      <attribute name="title">
@@ -613,7 +622,7 @@
                         <item row="2" column="1">
                          <widget class="QLineEdit" name="objectInput">
                           <property name="statusTip">
-                           <string>Enter Sattelite Name to Track</string>
+                           <string>Enter Solar Object Name to Track</string>
                           </property>
                           <property name="placeholderText">
                            <string>solar object name</string>
@@ -721,6 +730,9 @@
                       </item>
                       <item>
                        <widget class="QListView" name="satelliteList">
+                        <property name="statusTip">
+                         <string>List of Active Sattelites</string>
+                        </property>
                         <property name="editTriggers">
                          <set>QAbstractItemView::NoEditTriggers</set>
                         </property>
@@ -753,6 +765,9 @@
                         </item>
                         <item>
                          <widget class="QLineEdit" name="callsignInput">
+                          <property name="statusTip">
+                           <string>Enter Callsign to Track</string>
+                          </property>
                           <property name="placeholderText">
                            <string>callsign</string>
                           </property>
@@ -901,6 +916,9 @@
                <layout class="QFormLayout" name="formLayout">
                 <item row="0" column="0">
                  <widget class="QCheckBox" name="manualOverride_2">
+                  <property name="statusTip">
+                   <string>Enable Manual Joystick Override</string>
+                  </property>
                   <property name="text">
                    <string>Manual Override</string>
                   </property>
@@ -918,6 +936,9 @@
                 </item>
                 <item row="1" column="1">
                  <widget class="QDoubleSpinBox" name="mosquitoSize">
+                  <property name="statusTip">
+                   <string>Set Mosquito Size</string>
+                  </property>
                   <property name="accelerated">
                    <bool>true</bool>
                   </property>
@@ -1098,10 +1119,18 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="altTarget"/>
+             <widget class="QLineEdit" name="altTarget">
+              <property name="statusTip">
+               <string>Target Altitude</string>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="azTarget"/>
+             <widget class="QLineEdit" name="azTarget">
+              <property name="statusTip">
+               <string>Target Azimuth</string>
+              </property>
+             </widget>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_64">
@@ -1115,6 +1144,9 @@
             </item>
             <item row="2" column="1">
              <widget class="QLineEdit" name="distanceTarget">
+              <property name="statusTip">
+               <string>Distance to Target</string>
+              </property>
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -1146,6 +1178,9 @@
             </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="altActual">
+              <property name="statusTip">
+               <string>Current Altitude</string>
+              </property>
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -1163,6 +1198,9 @@
             </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="azActual">
+              <property name="statusTip">
+               <string>Current Azimuth</string>
+              </property>
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -1244,7 +1282,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>259</width>
+                   <width>244</width>
                    <height>560</height>
                   </rect>
                  </property>
