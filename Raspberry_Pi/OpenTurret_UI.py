@@ -1,6 +1,5 @@
 import json
-import logging
-
+import CustomExceptions
 from PyQt5.QtCore import QSortFilterProxyModel, QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import *
@@ -11,13 +10,6 @@ from Sky_Tracking.turret_sky import *
 callsigns = None
 lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is a box around the Netherlands
 at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanning region
-
-# Set logging configuration
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="[%(asctime)s] %(levelname)-8s: %(message)-50s  [%(lineno)d %(name)s]",
-    datefmt='%H:%M:%S')
-
 
 # Create a worker thread class for updating air traffic
 class AirTrafficWorker(QObject):
@@ -53,7 +45,6 @@ class AirTrafficWorker(QObject):
 
 
 class MyWindow(QtWidgets.QMainWindow):
-    logger = logging.getLogger(__name__)
     currentLat, currentLon, currentAlt = +51.99737, +4.35430, +60
     currentLocation = wgs84.latlon(currentLat, currentLon, currentAlt)  # Coordinates of turret earth position
 

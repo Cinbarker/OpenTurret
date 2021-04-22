@@ -2,7 +2,7 @@
 #
 
 from smbus2 import SMBus
-
+import CustomExceptions
 
 class I2cData:
     address = 0
@@ -38,7 +38,7 @@ class I2cData:
             try:
                 self.bus.write_i2c_block_data(self.address, 0x00, data)
             except OSError:
-                print('\033[1;31;40m ERROR: I2C BUS NOT OPEN \033[1;37;40m')
+                logging.error('I2C BUS NOT OPEN')
 
     def set_pan_speed(self, pan_speed):
         self.pan_speed = pan_speed
