@@ -2,7 +2,7 @@
 #
 
 from smbus2 import SMBus
-import CustomExceptions
+from CustomExceptions import *
 
 class I2cData:
     address = 0

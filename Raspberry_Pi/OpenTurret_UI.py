@@ -1,5 +1,5 @@
 import json
-import CustomExceptions
+from CustomExceptions import *
 from PyQt5.QtCore import QSortFilterProxyModel, QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import *
