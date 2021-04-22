@@ -16,7 +16,7 @@ contact me if you are interested in contributing, I will happily provide further
   - [ ] Pan Calibration Method
   - [ ] Rotary encoder on steppers for more positional feedback
   - [ ] Compass and accelerometer for positional feedback and calibration\
-    PCB:
+- [ ] PCB
   - [ ] Replace Q1 with two transistors - more accessible; less footprint specific
   - [ ] Just one oscillator for motor drivers
   - [ ] Correctly ground oscillator
@@ -27,7 +27,7 @@ contact me if you are interested in contributing, I will happily provide further
 - [ ] Test load capacity and stability
   - [ ] Design large-scale version
   - [ ] Design slower much more precise version
-- [ ] Explore using the Pi Zero or Wireless integrate electronics below tilt axis
+- [x] Explore using the Pi Zero or Wireless integrate electronics below tilt axis
 - [x] Get joystick to control motors
 - [ ] Make easy stepper coding GUI
 - [ ] Add zoom camera assembly
@@ -69,7 +69,7 @@ contact me if you are interested in contributing, I will happily provide further
 ### Milestones
 
 - [x]  Implement joystick control of two axes and laser
-- [ ]  Successfully move both axes with >=0.1º precision
+- [x]  Successfully move both axes with >=0.1º precision
 - [ ]  Implement full system functionality including safety measures
 - [ ]  Implement an automated detection and firing software
 

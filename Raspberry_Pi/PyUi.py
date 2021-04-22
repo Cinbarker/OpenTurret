@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'QtUi.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -12,31 +13,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(943, 650)
+        MainWindow.resize(991, 681)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem)
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        font = QtGui.QFont()
-        font.setPointSize(48)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.horizontalLayout_3.addWidget(self.label_2)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem1)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_3)
-        self.line = QtWidgets.QFrame(self.centralwidget)
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.verticalLayout_4.addWidget(self.line)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayoutControls = QtWidgets.QVBoxLayout()
@@ -208,7 +191,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 325, 502))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 340, 502))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
@@ -520,8 +503,8 @@ class Ui_MainWindow(object):
         self.azActual.setObjectName("azActual")
         self.formLayout_9.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.azActual)
         self.verticalLayoutActions.addLayout(self.formLayout_9)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayoutActions.addItem(spacerItem2)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayoutActions.addItem(spacerItem)
         self.horizontalLayout.addLayout(self.verticalLayoutActions)
         self.line_3 = QtWidgets.QFrame(self.centralwidget)
         self.line_3.setFrameShape(QtWidgets.QFrame.VLine)
@@ -550,7 +533,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 244, 560))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 259, 560))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -793,7 +776,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 943, 24))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 991, 24))
         self.menubar.setAutoFillBackground(True)
         self.menubar.setObjectName("menubar")
         self.menuSettings = QtWidgets.QMenu(self.menubar)
@@ -1027,7 +1010,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Open Turret Dashboard"))
-        self.label_2.setText(_translate("MainWindow", "Open Turret Dashboard"))
         self.label_5.setText(_translate("MainWindow", "Configuration"))
         self.label_55.setText(_translate("MainWindow", "Speed Mode:"))
         self.speedMode.setItemText(0, _translate("MainWindow", "Slow"))
@@ -1227,14 +1209,3 @@ class Ui_MainWindow(object):
         self.actionClose_Window.setText(_translate("MainWindow", "Close Window"))
         self.actionClose_Window.setShortcut(_translate("MainWindow", "Meta+W"))
         self.actionReset_Defaults.setText(_translate("MainWindow", "Reset Defaults"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

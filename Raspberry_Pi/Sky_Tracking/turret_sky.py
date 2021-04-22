@@ -1,11 +1,18 @@
 from skyfield.api import Star, wgs84
 from skyfield.data import hipparcos
 from skyfield.iokit import Loader
-from Raspberry_Pi.CustomExceptions import *
 import requests
 import pandas as pd
 import numpy as np
 import os
+
+import platform
+if platform.system() == 'Linux':
+    from CustomExceptions import *
+else:
+    from Raspberry_Pi.CustomExceptions import *
+
+
 
 load = Loader(os.path.dirname(
     os.path.realpath(__file__)))  # Redefine loader to support other directories (skyfield loader removes this function)

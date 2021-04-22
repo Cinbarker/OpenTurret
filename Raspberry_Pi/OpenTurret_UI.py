@@ -1,9 +1,9 @@
 import json
+import logging
 
 from PyQt5.QtCore import QSortFilterProxyModel, QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import *
-
 import PyUi
 from PyQt5 import QtWidgets, QtCore
 from Sky_Tracking.turret_sky import *
@@ -11,6 +11,12 @@ from Sky_Tracking.turret_sky import *
 callsigns = None
 lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is a box around the Netherlands
 at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanning region
+
+# Set logging configuration
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="[%(asctime)s] %(levelname)-8s: %(message)-50s  [%(lineno)d %(name)s]",
+    datefmt='%H:%M:%S')
 
 
 # Create a worker thread class for updating air traffic
@@ -47,6 +53,7 @@ class AirTrafficWorker(QObject):
 
 
 class MyWindow(QtWidgets.QMainWindow):
+    logger = logging.getLogger(__name__)
     currentLat, currentLon, currentAlt = +51.99737, +4.35430, +60
     currentLocation = wgs84.latlon(currentLat, currentLon, currentAlt)  # Coordinates of turret earth position
 
@@ -270,14 +277,14 @@ class MyWindow(QtWidgets.QMainWindow):
         print("Star:", self.selectedStarName)
 
     def closeWindow(self):
-        print('Closing')
+        logging.info('Closing Application')
         self.close()
 
     def saveDefaults(self):
-        print('Saving Defaults')
+        logging.info('Saving Defaults')
 
     def resetDefaults(self):
-        print('Resetting Defaults')
+        logging.info('Resetting Defaults')
 
     def altOut(self, altOut):
         self.altOut = altOut
@@ -379,6 +386,7 @@ class MyWindow(QtWidgets.QMainWindow):
         # GUI Default
         self.ui.skyMode.setCurrentIndex(0)
         self.ui.turretMode.setCurrentIndex(0)
+        logging.info('Completed Setup Procedure')
 
 
 if __name__ == "__main__":
