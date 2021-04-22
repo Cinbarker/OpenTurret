@@ -13,6 +13,7 @@ at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanni
 
 # Create a worker thread class for updating air traffic
 class AirTrafficWorker(QObject):
+    """ Worker Class for updating Air Traffic in another thread. """
     finished = pyqtSignal()
     currentLocation = None
 
@@ -22,26 +23,26 @@ class AirTrafficWorker(QObject):
         super().__init__()
 
     def run(self):
-        """Long-running task."""
+        """ Update Air Traffic. """
         global callsigns, at
 
         try:
             at.update_airtraffic()  # Update Air Traffic information
             callsigns = at.get_airtraffic_callsigns(self.currentLocation, self.time)
         except requests.exceptions.ConnectionError or requests.exceptions.ConnectTimeout:
-            print('Connection Error')
+            logging.error('Connection Error')
             self.finished.emit()
             return
         except requests.exceptions.ReadTimeout:
-            print('Timeout Error')
+            logging.error('Timeout Error')
             self.finished.emit()
             return
         except json.decoder.JSONDecodeError:
-            print('JSONDecodeError')
+            logging.error('JSONDecodeError')
             self.finished.emit()
             return
         self.finished.emit()
-        print("Successfully fetched callsigns")
+        logging.info("Successfully fetched callsigns")
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -62,7 +63,7 @@ class MyWindow(QtWidgets.QMainWindow):
     # Abstract Methods from parent
 
     def stopButtonClicked(self):
-        print('EMERGENCY STOP')
+        logging.warning('EMERGENCY STOP')
 
     def updateButtonClicked(self):
         print('Update')
@@ -82,7 +83,7 @@ class MyWindow(QtWidgets.QMainWindow):
         print('Update Settings')
 
     def refreshButtonClicked(self):  # TODO Refresh aircraft can crash
-        print('Refresh')
+        print('Refresh Traffic Button')
         self.ui.modelAir.clear()
         self.callsigns = self.update_air_traffic()
 
@@ -296,7 +297,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def update_callsign_list(self):
         """ Update displayed list of callsigns with current callsign list """
         global callsigns
-        if callsigns != None:
+        if callsigns is not None:
             self.ui.modelAir.appendColumn([QStandardItem(text) for text in callsigns])
             self.ui.airTrafficList.setModel(self.ui.modelAir)
             self.ui.airTrafficList.show()

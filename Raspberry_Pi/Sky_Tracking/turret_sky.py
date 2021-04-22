@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 import platform
-if platform.system() == 'Linux':
+if platform.system() == 'Linux':  # TODO: Relative path issue. The current solution is quick and dirty.
     from CustomExceptions import *
 else:
     from Raspberry_Pi.CustomExceptions import *
