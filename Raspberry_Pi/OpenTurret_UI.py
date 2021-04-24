@@ -1,5 +1,4 @@
 import json
-from CustomExceptions import *
 from PyQt5.QtCore import QSortFilterProxyModel, QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import *
@@ -10,6 +9,7 @@ from Sky_Tracking.turret_sky import *
 callsigns = None
 lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is a box around the Netherlands
 at = AirTraffic(lat_min, lon_min, lat_max, lon_max)  # Define air traffic scanning region
+
 
 # Create a worker thread class for updating air traffic
 class AirTrafficWorker(QObject):
@@ -131,8 +131,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.currentLon = lon
         print("Current Lon:", lon)
 
-    def time(self, time):
-        print("Time:", time)
+    def timeInput(self, time):
+        print("TimeInput:", time)
 
     def spiCommand(self, command):
         print("SPI Command:", command)
@@ -273,18 +273,26 @@ class MyWindow(QtWidgets.QMainWindow):
         self.close()
 
     def saveDefaults(self):
-        logging.info('Saving Defaults')
+        confirm = self.confirmation_box("Are you sure you want to save defaults?")
+        if confirm is True:
+            logging.info('Saving Defaults')
+        else:
+            logging.info('Cancelled Saving Defaults')
 
     def resetDefaults(self):
-        logging.info('Resetting Defaults')
+        confirm = self.confirmation_box("Are you sure you want to reset to defaults?")
+        if confirm is True:
+            logging.info('Resetting Defaults')
+        else:
+            logging.info('Cancelled Resetting Defaults')
 
     def altOut(self, altOut):
         self.altOut = altOut
-        print(altOut)
+        print("Target Altitude:", str(altOut))
 
     def azOut(self, azOut):
         self.azOut = azOut
-        print(azOut)
+        print("Target Azimuth:", str(azOut))
 
     def mosquitoSize(self, mosquitoSize):
         print(mosquitoSize)
@@ -379,6 +387,16 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.skyMode.setCurrentIndex(0)
         self.ui.turretMode.setCurrentIndex(0)
         logging.info('Completed Setup Procedure')
+
+    def confirmation_box(self, message):
+        """
+        Pop-up box for confirming an action.
+        :param message: message that will be displayed in pop-up window
+        :type message: str
+        :return: bool
+        """
+        ret = QMessageBox.question(self, 'ConfirmationBox', message, QMessageBox.Yes | QMessageBox.No)
+        return True if ret == QMessageBox.Yes else False
 
 
 if __name__ == "__main__":
