@@ -39,7 +39,7 @@ contact me if you are interested in contributing, I will happily provide further
 - [ ] Add tilt axis to all implementations
 - [ ] Refactor I2C event methods
 - [ ] Shutdown & Startup motion method
-- [ ] Add config file
+- [ ] Add config file support
   - [ ] Save settings changed in GUI to remember configs
   - [ ] Restore defaults option
 
