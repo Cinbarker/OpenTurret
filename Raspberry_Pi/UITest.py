@@ -8,6 +8,7 @@ if __name__ == "__main__":
     import sys
     import platform
     if platform.system() == 'Darwin':
+        pass
         os.environ['QT_MAC_WANTS_LAYER'] = '1'  # added to fix operation on mac
     app = QtWidgets.QApplication(sys.argv)
     ui = PyUi.Ui_MainWindow()

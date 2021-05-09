@@ -371,7 +371,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>325</width>
+                   <width>340</width>
                    <height>502</height>
                   </rect>
                  </property>
@@ -1282,7 +1282,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>244</width>
+                   <width>259</width>
                    <height>560</height>
                   </rect>
                  </property>
@@ -1904,6 +1904,221 @@
              <attribute name="title">
               <string>Laser</string>
              </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QScrollArea" name="scrollArea_3">
+                <property name="widgetResizable">
+                 <bool>true</bool>
+                </property>
+                <widget class="QWidget" name="scrollAreaWidgetContents_3">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>0</y>
+                   <width>259</width>
+                   <height>366</height>
+                  </rect>
+                 </property>
+                 <layout class="QFormLayout" name="formLayout_11">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>Rset Value:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+                    <property name="accelerated">
+                     <bool>true</bool>
+                    </property>
+                    <property name="suffix">
+                     <string>kOhm</string>
+                    </property>
+                    <property name="value">
+                     <double>68.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_65">
+                    <property name="text">
+                     <string>Torch Current:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                    <property name="accelerated">
+                     <bool>true</bool>
+                    </property>
+                    <property name="suffix">
+                     <string>mA</string>
+                    </property>
+                    <property name="maximum">
+                     <double>61.729999999999997</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>1.928952000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>0.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_66">
+                    <property name="text">
+                     <string>Flash Current:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+                    <property name="accelerated">
+                     <bool>true</bool>
+                    </property>
+                    <property name="suffix">
+                     <string>mA</string>
+                    </property>
+                    <property name="maximum">
+                     <double>246.909999999999997</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>1.928952000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>0.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_67">
+                    <property name="text">
+                     <string>Safety Timer (ms):</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QComboBox" name="comboBox">
+                    <item>
+                     <property name="text">
+                      <string>50</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>100</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>200</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>300</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>400</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>500</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>600</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>700</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>800</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>900</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1000</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1100</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1200</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1300</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1400</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>3200</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_68">
+                    <property name="text">
+                     <string>Current Step (us):</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QComboBox" name="comboBox_2">
+                    <item>
+                     <property name="text">
+                      <string>25</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>50</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>100</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>200</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </widget>
           </item>
