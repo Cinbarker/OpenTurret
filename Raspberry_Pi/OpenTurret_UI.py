@@ -1,6 +1,6 @@
 import json
 from PyQt5.QtCore import QSortFilterProxyModel, QObject, QThread, pyqtSignal
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIcon
 from PyQt5.QtWidgets import *
 import PyUi
 from PyQt5 import QtWidgets, QtCore
@@ -341,6 +341,9 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def startup_procedure(self):
         """ Method to run application setup """
+
+        self.setWindowIcon(QIcon('icon.png'))
+
         # Time Default
         self.time = QtCore.QTime(QtCore.QTime.currentTime())
         self.ui.timeEdit.setTime(self.time)
