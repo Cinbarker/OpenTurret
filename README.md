@@ -19,6 +19,7 @@ contact me if you are interested in contributing, I will happily provide further
 - [ ] PCB
   - [ ] Replace Q1 with two transistors - more accessible; less footprint specific
   - [ ] Just one oscillator for motor drivers
+  - [ ] Just one ADC voltage divider
   - [ ] Correctly ground oscillator
   - [ ] SPI signal quality?
   - [ ] Buck converter noise filtering
