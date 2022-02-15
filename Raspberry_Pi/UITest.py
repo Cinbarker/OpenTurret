@@ -17,7 +17,7 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon(os.path.join(os.path.dirname(sys.modules[__name__].__file__), 'icon.png')))  # Add Icon
 
 
-    # app.setStyle("fusion")
+    app.setStyle("fusion")
 
     ui = PyUi.Ui_MainWindow()
     gui = MyWindow(ui)
