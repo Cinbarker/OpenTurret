@@ -1,0 +1,11 @@
+opencv-python~=4.5.1.48
+PyQt5~=5.13.2
+requests~=2.25.1
+pandas~=1.2.3
+numpy~=1.20.1
+skyfield~=1.37
+smbus2~=0.4.1
+imutils~=0.5.4
+numba~=0.53.0
+gamepad~=0.1.1
+gpiozero~=1.6.2
