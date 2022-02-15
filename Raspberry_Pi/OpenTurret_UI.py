@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 import PyUi
 from PyQt5 import QtWidgets, QtCore
 
-from Raspberry_Pi.camera_calibration_thread import start_calibrate_camera_thread
+from camera_calibration_thread import start_calibrate_camera_thread
 from Sky_Tracking.turret_sky import *
 import turret_camera
 
