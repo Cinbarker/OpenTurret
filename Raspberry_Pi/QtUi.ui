@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>991</width>
-    <height>681</height>
+    <width>988</width>
+    <height>684</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,7 +46,7 @@
              </sizepolicy>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="manual">
              <attribute name="title">
@@ -103,14 +103,25 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_15">
                 <item>
-                 <widget class="QCheckBox" name="manualOverride">
-                  <property name="statusTip">
-                   <string>Enable Manual Joystick Override</string>
-                  </property>
-                  <property name="text">
-                   <string>Manual Override</string>
-                  </property>
-                 </widget>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <item>
+                   <widget class="QCheckBox" name="manualOverride">
+                    <property name="statusTip">
+                     <string>Enable Manual Joystick Override</string>
+                    </property>
+                    <property name="text">
+                     <string>Manual Override</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="cameraCalibrateButton">
+                    <property name="text">
+                     <string>Camera Calibration</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -462,7 +473,7 @@
                   <item>
                    <widget class="QTabWidget" name="skyMode">
                     <property name="currentIndex">
-                     <number>1</number>
+                     <number>3</number>
                     </property>
                     <widget class="QWidget" name="tab_4">
                      <attribute name="title">
@@ -1916,7 +1927,7 @@
                    <x>0</x>
                    <y>0</y>
                    <width>259</width>
-                   <height>366</height>
+                   <height>369</height>
                   </rect>
                  </property>
                  <layout class="QFormLayout" name="formLayout_11">
@@ -2208,7 +2219,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>991</width>
+     <width>988</width>
      <height>24</height>
     </rect>
    </property>
@@ -2318,7 +2329,6 @@
  </widget>
  <tabstops>
   <tabstop>turretMode</tabstop>
-  <tabstop>manualOverride</tabstop>
   <tabstop>verticalSlider</tabstop>
   <tabstop>verticalSlider_2</tabstop>
   <tabstop>verticalSlider_3</tabstop>
@@ -2441,8 +2451,8 @@
    <slot>maxLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>170</x>
-     <y>320</y>
+     <x>322</x>
+     <y>574</y>
     </hint>
     <hint type="destinationlabel">
      <x>493</x>
@@ -2489,7 +2499,7 @@
    <slot>timeInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
+     <x>129</x>
      <y>280</y>
     </hint>
     <hint type="destinationlabel">
@@ -2505,8 +2515,8 @@
    <slot>starInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
-     <y>280</y>
+     <x>129</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>481</x>
@@ -2537,8 +2547,8 @@
    <slot>timeInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>250</x>
-     <y>331</y>
+     <x>170</x>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
      <x>413</x>
@@ -2601,8 +2611,8 @@
    <slot>objectInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>282</x>
-     <y>362</y>
+     <x>170</x>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
      <x>447</x>
@@ -2617,7 +2627,7 @@
    <slot>stopButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>632</x>
+     <x>629</x>
      <y>245</y>
     </hint>
     <hint type="destinationlabel">
@@ -2633,7 +2643,7 @@
    <slot>timeInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
+     <x>129</x>
      <y>280</y>
     </hint>
     <hint type="destinationlabel">
@@ -2649,8 +2659,8 @@
    <slot>maxLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>170</x>
-     <y>320</y>
+     <x>322</x>
+     <y>543</y>
     </hint>
     <hint type="destinationlabel">
      <x>469</x>
@@ -2665,8 +2675,8 @@
    <slot>sendButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>977</x>
-     <y>645</y>
+     <x>974</x>
+     <y>648</y>
     </hint>
     <hint type="destinationlabel">
      <x>903</x>
@@ -2681,8 +2691,8 @@
    <slot>restoreDefaultsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>970</x>
-     <y>586</y>
+     <x>967</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>898</x>
@@ -2697,8 +2707,8 @@
    <slot>copyDriversButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>816</x>
-     <y>586</y>
+     <x>813</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>731</x>
@@ -2713,8 +2723,8 @@
    <slot>updateSettingsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>976</x>
-     <y>548</y>
+     <x>973</x>
+     <y>551</y>
     </hint>
     <hint type="destinationlabel">
      <x>904</x>
@@ -2745,8 +2755,8 @@
    <slot>refreshButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>136</x>
-     <y>284</y>
+     <x>162</x>
+     <y>453</y>
     </hint>
     <hint type="destinationlabel">
      <x>444</x>
@@ -2777,7 +2787,7 @@
    <slot>calibrateButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>632</x>
+     <x>629</x>
      <y>109</y>
     </hint>
     <hint type="destinationlabel">
@@ -2793,7 +2803,7 @@
    <slot>homeButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>632</x>
+     <x>629</x>
      <y>143</y>
     </hint>
     <hint type="destinationlabel">
@@ -2809,7 +2819,7 @@
    <slot>fireButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>632</x>
+     <x>629</x>
      <y>177</y>
     </hint>
     <hint type="destinationlabel">
@@ -2825,7 +2835,7 @@
    <slot>powerOffButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>632</x>
+     <x>629</x>
      <y>211</y>
     </hint>
     <hint type="destinationlabel">
@@ -2841,8 +2851,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
-     <y>280</y>
+     <x>158</x>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
      <x>420</x>
@@ -2857,8 +2867,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>279</x>
-     <y>301</y>
+     <x>170</x>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
      <x>427</x>
@@ -2873,8 +2883,8 @@
    <slot>timeMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
-     <y>280</y>
+     <x>158</x>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
      <x>412</x>
@@ -2921,8 +2931,8 @@
    <slot>manualOverride()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>134</x>
-     <y>137</y>
+     <x>235</x>
+     <y>125</y>
     </hint>
     <hint type="destinationlabel">
      <x>410</x>
@@ -2985,8 +2995,8 @@
    <slot>satelliteInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
-     <y>280</y>
+     <x>129</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>465</x>
@@ -3033,8 +3043,8 @@
    <slot>minLat()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>170</x>
-     <y>320</y>
+     <x>322</x>
+     <y>481</y>
     </hint>
     <hint type="destinationlabel">
      <x>417</x>
@@ -3049,8 +3059,8 @@
    <slot>minLon()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>170</x>
-     <y>320</y>
+     <x>322</x>
+     <y>512</y>
     </hint>
     <hint type="destinationlabel">
      <x>439</x>
@@ -3177,8 +3187,8 @@
    <slot>sendButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>902</x>
-     <y>638</y>
+     <x>899</x>
+     <y>641</y>
     </hint>
     <hint type="destinationlabel">
      <x>677</x>
@@ -3305,7 +3315,7 @@
    <slot>altOut()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>626</x>
+     <x>624</x>
      <y>310</y>
     </hint>
     <hint type="destinationlabel">
@@ -3321,7 +3331,7 @@
    <slot>azOut()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>626</x>
+     <x>624</x>
      <y>341</y>
     </hint>
     <hint type="destinationlabel">
@@ -3354,7 +3364,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>130</x>
-     <y>374</y>
+     <y>282</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
@@ -3385,8 +3395,8 @@
    <slot>mosquitoSize()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>134</x>
-     <y>137</y>
+     <x>304</x>
+     <y>155</y>
     </hint>
     <hint type="destinationlabel">
      <x>411</x>
@@ -3401,8 +3411,8 @@
    <slot>callsignInput()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>170</x>
-     <y>306</y>
+     <x>311</x>
+     <y>298</y>
     </hint>
     <hint type="destinationlabel">
      <x>457</x>
@@ -3474,6 +3484,214 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>cameraCalibrateButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cameraCalibrateButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>119</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvRedMinH()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>50</x>
+     <y>296</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>10</x>
+     <y>205</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvRedMinS()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>232</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>11</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvRedMinV()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>105</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>11</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvRedMaxH()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>134</x>
+     <y>276</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>13</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_5</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvRedMaxS()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>305</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_6</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvRedMaxV()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>192</x>
+     <y>323</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>16</x>
+     <y>329</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_7</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvGreenMinH()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>216</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>398</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_8</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvGreenMinS()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>242</x>
+     <y>224</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>398</x>
+     <y>248</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_9</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvGreenMinV()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>272</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>401</x>
+     <y>278</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_10</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvGreenMaxH()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>296</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_11</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvGreenMaxS()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>359</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_12</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hsvGreenMaxV()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>409</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>400</x>
+     <y>421</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>stopButtonClicked()</slot>
@@ -3534,5 +3752,18 @@
   <slot>callsignInput()</slot>
   <slot>resetDefaults()</slot>
   <slot>speedMode()</slot>
+  <slot>cameraCalibrateButtonClicked()</slot>
+  <slot>hsvRedMinH()</slot>
+  <slot>hsvRedMinS()</slot>
+  <slot>hsvRedMinV()</slot>
+  <slot>hsvRedMaxH()</slot>
+  <slot>hsvRedMaxS()</slot>
+  <slot>hsvRedMaxV()</slot>
+  <slot>hsvGreenMinH()</slot>
+  <slot>hsvGreenMinS()</slot>
+  <slot>hsvGreenMinV()</slot>
+  <slot>hsvGreenMaxH()</slot>
+  <slot>hsvGreenMaxS()</slot>
+  <slot>hsvGreenMaxV()</slot>
  </slots>
 </ui>

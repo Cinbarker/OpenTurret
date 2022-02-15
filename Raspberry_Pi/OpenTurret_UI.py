@@ -1,10 +1,15 @@
 import json
+
+import cv2
 from PyQt5.QtCore import QSortFilterProxyModel, QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIcon
 from PyQt5.QtWidgets import *
 import PyUi
 from PyQt5 import QtWidgets, QtCore
+
+from Raspberry_Pi.camera_calibration_thread import start_calibrate_camera_thread
 from Sky_Tracking.turret_sky import *
+import turret_camera
 
 callsigns = None
 lat_min, lon_min, lat_max, lon_max = 51, 2, 54, 8  # Default is a box around the Netherlands
@@ -59,6 +64,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def __init__(self, ui):
         super().__init__()
         self.ui = ui
+        self.video_capture = cv2.VideoCapture(2)    # TODO: TEMPORARY! make camera connect popup stuff
 
     # Abstract Methods from parent
 
@@ -299,6 +305,59 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def speedMode(self, speedMode):
         print("speedMode:", speedMode)
+
+    def cameraCalibrateButtonClicked(self):
+        start_calibrate_camera_thread(self.video_capture, np.array([self.green_min_h, self.green_min_v, self.green_min_s]), np.array([self.green_max_h, self.green_max_v, self.green_max_s]), 200)
+        print("Calibrate Camera Clicked")
+
+    def hsvRedMinH(self, value):
+        self.red_min_h = value
+        print("hsvRedMinH:", value)
+
+    def hsvRedMinS(self, value):
+        self.red_min_s = value
+        print("hsvRedMinS:", value)
+
+    def hsvRedMinV(self, value):
+        self.red_min_v = value
+        print("hsvRedMinV:", value)
+
+    def hsvRedMaxH(self, value):
+        self.red_max_h = value
+        print("hsvRedMaxH:", value)
+
+    def hsvRedMaxS(self, value):
+        self.red_max_s = value
+        print("hsvRedMaxS:", value)
+
+    def hsvRedMaxV(self, value):
+        self.red_max_v = value
+        print("hsvRedMaxV:", value)
+
+    def hsvGreenMinH(self, value):
+        self.green_min_h = value
+        print("hsvGreenMinH:", value)
+
+    def hsvGreenMinS(self, value):
+        self.green_min_s = value
+        print("hsvGreenMinS:", value)
+
+    def hsvGreenMinV(self, value):
+        self.green_min_v = value
+        print("hsvGreenMinV:", value)
+
+    def hsvGreenMaxH(self, value):
+        self.green_max_h = value
+        print("hsvGreenMaxH:", value)
+
+    def hsvGreenMaxS(self, value):
+        self.green_max_s = value
+        print("hsvGreenMaxS:", value)
+
+    def hsvGreenMaxV(self, value):
+        self.green_max_v = value
+        print("hsvGreenMaxV:", value)
+
 
     # New Methods for actions
 
