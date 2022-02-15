@@ -14,10 +14,8 @@ if platform.system() == 'Linux':  # TODO: Relative path issue. The current solut
 else:
     from Raspberry_Pi.CustomExceptions import *
 
-
-
-load = Loader(os.path.dirname(
-    os.path.realpath(__file__)))  # Redefine loader to support other directories (skyfield loader removes this function)
+# Redefine loader to support other directories (skyfield loader removes this function)
+load = Loader(os.path.dirname(os.path.realpath(__file__)))
 
 starsFile = os.path.dirname(os.path.realpath(__file__))
 starsFile += '/Common_Stars.txt'
