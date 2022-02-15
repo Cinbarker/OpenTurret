@@ -1,3 +1,5 @@
+import time
+
 from skyfield.api import Star, wgs84
 from skyfield.data import hipparcos
 from skyfield.iokit import Loader
@@ -147,12 +149,13 @@ class AirTraffic:
         url_data = 'https://opensky-network.org/api/states/all?' + 'lamin=' + str(self.lat_min) + '&lomin=' + str(
             self.lon_min) + '&lamax=' + str(self.lat_max) + '&lomax=' + str(self.lon_max)
         response = requests.get(url_data, timeout=5).json()
+        cleaned_response = [i[0:17] for i in response["states"]]
 
         # LOAD TO PANDAS DATAFRAME
         col_name = ['icao24', 'callsign', 'origin_country', 'time_position', 'last_contact', 'long', 'lat',
                     'baro_altitude', 'on_ground', 'velocity', 'true_track', 'vertical_rate', 'sensors', 'geo_altitude',
                     'squawk', 'spi', 'position_source']
-        flight_df = pd.DataFrame(response['states'], columns=col_name)
+        flight_df = pd.DataFrame(cleaned_response, columns=col_name)
         flight_df = flight_df.fillna('No Data')  # replace NAN with No Data
         flight_df.head()
 
