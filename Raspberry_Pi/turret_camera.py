@@ -59,19 +59,47 @@ def get_best_contour(imgmask, threshold):
             best_cnt = cnt
     return best_cnt
 
+def list_ports():
+    """
+    Test the ports and returns a tuple with the available ports and the ones that are working.
+    """
+    is_working = True
+    dev_port = 0
+    working_ports = []
+    available_ports = []
+    while is_working:
+        camera = cv2.VideoCapture(dev_port)
+        if not camera.isOpened():
+            is_working = False
+            print("Port %s is not working." %dev_port)
+        else:
+            is_reading, img = camera.read()
+            w = camera.get(3)
+            h = camera.get(4)
+            if is_reading:
+                print("Port %s is working and reads images (%s x %s)" %(dev_port,h,w))
+                working_ports.append(dev_port)
+            else:
+                print("Port %s for camera ( %s x %s) is present but does not reads." %(dev_port,h,w))
+                available_ports.append(dev_port)
+        dev_port +=1
+    return available_ports,working_ports
+
 
 if __name__ == '__main__':
-    while True:
-        lower_green = np.array([36, 00, 20])
-        upper_green = np.array([86, 250, 255])
-        lower_red = np.array([175, 0, 100])
-        upper_red = np.array([179, 255, 200])
-        camera_port = 0
-        thresh_red = 5
-        thresh_green = 200
 
-        video_capture = cv2.VideoCapture(camera_port)
-        get_laser_point(video_capture, lower_red, upper_red, thresh_red, show_video=True)
+    lower_green = np.array([36, 00, 20])
+    upper_green = np.array([86, 250, 255])
+    lower_red = np.array([175, 0, 100])
+    upper_red = np.array([179, 255, 200])
+    thresh_red = 5
+    thresh_green = 200
+
+    # list_ports()
+    camera_port = 2
+    video_capture = cv2.VideoCapture(camera_port)
+    while True:
+        get_laser_point(video_capture, lower_green, upper_green, thresh_green, show_video=True)
 
     video_capture.release()
     cv2.destroyAllWindows()
