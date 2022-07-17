@@ -1,4 +1,5 @@
 # Open Turret
+<img width="500" alt="Screen Shot 2022-07-17 at 14 07 57" src="https://user-images.githubusercontent.com/20363198/179398200-ba83409f-b0a6-4f01-8ac6-c780adb623d5.png">
 
 An open sourced highly accurate pan-tilt system for anything that needs to be panned and tilted!\
 My goal for this project is to make a precise pan tilt mechanism that is accessible for everyone.
