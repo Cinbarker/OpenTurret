@@ -4,8 +4,10 @@ My goal for this project is to make a precise pan tilt mechanism that is accessi
 The hardware is still quite experimental, but I hope to refine it and release build instructions soon. Feel free to
 contact me if you are interested in contributing, I will happily provide further build details.
 
-<img width="500" alt="Screen Shot 2022-07-17 at 14 07 57" src="https://user-images.githubusercontent.com/20363198/179398200-ba83409f-b0a6-4f01-8ac6-c780adb623d5.png">
-
+<p float="left">
+  <img alt="3D Turret Render"         src="/images/3D_Turret_Render.PNG"      width="49%" align="center">
+  <img alt="OpenTurret PCB 3D Front"  src="/images/OT_Board_V0_3D_Front.png"  width="49%" align="center">
+</p>
 
 ### To-Do
 
@@ -82,7 +84,7 @@ contact me if you are interested in contributing, I will happily provide further
 - Laser Guided: Autonomous Laser guided aiming of turret
 - Sky Tracking: Use online data to track stars, planets, satellites, and air traffic. (For telescopes **NOT** lasers)
 
-### Software Modes Ideas
+### New Software Modes Ideas
 
 - [ ] Autonomous targeting and firing by means of image recognition
 - [ ] Laser shape drawing mode
